@@ -3660,7 +3660,10 @@ bool shader_core_ctx::warp_waiting_at_barrier(unsigned warp_id) const {
 
 bool shader_core_ctx::warp_waiting_at_mem_barrier(unsigned warp_id) {
   if (!m_warp[warp_id]->get_membar()) return false;
-  if (!m_scoreboard->pendingWrites(warp_id)) {
+  if (!m_scoreboard->pendingWrites(warp_id)
+        && m_warp[warp_id]->stores_done()//peiyi
+        && !m_warp[warp_id]->num_issued_inst_in_pipeline()//peiyi
+){
     m_warp[warp_id]->clear_membar();
     if (m_gpu->get_config().flush_l1()) {
       // Mahmoud fixed this on Nov 2019
