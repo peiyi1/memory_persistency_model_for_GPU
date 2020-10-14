@@ -2044,6 +2044,11 @@ bool ldst_unit::memory_cycle(warp_inst_t &inst,
     if (m_core->get_config()->gmem_skip_L1D && (CACHE_L1 != inst.cache_op))
       bypassL1D = true;
   }
+//peiyi
+   if (inst.cache_op == NVM_L2WB || inst.cache_op == NVM_PCOMMIT || inst.cache_op == NVM_CLWB ){
+     bypassL1D = true;
+   }
+//
   if (bypassL1D) {
     // bypass L1 cache
     unsigned control_size =
@@ -2589,6 +2594,11 @@ void ldst_unit::cycle() {
                        GLOBAL_ACC_W) {  // global memory access
           if (m_core->get_config()->gmem_skip_L1D) bypassL1D = true;
         }
+//peiyi
+	if (mf->get_inst().cache_op == NVM_L2WB || mf->get_inst().cache_op == NVM_PCOMMIT || mf->get_inst().cache_op == NVM_CLWB ){
+		bypassL1D = true;
+	}
+//
         if (bypassL1D) {
           if (m_next_global == NULL) {
             mf->set_status(IN_SHADER_FETCHED,
@@ -3661,8 +3671,8 @@ bool shader_core_ctx::warp_waiting_at_barrier(unsigned warp_id) const {
 bool shader_core_ctx::warp_waiting_at_mem_barrier(unsigned warp_id) {
   if (!m_warp[warp_id]->get_membar()) return false;
   if (!m_scoreboard->pendingWrites(warp_id)
-        && m_warp[warp_id]->stores_done()//peiyi
-        && !m_warp[warp_id]->num_issued_inst_in_pipeline()//peiyi
+	&& m_warp[warp_id]->stores_done()//peiyi
+	&& !m_warp[warp_id]->num_issued_inst_in_pipeline()//peiyi
 ){
     m_warp[warp_id]->clear_membar();
     if (m_gpu->get_config().flush_l1()) {
