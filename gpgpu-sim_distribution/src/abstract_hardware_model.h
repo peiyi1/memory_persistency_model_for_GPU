@@ -387,6 +387,11 @@ class core_config {
   bool gmem_skip_L1D;  // on = global memory access always skip the L1 cache
 
   bool adaptive_cache_config;
+//peiyi
+unsigned m_n_mem;
+unsigned m_n_sub_partition_per_mchannel;
+unsigned m_dl2_bsize;
+//
 };
 
 // bounded stack that implements simt reconvergence using pdom mechanism from
@@ -762,6 +767,12 @@ enum cache_operator_type {
   CACHE_STREAMING,  // .cs
   CACHE_GLOBAL,     // .cg
 
+//peiyi
+    NVM_L2WB,
+    NVM_PCOMMIT,
+    NVM_CLWB,
+//
+
   // stores
   CACHE_WRITE_BACK,    // .wb
   CACHE_WRITE_THROUGH  // .wt
@@ -1067,7 +1078,7 @@ class warp_inst_t : public inst_t {
       return false;
     }
   };
-
+  void generate_l2wb_accesses();//peiyi
   void generate_mem_accesses();
   void memory_coalescing_arch(bool is_write, mem_access_type access_type);
   void memory_coalescing_arch_atomic(bool is_write,
