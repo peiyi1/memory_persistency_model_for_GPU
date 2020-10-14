@@ -219,6 +219,20 @@ void memory_config::reg_options(class OptionParser *opp) {
 }
 
 void shader_core_config::reg_options(class OptionParser *opp) {
+//peiyi
+  option_parser_register(
+      opp, "-gpgpu_n_mem_for_l2wb_pcommit", OPT_UINT32, &m_n_mem,
+      "number of memory modules (e.g. memory controllers) in gpu", "32");
+  option_parser_register(opp, "-gpgpu_n_sub_partition_per_mchannel_for_l2wb_pcommit", OPT_UINT32,
+                         &m_n_sub_partition_per_mchannel,
+                         "number of memory subpartition in each memory module",
+                         "2");
+  option_parser_register(opp, "-gpgpu_dl2_bsize_for_l2wb_pcommit", OPT_UINT32,
+                         &m_dl2_bsize,
+                         "default 128 bytes",
+                         "128");
+
+//
   option_parser_register(opp, "-gpgpu_simd_model", OPT_INT32, &model,
                          "1 = post-dominator", "1");
   option_parser_register(
