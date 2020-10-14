@@ -1162,6 +1162,38 @@ void data_cache::send_write_request(mem_fetch *mf, cache_event request,
   mf->set_status(m_miss_queue_status, time);
 }
 
+//peiyi
+bool data_cache::nvm_wb_timing(unsigned time){
+  assert(m_name.find("L2") != std::string::npos);
+  std::list<cache_event> events;
+  if (m_last_wb_line == m_config.get_num_lines()) {
+    m_last_wb_line = -1;
+    return true;
+  }
+  if (miss_queue_full(0)) {
+    return false;
+  }
+  int i;
+  for (i = m_last_wb_line+1; i <= m_last_wb_line+m_config.m_assoc && i < m_config.get_num_lines(); i++) {
+    cache_block_t* blk = m_tag_array->get_block(i);
+    if (blk->is_modified_line()) {
+      mem_fetch *wb = m_memfetch_creator->alloc(blk->m_block_addr, m_wrbk_type, m_config.get_line_sz(), true,
+                        m_gpu->gpu_tot_sim_cycle + m_gpu->gpu_sim_cycle);
+      send_write_request(wb, WRITE_BACK_REQUEST_SENT, time, events);
+      for(unsigned j=0; j < SECTOR_CHUNCK_SIZE; j++){
+	if(blk->is_modified_sector(j)){
+		blk->set_status(VALID, mem_access_sector_mask_t().set(j)) ;
+	}
+      }
+      break;
+    }
+  }
+  m_last_wb_line = i;
+  return false;
+
+}
+//
+
 /****** Write-hit functions (Set by config file) ******/
 
 /// Write-back hit: Mark block as modified

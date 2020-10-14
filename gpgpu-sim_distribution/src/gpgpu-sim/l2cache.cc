@@ -499,6 +499,20 @@ void memory_sub_partition::cache_cycle(unsigned cycle) {
   // new L2 texture accesses and/or non-texture accesses
   if (!m_L2_dram_queue->full() && !m_icnt_L2_queue->empty()) {
     mem_fetch *mf = m_icnt_L2_queue->top();
+//peiyi
+   if(mf->cache_op == NVM_L2WB){
+	if(!m_L2_icnt_queue->full()){
+		bool done = m_L2cache->nvm_wb_timing(m_gpu->gpu_sim_cycle+m_gpu->gpu_tot_sim_cycle);
+		if (done) {
+			mf->set_reply();
+			mf->set_status(IN_PARTITION_L2_TO_ICNT_QUEUE,m_gpu->gpu_sim_cycle+m_gpu->gpu_tot_sim_cycle);
+			m_L2_icnt_queue->push(mf);
+			m_icnt_L2_queue->pop();
+		}
+	}
+   }
+   else{
+//
     if (!m_config->m_L2_config.disabled() &&
         ((m_config->m_L2_texure_only && mf->istexture()) ||
          (!m_config->m_L2_texure_only))) {
@@ -561,6 +575,7 @@ void memory_sub_partition::cache_cycle(unsigned cycle) {
       m_L2_dram_queue->push(mf);
       m_icnt_L2_queue->pop();
     }
+   }
   }
 
   // ROP delay queue
