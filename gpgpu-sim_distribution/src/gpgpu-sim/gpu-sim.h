@@ -255,7 +255,7 @@ class memory_config {
 
   unsigned rop_latency;
   unsigned dram_latency;
-
+  unsigned dram_write_latency;//peiyi
   // DRAM parameters
 
   unsigned tCCDL;  // column to column delay when bank groups are enabled
