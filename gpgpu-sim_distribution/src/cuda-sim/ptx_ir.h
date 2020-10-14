@@ -1119,7 +1119,7 @@ class ptx_instruction : public warp_inst_t {
     }
     return false;
   }
-
+  unsigned m_cache_option;//peiyi
  private:
   void set_opcode_and_latency();
   void set_bar_type();
@@ -1152,7 +1152,7 @@ class ptx_instruction : public warp_inst_t {
   bool m_uni;  // if branch instruction, this evaluates to true for uniform
                // branches (ie jumps)
   bool m_to_option;
-  unsigned m_cache_option;
+  //unsigned m_cache_option;//peiyi
   int m_wmma_type;
   int m_wmma_layout[2];
   int m_wmma_configuration;
