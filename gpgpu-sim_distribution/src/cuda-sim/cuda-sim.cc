@@ -1051,7 +1051,7 @@ void ptx_instruction::pre_decode() {
       cache_op = CACHE_L1;
       break;
     case CG_OPTION:
-      cache_op = CACHE_GLOBAL;
+      cache_op = NVM_L2WB;//peiyi      
       break;
     case CS_OPTION:
       cache_op = CACHE_STREAMING;
