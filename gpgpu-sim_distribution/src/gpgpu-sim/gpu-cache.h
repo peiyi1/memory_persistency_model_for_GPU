@@ -114,7 +114,7 @@ struct cache_block_t {
   virtual bool is_valid_line() = 0;
   virtual bool is_reserved_line() = 0;
   virtual bool is_modified_line() = 0;
-
+  virtual bool is_modified_sector(unsigned i) = 0 ; //peiyi
   virtual enum cache_block_state get_status(
       mem_access_sector_mask_t sector_mask) = 0;
   virtual void set_status(enum cache_block_state m_status,
@@ -172,7 +172,7 @@ struct line_cache_block : public cache_block_t {
   virtual bool is_valid_line() { return m_status == VALID; }
   virtual bool is_reserved_line() { return m_status == RESERVED; }
   virtual bool is_modified_line() { return m_status == MODIFIED; }
-
+  virtual bool is_modified_sector(unsigned i) { return m_status == MODIFIED; } //peiyi
   virtual enum cache_block_state get_status(
       mem_access_sector_mask_t sector_mask) {
     return m_status;
@@ -326,7 +326,14 @@ struct sector_cache_block : public cache_block_t {
     }
     return false;
   }
-
+//peiyi
+  virtual bool is_modified_sector(unsigned i) {
+	if(m_status[i] == MODIFIED){
+		return true;
+	}
+	return false;
+  }
+//
   virtual enum cache_block_state get_status(
       mem_access_sector_mask_t sector_mask) {
     unsigned sidx = get_sector_index(sector_mask);
@@ -1354,10 +1361,11 @@ class data_cache : public baseline_cache {
     m_wr_alloc_type = wr_alloc_type;
     m_wrbk_type = wrbk_type;
     m_gpu = gpu;
+    m_last_wb_line =-1;//peiyi
   }
 
   virtual ~data_cache() {}
-
+  bool nvm_wb_timing(unsigned time);//peiyi
   virtual void init(mem_fetch_allocator *mfcreator) {
     m_memfetch_creator = mfcreator;
 
@@ -1528,6 +1536,10 @@ class data_cache : public baseline_cache {
                                          unsigned time,
                                          std::list<cache_event> &events,
                                          enum cache_request_status status);
+//peiyi
+    private:
+        int m_last_wb_line;
+//
 };
 
 /// This is meant to model the first level data cache in Fermi.
