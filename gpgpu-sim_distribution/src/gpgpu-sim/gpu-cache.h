@@ -835,7 +835,29 @@ class tag_array {
   enum cache_request_status access(new_addr_type addr, unsigned time,
                                    unsigned &idx, bool &wb,
                                    evicted_block_info &evicted, mem_fetch *mf);
+//peiyi
+  void tag_array_clwb(new_addr_type addr, unsigned time,
+                                   unsigned &idx, bool &wb,
+                                   evicted_block_info &evicted, mem_fetch *mf){
+        mem_access_sector_mask_t mask = mf->get_access_sector_mask();
+        unsigned set_index = m_config.set_index(addr);
+        new_addr_type tag = m_config.tag(addr);
+        
+        for (unsigned way = 0; way < m_config.m_assoc; way++) { 
+                unsigned index = set_index * m_config.m_assoc + way;
+                cache_block_t *line = m_lines[index];
+                if(line->m_tag == tag) {
+                        if (line->get_status(mask) == MODIFIED) {
+                                idx = index;
+                                wb = true;
+                                evicted.set_info(m_lines[idx]->m_block_addr,
+                                                 m_lines[idx]->get_modified_size());
+                        }  
+                }
+        }
+  }
 
+//
   void fill(new_addr_type addr, unsigned time, mem_fetch *mf);
   void fill(unsigned idx, unsigned time, mem_fetch *mf);
   void fill(new_addr_type addr, unsigned time, mem_access_sector_mask_t mask);

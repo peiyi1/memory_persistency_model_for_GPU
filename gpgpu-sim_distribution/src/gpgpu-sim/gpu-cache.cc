@@ -1206,6 +1206,31 @@ cache_request_status data_cache::wr_hit_wb(new_addr_type addr,
 if(mf->cache_op == CACHE_WRITE_THROUGH) {
         return wr_hit_wt(addr, cache_index, mf, time, events, status);
 }
+if (mf->cache_op == NVM_CLWB) {
+
+  assert(m_name.find("L2") != std::string::npos);
+  if (miss_queue_full(0)) {
+    m_stats.inc_fail_stats(mf->get_access_type(), MISS_QUEUE_FULL);
+    return RESERVATION_FAIL;
+  }
+  new_addr_type block_addr = m_config.block_addr(addr);
+  bool wb = false;
+  evicted_block_info evicted;
+  m_tag_array->tag_array_clwb(block_addr, time, cache_index,wb,evicted,mf);
+
+  if (wb) {
+      mem_fetch *wb = m_memfetch_creator->alloc(
+          evicted.m_block_addr, m_wrbk_type, evicted.m_modified_size, true,
+          m_gpu->gpu_tot_sim_cycle + m_gpu->gpu_sim_cycle);
+      send_write_request(wb, cache_event(WRITE_BACK_REQUEST_SENT, evicted),
+                         time, events);
+
+      cache_block_t *block = m_tag_array->get_block(cache_index);
+      block->set_status(VALID, mf->get_access_sector_mask());
+  }
+  return HIT;
+}
+
 //
   new_addr_type block_addr = m_config.block_addr(addr);
   m_tag_array->access(block_addr, time, cache_index, mf);  // update LRU state
@@ -1474,6 +1499,33 @@ enum cache_request_status data_cache::wr_miss_wa_fetch_on_write(
 enum cache_request_status data_cache::wr_miss_wa_lazy_fetch_on_read(
     new_addr_type addr, unsigned cache_index, mem_fetch *mf, unsigned time,
     std::list<cache_event> &events, enum cache_request_status status) {
+//peiyi
+if (mf->cache_op == NVM_CLWB) {
+
+  assert(m_name.find("L2") != std::string::npos);
+  if (miss_queue_full(0)) {
+    m_stats.inc_fail_stats(mf->get_access_type(), MISS_QUEUE_FULL);
+    return RESERVATION_FAIL;
+  }
+  new_addr_type block_addr = m_config.block_addr(addr);
+  bool wb = false;
+  evicted_block_info evicted;
+  m_tag_array->tag_array_clwb(block_addr, time, cache_index,wb,evicted,mf);
+
+  if (wb) {
+      mem_fetch *wb = m_memfetch_creator->alloc(
+          evicted.m_block_addr, m_wrbk_type, evicted.m_modified_size, true,
+          m_gpu->gpu_tot_sim_cycle + m_gpu->gpu_sim_cycle);
+      send_write_request(wb, cache_event(WRITE_BACK_REQUEST_SENT, evicted),
+                         time, events);
+
+      cache_block_t *block = m_tag_array->get_block(cache_index);
+      block->set_status(VALID, mf->get_access_sector_mask());
+  }
+  return MISS;
+}
+
+//
   new_addr_type block_addr = m_config.block_addr(addr);
 
   // if the request writes to the whole cache line/sector, then, write and set
