@@ -337,7 +337,7 @@ void memory_partition_unit::dram_cycle() {
           spid);
       dram_delay_t d;
       d.req = mf;
-//peiyi
+//peiyi - using dram_latency_queue as write pending queue and add config option dram_write_latency to model write latency
 /*
       d.ready_cycle = m_gpu->gpu_sim_cycle + m_gpu->gpu_tot_sim_cycle +
                       m_config->dram_latency;
@@ -361,14 +361,35 @@ void memory_partition_unit::dram_cycle() {
   //}
 
   // DRAM latency queue
+
+//peiyi
   if (!m_dram_latency_queue.empty() &&
       ((m_gpu->gpu_sim_cycle + m_gpu->gpu_tot_sim_cycle) >=
-       m_dram_latency_queue.front().ready_cycle) &&
-      !m_dram->full(m_dram_latency_queue.front().req->is_write())) {
-    mem_fetch *mf = m_dram_latency_queue.front().req;
-    m_dram_latency_queue.pop_front();
-    m_dram->push(mf);
+       m_dram_latency_queue.front().ready_cycle) ) {
+        mem_fetch *mf = m_dram_latency_queue.front().req;
+
+        unsigned dest_global_spid = mf->get_sub_partition_id();
+        int dest_spid = global_sub_partition_id_to_local_id(dest_global_spid);
+        assert(m_sub_partition[dest_spid]->get_id() == dest_global_spid);
+
+        if (mf->cache_op == NVM_PCOMMIT) {
+                if(!m_sub_partition[dest_spid]->dram_L2_queue_full()){
+                        mf->set_reply();
+                        m_sub_partition[dest_spid]->dram_L2_queue_push(mf);
+                        mf->set_status(
+                                IN_PARTITION_DRAM_TO_L2_QUEUE,
+                                m_gpu->gpu_sim_cycle + m_gpu->gpu_tot_sim_cycle);
+                        m_arbitration_metadata.return_credit(dest_spid);
+                        m_dram_latency_queue.pop_front();
+                }
+        }
+        else if(!m_dram->full(m_dram_latency_queue.front().req->is_write())) {
+                m_dram_latency_queue.pop_front();
+                m_dram->push(mf);
+        }
   }
+
+//
 }
 
 void memory_partition_unit::set_done(mem_fetch *mf) {
@@ -522,6 +543,12 @@ void memory_sub_partition::cache_cycle(unsigned cycle) {
 			m_icnt_L2_queue->pop();
 		}
 	}
+   }
+   else if(mf->cache_op == NVM_PCOMMIT){
+      mf->set_status(IN_PARTITION_L2_TO_DRAM_QUEUE,
+                     m_gpu->gpu_sim_cycle + m_gpu->gpu_tot_sim_cycle);
+      m_L2_dram_queue->push(mf);
+      m_icnt_L2_queue->pop();
    }
    else{
 //
