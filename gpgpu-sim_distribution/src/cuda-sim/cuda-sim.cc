@@ -1054,7 +1054,7 @@ void ptx_instruction::pre_decode() {
       cache_op = NVM_L2WB;//peiyi      
       break;
     case CS_OPTION:
-      cache_op = CACHE_STREAMING;
+      cache_op = NVM_CLWB;//peiyi
       break;
     case LU_OPTION:
       cache_op = CACHE_LAST_USE;
@@ -1063,7 +1063,7 @@ void ptx_instruction::pre_decode() {
       cache_op = CACHE_VOLATILE;
       break;
     case WB_OPTION:
-      cache_op = CACHE_WRITE_BACK;
+      cache_op = NVM_PCOMMIT;//peiyi
       break;
     case WT_OPTION:
       cache_op = CACHE_WRITE_THROUGH;
