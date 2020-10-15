@@ -562,6 +562,14 @@ void memory_sub_partition::cache_cycle(unsigned cycle) {
             m_icnt_L2_queue->pop();
           }
         } else if (status != RESERVATION_FAIL) {
+	 if(mf->cache_op == NVM_CLWB){//peiyi
+	  mf->set_reply();
+	  mf->set_status(IN_PARTITION_L2_TO_ICNT_QUEUE,
+			m_gpu->gpu_sim_cycle + m_gpu->gpu_tot_sim_cycle);
+	  m_L2_icnt_queue->push(mf);
+          m_icnt_L2_queue->pop();
+	 }
+	 else{
           if (mf->is_write() &&
               (m_config->m_L2_config.m_write_alloc_policy == FETCH_ON_WRITE ||
                m_config->m_L2_config.m_write_alloc_policy ==
@@ -574,6 +582,7 @@ void memory_sub_partition::cache_cycle(unsigned cycle) {
           }
           // L2 cache accepted request
           m_icnt_L2_queue->pop();
+	 }
         } else {
           assert(!write_sent);
           assert(!read_sent);
