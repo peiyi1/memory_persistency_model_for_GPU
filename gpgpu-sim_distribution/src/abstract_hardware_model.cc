@@ -297,11 +297,34 @@ void warp_inst_t::generate_l2wb_accesses() {
                                    m_config->gpgpu_ctx));
   }
 }
+void warp_inst_t::generate_pcommit_accesses() {
+  std::bitset<4> info_chunks;
+  std::bitset<MAX_MEMORY_ACCESS_SIZE> info_bytes;
+  std::bitset<MAX_WARP_SIZE> info_active;
+
+  info_chunks.set((0 & 127) / 32);
+  info_bytes.set((0 & 127));
+  info_active.set(0);
+
+  new_addr_type n_mem = (m_config->m_n_mem)*(m_config->m_n_sub_partition_per_mchannel);
+  new_addr_type bytes_per_mem = (m_config->m_dl2_bsize )*(m_config->m_n_sub_partition_per_mchannel);
+  new_addr_type random_start_addr = 0;
+  for (new_addr_type mem = 0; mem < n_mem; ++mem) {
+    new_addr_type addrs = random_start_addr + mem * bytes_per_mem;
+    m_accessq.push_back(mem_access_t(GLOBAL_ACC_W, addrs, 32, true,
+                                   info_active, info_bytes, info_chunks,
+                                   m_config->gpgpu_ctx));
+  }
+}
 //
 void warp_inst_t::generate_mem_accesses() {
 //peiyi
   if (cache_op == NVM_L2WB) {
         generate_l2wb_accesses();
+        return;
+  }
+  if (cache_op == NVM_PCOMMIT) {
+        generate_pcommit_accesses();
         return;
   }
 //

@@ -1079,6 +1079,7 @@ class warp_inst_t : public inst_t {
     }
   };
   void generate_l2wb_accesses();//peiyi
+  void generate_pcommit_accesses();//peiyi
   void generate_mem_accesses();
   void memory_coalescing_arch(bool is_write, mem_access_type access_type);
   void memory_coalescing_arch_atomic(bool is_write,
