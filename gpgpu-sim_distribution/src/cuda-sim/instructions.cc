@@ -5761,7 +5761,7 @@ void st_impl(const ptx_instruction *pI, ptx_thread_info *thread) {
   size_t size;
   int t;
   type_info_key::type_decode(type, size, t);
-if(pI->m_cache_option != CG_OPTION){//peiyi
+if((pI->m_cache_option != CS_OPTION)&&(pI->m_cache_option != CG_OPTION)&&(pI->m_cache_option != WB_OPTION)){//peiyi
   if (!vector_spec) {
     data = thread->get_operand_value(src1, dst, type, thread, 1);
     mem->write(addr, size / 8, &data.s64, thread, pI);
