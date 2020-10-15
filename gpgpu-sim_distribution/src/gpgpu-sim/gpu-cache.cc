@@ -1202,6 +1202,11 @@ cache_request_status data_cache::wr_hit_wb(new_addr_type addr,
                                            unsigned time,
                                            std::list<cache_event> &events,
                                            enum cache_request_status status) {
+//peiyi
+if(mf->cache_op == CACHE_WRITE_THROUGH) {
+        return wr_hit_wt(addr, cache_index, mf, time, events, status);
+}
+//
   new_addr_type block_addr = m_config.block_addr(addr);
   m_tag_array->access(block_addr, time, cache_index, mf);  // update LRU state
   cache_block_t *block = m_tag_array->get_block(cache_index);
@@ -1224,7 +1229,7 @@ cache_request_status data_cache::wr_hit_wt(new_addr_type addr,
   new_addr_type block_addr = m_config.block_addr(addr);
   m_tag_array->access(block_addr, time, cache_index, mf);  // update LRU state
   cache_block_t *block = m_tag_array->get_block(cache_index);
-  block->set_status(MODIFIED, mf->get_access_sector_mask());
+  //block->set_status(MODIFIED, mf->get_access_sector_mask());//peiyi
 
   // generate a write-through
   send_write_request(mf, cache_event(WRITE_REQUEST_SENT), time, events);
