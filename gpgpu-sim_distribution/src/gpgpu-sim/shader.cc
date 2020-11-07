@@ -4306,16 +4306,19 @@ void simt_core_cluster::icnt_inject_request_packet(class mem_fetch *mf) {
   if (!mf->get_is_write() && !mf->isatomic()) {
     packet_size = mf->get_ctrl_size();
   }
+  //peiyi
+  if (mf->cache_op == NVM_CLWB 
+       || mf->cache_op == NVM_PCOMMIT 
+       || mf->cache_op == NVM_L2WB) {
+      packet_size = mf->get_ctrl_size();
+  }
+  //
   m_stats->m_outgoing_traffic_stats->record_traffic(mf, packet_size);
   unsigned destination = mf->get_sub_partition_id();
   mf->set_status(IN_ICNT_TO_MEM,
                  m_gpu->gpu_sim_cycle + m_gpu->gpu_tot_sim_cycle);
-  if (!mf->get_is_write() && !mf->isatomic())
-    ::icnt_push(m_cluster_id, m_config->mem2device(destination), (void *)mf,
-                mf->get_ctrl_size());
-  else
-    ::icnt_push(m_cluster_id, m_config->mem2device(destination), (void *)mf,
-                mf->size());
+  ::icnt_push(m_cluster_id, m_config->mem2device(destination), (void *)mf,
+              packet_size);
 }
 
 void simt_core_cluster::icnt_cycle() {
