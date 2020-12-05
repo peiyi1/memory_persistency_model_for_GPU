@@ -1,0 +1,3502 @@
+
+
+        *** GPGPU-Sim Simulator Version 4.0.0  [build gpgpu-sim_git-commit-ffe0a1a00e984ecce9bf36e17ab94c4de0de8108_modified_0.0] ***
+
+
+GPGPU-Sim PTX: simulation mode 0 (can change with PTX_SIM_MODE_FUNC environment variable:
+               1=functional simulation only, 0=detailed performance simulator)
+GPGPU-Sim PTX: overriding embedded ptx with ptx file (PTX_SIM_USE_PTX_FILE is set)
+GPGPU-Sim: Configuration options:
+
+-save_embedded_ptx                      0 # saves ptx files embedded in binary as <n>.ptx
+-keep                                   0 # keep intermediate files created by GPGPU-Sim when interfacing with external programs
+-gpgpu_ptx_save_converted_ptxplus                    0 # Saved converted ptxplus to a file
+-gpgpu_occupancy_sm_number                   70 # The SM number to pass to ptxas when getting register usage for computing GPU occupancy. This parameter is required in the config.
+-ptx_opcode_latency_int      4,13,4,5,145,21 # Opcode latencies for integers <ADD,MAX,MUL,MAD,DIV,SHFL>Default 1,1,19,25,145,32
+-ptx_opcode_latency_fp          4,13,4,5,39 # Opcode latencies for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,30
+-ptx_opcode_latency_dp         8,19,8,8,330 # Opcode latencies for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,335
+-ptx_opcode_latency_sfu                  100 # Opcode latencies for SFU instructionsDefault 8
+-ptx_opcode_latency_tesnor                   64 # Opcode latencies for Tensor instructionsDefault 64
+-ptx_opcode_initiation_int          2,2,2,2,8,4 # Opcode initiation intervals for integers <ADD,MAX,MUL,MAD,DIV,SHFL>Default 1,1,4,4,32,4
+-ptx_opcode_initiation_fp            2,2,2,2,4 # Opcode initiation intervals for single precision floating points <ADD,MAX,MUL,MAD,DIV>Default 1,1,1,1,5
+-ptx_opcode_initiation_dp          4,4,4,4,130 # Opcode initiation intervals for double precision floating points <ADD,MAX,MUL,MAD,DIV>Default 8,8,8,8,130
+-ptx_opcode_initiation_sfu                    8 # Opcode initiation intervals for sfu instructionsDefault 8
+-ptx_opcode_initiation_tensor                   64 # Opcode initiation intervals for tensor instructionsDefault 64
+-cdp_latency         7200,8000,100,12000,1600 # CDP API latency <cudaStreamCreateWithFlags, cudaGetParameterBufferV2_init_perWarp, cudaGetParameterBufferV2_perKernel, cudaLaunchDeviceV2_init_perWarp, cudaLaunchDevicV2_perKernel>Default 7200,8000,100,12000,1600
+-network_mode                           2 # Interconnection network mode
+-inter_config_file                   mesh # Interconnection network config file
+-icnt_in_buffer_limit                  512 # in_buffer_limit
+-icnt_out_buffer_limit                  512 # out_buffer_limit
+-icnt_subnets                           2 # subnets
+-icnt_arbiter_algo                      1 # arbiter_algo
+-icnt_verbose                           0 # inct_verbose
+-icnt_grant_cycles                      1 # grant_cycles
+-gpgpu_ptx_use_cuobjdump                    1 # Use cuobjdump to extract ptx and sass from binaries
+-gpgpu_experimental_lib_support                    0 # Try to extract code from cuda libraries [Broken because of unknown cudaGetExportTable]
+-checkpoint_option                      0 #  checkpointing flag (0 = no checkpoint)
+-checkpoint_kernel                      1 #  checkpointing during execution of which kernel (1- 1st kernel)
+-checkpoint_CTA                         0 #  checkpointing after # of CTA (< less than total CTA)
+-resume_option                          0 #  resume flag (0 = no resume)
+-resume_kernel                          0 #  Resume from which kernel (1= 1st kernel)
+-resume_CTA                             0 #  resume from which CTA 
+-checkpoint_CTA_t                       0 #  resume from which CTA 
+-checkpoint_insn_Y                      0 #  resume from which CTA 
+-gpgpu_ptx_convert_to_ptxplus                    0 # Convert SASS (native ISA) to ptxplus and run ptxplus
+-gpgpu_ptx_force_max_capability                   70 # Force maximum compute capability
+-gpgpu_ptx_inst_debug_to_file                    0 # Dump executed instructions' debug information to file
+-gpgpu_ptx_inst_debug_file       inst_debug.txt # Executed instructions' debug output file
+-gpgpu_ptx_inst_debug_thread_uid                    1 # Thread UID for executed instructions' debug output
+-gpgpu_n_mem_for_l2wb_pcommit                   32 # number of memory modules (e.g. memory controllers) in gpu
+-gpgpu_n_sub_partition_per_mchannel_for_l2wb_pcommit                    2 # number of memory subpartition in each memory module
+-gpgpu_dl2_bsize_for_l2wb_pcommit                  128 # default 128 bytes
+-gpgpu_simd_model                       1 # 1 = post-dominator
+-gpgpu_shader_core_pipeline              2048:32 # shader core pipeline config, i.e., {<nthread>:<warpsize>}
+-gpgpu_tex_cache:l1  N:4:128:256,L:R:m:N:L,T:512:8,128:2 # per-shader L1 texture cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>:<rf>}
+-gpgpu_const_cache:l1 N:128:64:8,L:R:f:N:L,S:2:64,4 # per-shader L1 constant memory cache  (READ-ONLY) config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:il1     N:64:128:16,L:R:f:N:L,S:2:48,4 # shader L1 instruction cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>} 
+-gpgpu_cache:dl1     S:1:128:256,L:L:s:N:L,A:256:8,16:0,32 # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_l1_banks                         4 # The number of L1 cache banks
+-gpgpu_l1_banks_byte_interleaving                   32 # l1 banks byte interleaving granularity
+-gpgpu_l1_banks_hashing_function                    0 # l1 banks hashing function
+-gpgpu_l1_latency                      20 # L1 Hit Latency
+-gpgpu_smem_latency                    20 # smem Latency
+-gpgpu_cache:dl1PrefL1                 none # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_cache:dl1PrefShared                 none # per-shader L1 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq> | none}
+-gpgpu_gmem_skip_L1D                    0 # global memory access skip L1D cache (implements -Xptxas -dlcm=cg, default=no skip)
+-gpgpu_perfect_mem                      0 # enable perfect memory mode (no cache miss)
+-n_regfile_gating_group                    4 # group of lanes that should be read/written together)
+-gpgpu_clock_gated_reg_file                    0 # enable clock gated reg file for power calculations
+-gpgpu_clock_gated_lanes                    0 # enable clock gated lanes for power calculations
+-gpgpu_shader_registers                65536 # Number of registers per shader core. Limits number of concurrent CTAs. (default 8192)
+-gpgpu_registers_per_block                65536 # Maximum number of registers per CTA. (default 8192)
+-gpgpu_ignore_resources_limitation                    0 # gpgpu_ignore_resources_limitation (default 0)
+-gpgpu_shader_cta                      32 # Maximum number of concurrent CTAs in shader (default 8)
+-gpgpu_num_cta_barriers                   16 # Maximum number of named barriers per CTA (default 16)
+-gpgpu_n_clusters                      80 # number of processing clusters
+-gpgpu_n_cores_per_cluster                    1 # number of simd cores per cluster
+-gpgpu_n_cluster_ejection_buffer_size                   32 # number of packets in ejection buffer
+-gpgpu_n_ldst_response_buffer_size                    2 # number of response packets in ld/st unit ejection buffer
+-gpgpu_shmem_per_block                65536 # Size of shared memory per thread block or CTA (default 48kB)
+-gpgpu_shmem_size                   98304 # Size of shared memory per shader core (default 16kB)
+-gpgpu_adaptive_cache_config            536870913 # adaptive_cache_config
+-gpgpu_shmem_sizeDefault                98304 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefL1                16384 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_size_PrefShared                16384 # Size of shared memory per shader core (default 16kB)
+-gpgpu_shmem_num_banks                   32 # Number of banks in the shared memory in each shader core (default 16)
+-gpgpu_shmem_limited_broadcast                    0 # Limit shared memory to do one broadcast per cycle (default on)
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-gpgpu_mem_unit_ports                    1 # The number of memory transactions allowed per core cycle
+-gpgpu_shmem_warp_parts                    1 # Number of portions a warp is divided into for shared memory bank conflict check 
+-gpgpu_warpdistro_shader                   -1 # Specify which shader core to collect the warp size distribution from
+-gpgpu_warp_issue_shader                    0 # Specify which shader core to collect the warp issue distribution from
+-gpgpu_local_mem_map                    1 # Mapping from local memory space address to simulated GPU physical address space (default = enabled)
+-gpgpu_num_reg_banks                   16 # Number of register banks (default = 8)
+-gpgpu_reg_bank_use_warp_id                    0 # Use warp ID in mapping registers to banks (default = off)
+-gpgpu_sub_core_model                    1 # Sub Core Volta/Pascal model (default = off)
+-gpgpu_enable_specialized_operand_collector                    0 # enable_specialized_operand_collector
+-gpgpu_operand_collector_num_units_sp                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_dp                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_sfu                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_int                    0 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_units_tensor_core                    4 # number of collector units (default = 4)
+-gpgpu_operand_collector_num_units_mem                    2 # number of collector units (default = 2)
+-gpgpu_operand_collector_num_units_gen                    8 # number of collector units (default = 0)
+-gpgpu_operand_collector_num_in_ports_sp                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_dp                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_sfu                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_in_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_in_ports_gen                    8 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sp                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_dp                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_sfu                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_int                    0 # number of collector unit in ports (default = 0)
+-gpgpu_operand_collector_num_out_ports_tensor_core                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_mem                    1 # number of collector unit in ports (default = 1)
+-gpgpu_operand_collector_num_out_ports_gen                    8 # number of collector unit in ports (default = 0)
+-gpgpu_coalesce_arch                   60 # Coalescing arch (GT200 = 13, Fermi = 20)
+-gpgpu_num_sched_per_core                    4 # Number of warp schedulers per core
+-gpgpu_max_insn_issue_per_warp                    1 # Max number of instructions that can be issued per warp in one cycle by scheduler (either 1 or 2)
+-gpgpu_dual_issue_diff_exec_units                    1 # should dual issue use two different execution unit resources (Default = 1)
+-gpgpu_simt_core_sim_order                    1 # Select the simulation order of cores in a cluster (0=Fix, 1=Round-Robin)
+-gpgpu_pipeline_widths 4,4,4,4,4,4,4,4,4,4,8,4,4 # Pipeline widths ID_OC_SP,ID_OC_DP,ID_OC_INT,ID_OC_SFU,ID_OC_MEM,OC_EX_SP,OC_EX_DP,OC_EX_INT,OC_EX_SFU,OC_EX_MEM,EX_WB,ID_OC_TENSOR_CORE,OC_EX_TENSOR_CORE
+-gpgpu_tensor_core_avail                    1 # Tensor Core Available (default=0)
+-gpgpu_num_sp_units                     4 # Number of SP units (default=1)
+-gpgpu_num_dp_units                     4 # Number of DP units (default=0)
+-gpgpu_num_int_units                    4 # Number of INT units (default=0)
+-gpgpu_num_sfu_units                    4 # Number of SF units (default=1)
+-gpgpu_num_tensor_core_units                    4 # Number of tensor_core units (default=1)
+-gpgpu_num_mem_units                    1 # Number if ldst units (default=1) WARNING: not hooked up to anything
+-gpgpu_scheduler                      gto # Scheduler configuration: < lrr | gto | two_level_active > If two_level_active:<num_active_warps>:<inner_prioritization>:<outer_prioritization>For complete list of prioritization values see shader.h enum scheduler_prioritization_typeDefault: gto
+-gpgpu_concurrent_kernel_sm                    0 # Support concurrent kernels on a SM (default = disabled)
+-gpgpu_perfect_inst_const_cache                    1 # perfect inst and const cache mode, so all inst and const hits in the cache(default = disabled)
+-gpgpu_inst_fetch_throughput                    4 # the number of fetched intruction per warp each cycle
+-gpgpu_reg_file_port_throughput                    2 # the number ports of the register file
+-specialized_unit_1         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_2         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_3         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_4         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_5         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_6         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_7         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-specialized_unit_8         0,4,4,4,4,BRA # specialized unit config {<enabled>,<num_units>:<latency>:<initiation>,<ID_OC_SPEC>:<OC_EX_SPEC>,<NAME>}
+-gpgpu_perf_sim_memcpy                    1 # Fill the L2 cache on memcpy
+-gpgpu_simple_dram_model                    0 # simple_dram_model with fixed latency and BW
+-gpgpu_dram_scheduler                    1 # 0 = fifo, 1 = FR-FCFS (defaul)
+-gpgpu_dram_partition_queues          64:64:64:64 # i2$:$2d:d2$:$2i
+-l2_ideal                               0 # Use a ideal L2 cache that always hit
+-gpgpu_cache:dl2     S:32:128:24,L:B:m:L:P,A:192:4,32:0,32 # unified banked L2 data cache config  {<nsets>:<bsize>:<assoc>,<rep>:<wr>:<alloc>:<wr_alloc>,<mshr>:<N>:<merge>,<mq>}
+-gpgpu_cache:dl2_texture_only                    0 # L2 cache used for texture only
+-gpgpu_n_mem                           32 # number of memory modules (e.g. memory controllers) in gpu
+-gpgpu_n_sub_partition_per_mchannel                    2 # number of memory subpartition in each memory module
+-gpgpu_n_mem_per_ctrlr                    1 # number of memory chips per memory controller
+-gpgpu_memlatency_stat                   14 # track and display latency statistics 0x2 enables MC, 0x4 enables queue logs
+-gpgpu_frfcfs_dram_sched_queue_size                   64 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_return_queue_size                  192 # 0 = unlimited (default); # entries per chip
+-gpgpu_dram_buswidth                   16 # default = 4 bytes (8 bytes per cycle at DDR)
+-gpgpu_dram_burst_length                    2 # Burst length of each DRAM request (default = 4 data bus cycle)
+-dram_data_command_freq_ratio                    2 # Frequency ratio between DRAM data bus and command bus (default = 2 times, i.e. DDR)
+-gpgpu_dram_timing_opt nbk=16:CCD=1:RRD=3:RCD=12:RAS=28:RP=12:RC=40: CL=12:WL=2:CDLR=3:WR=10:nbkgrp=4:CCDL=2:RTPL=3 # DRAM timing parameters = {nbk:tCCD:tRRD:tRCD:tRAS:tRP:tRC:CL:WL:tCDLR:tWR:nbkgrp:tCCDL:tRTPL}
+-gpgpu_l2_rop_latency                  160 # ROP queue latency (default 85)
+-dram_latency                         200 # DRAM latency (default 30)
+-dram_write_latency                   600 # DRAM write latency (default 100)
+-dram_dual_bus_interface                    1 # dual_bus_interface (default = 0) 
+-dram_bnk_indexing_policy                    0 # dram_bnk_indexing_policy (0 = normal indexing, 1 = Xoring with the higher bits) (Default = 0)
+-dram_bnkgrp_indexing_policy                    1 # dram_bnkgrp_indexing_policy (0 = take higher bits, 1 = take lower bits) (Default = 0)
+-dram_seperate_write_queue_enable                    0 # Seperate_Write_Queue_Enable
+-dram_write_queue_size             32:28:16 # Write_Queue_Size
+-dram_elimnate_rw_turnaround                    0 # elimnate_rw_turnaround i.e set tWTR and tRTW = 0
+-icnt_flit_size                        40 # icnt_flit_size
+-gpgpu_mem_addr_mapping dramid@8;00000000.00000000.00000000.00000000.0000RRRR.RRRRRRRR.RBBBCCCB.CCCSSSSS # mapping memory address to dram model {dramid@<start bit>;<memory address map>}
+-gpgpu_mem_addr_test                    0 # run sweep test to check address mapping for aliased address
+-gpgpu_mem_address_mask                    1 # 0 = old addressing mask, 1 = new addressing mask, 2 = new add. mask + flipped bank sel and chip sel bits
+-gpgpu_memory_partition_indexing                    0 # 0 = no indexing, 1 = bitwise xoring, 2 = IPoly, 3 = custom indexing
+-gpuwattch_xml_file         gpuwattch.xml # GPUWattch XML file
+-power_simulation_enabled                    0 # Turn on power simulator (1=On, 0=Off)
+-power_per_cycle_dump                    0 # Dump detailed power output each cycle
+-power_trace_enabled                    0 # produce a file for the power trace (1=On, 0=Off)
+-power_trace_zlevel                     6 # Compression level of the power trace output log (0=no comp, 9=highest)
+-steady_power_levels_enabled                    0 # produce a file for the steady power levels (1=On, 0=Off)
+-steady_state_definition                  8:4 # allowed deviation:number of samples
+-gpgpu_max_cycle                        0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_insn                         0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_cta                          0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_max_completed_cta                    0 # terminates gpu simulation early (0 = no limit)
+-gpgpu_runtime_stat                   500 # display runtime statistics such as dram utilization {<freq>:<flag>}
+-liveness_message_freq                    1 # Minimum number of seconds between simulation liveness messages (0 = always print)
+-gpgpu_compute_capability_major                    7 # Major compute capability version number
+-gpgpu_compute_capability_minor                    0 # Minor compute capability version number
+-gpgpu_flush_l1_cache                    1 # Flush L1 cache at the end of each kernel call
+-gpgpu_flush_l2_cache                    0 # Flush L2 cache at the end of each kernel call
+-gpgpu_deadlock_detect                    1 # Stop the simulation at deadlock (1=on (default), 0=off)
+-gpgpu_ptx_instruction_classification                    0 # if enabled will classify ptx instruction types per kernel (Max 255 kernels now)
+-gpgpu_ptx_sim_mode                     0 # Select between Performance (default) or Functional simulation (1)
+-gpgpu_clock_domains 1132.0:1132.0:1132.0:850.0 # Clock Domain Frequencies in MhZ {<Core Clock>:<ICNT Clock>:<L2 Clock>:<DRAM Clock>}
+-gpgpu_max_concurrent_kernel                    8 # maximum kernels that can run concurrently on GPU
+-gpgpu_cflog_interval                    0 # Interval between each snapshot in control flow logger
+-visualizer_enabled               54e1463b7f4b9de40a215197f3bbe428  /home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/build/nvm_lk_default/bfs
+Extracting PTX file and ptxas options    1: bfs.1.sm_70.ptx -arch=sm_70 -dlcm=cg  
+      0 # Turn on visualizer output (1=On, 0=Off)
+-visualizer_outputfile                 NULL # Specifies the output log file for visualizer
+-visualizer_zlevel                      6 # Compression level of the visualizer output log (0=no comp, 9=highest)
+-gpgpu_stack_size_limit                 1024 # GPU thread stack size
+-gpgpu_heap_size_limit              8388608 # GPU malloc heap size 
+-gpgpu_runtime_sync_depth_limit                    2 # GPU device runtime synchronize depth
+-gpgpu_runtime_pending_launch_count_limit                 2048 # GPU device runtime pending launch count
+-trace_enabled                          0 # Turn on traces
+-trace_components                    none # comma seperated list of traces to enable. Complete list found in trace_streams.tup. Default none
+-trace_sampling_core                    0 # The core which is printed using CORE_DPRINTF. Default 0
+-trace_sampling_memory_partition                   -1 # The memory partition which is printed using MEMPART_DPRINTF. Default -1 (i.e. all)
+-enable_ptx_file_line_stats                    1 # Turn on PTX source line statistic profiling. (1 = On)
+-ptx_line_stats_filename gpgpu_inst_stats.txt # Output file for PTX source line statistics.
+-gpgpu_kernel_launch_latency                 5000 # Kernel launch latency in cycles. Default: 0
+-gpgpu_cdp_enabled                      0 # Turn on CDP
+-gpgpu_TB_launch_latency                    0 # thread block launch latency in cycles. Default: 0
+DRAM Timing Options:
+nbk                                    16 # number of banks
+CCD                                     1 # column to column delay
+RRD                                     3 # minimal delay between activation of rows in different banks
+RCD                                    12 # row to column delay
+RAS                                    28 # time needed to activate row
+RP                                     12 # time needed to precharge (deactivate) row
+RC                                     40 # row cycle time
+CDLR                                    3 # switching from write to read (changes tWTR)
+WR                                     10 # last data-in to row precharge
+CL                                     12 # CAS latency
+WL                                      2 # Write latency
+nbkgrp                                  4 # number of bank groups
+CCDL                                    2 # column to column delay between accesses to different bank groups
+RTPL                                    3 # read to precharge delay between accesses to different bank groups
+Total number of memory sub partition = 64
+addr_dec_mask[CHIP]  = 0000000000001f00 	high:13 low:8
+addr_dec_mask[BK]    = 00000000000e2000 	high:20 low:13
+addr_dec_mask[ROW]   = 00000001fff00000 	high:33 low:20
+addr_dec_mask[COL]   = 000000000001c0ff 	high:17 low:0
+addr_dec_mask[BURST] = 000000000000001f 	high:5 low:0
+sub_partition_id_mask = 0000000000002000
+GPGPU-Sim uArch: clock freqs: 1132000000.000000:1132000000.000000:1132000000.000000:850000000.000000
+GPGPU-Sim uArch: clock periods: 0.00000000088339222615:0.00000000088339222615:0.00000000088339222615:0.00000000117647058824
+*** Initializing Memory Statistics ***
+GPGPU-Sim uArch: performance model initialization complete.
+self exe links to: /home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/build/nvm_lk_default/bfs
+self exe links to: /home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/build/nvm_lk_default/bfs
+10.1
+GPGPU-Sim PTX: __cudaRegisterFatBinary, fat_cubin_handle = 1, filename=default
+self exe links to: /home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/build/nvm_lk_default/bfs
+Running md5sum using "md5sum /home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/build/nvm_lk_default/bfs "
+self exe links to: /home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/build/nvm_lk_default/bfs
+Extracting specific PTX file named bfs.1.sm_70.ptx 
+GPGPU-Sim PTX: __cudaRegisterFunction _Z10BFS_kernelPiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x403ba2, fat_cubin_handle = 1
+GPGPU-Sim PTX: Parsing bfs.1.sm_70.ptx
+GPGPU-Sim PTX: allocating global region for "g_graph_node_ref" from 0x100 to 0x104 (global memory space)
+GPGPU-Sim PTX: allocating global region for "g_graph_edge_ref" from 0x104 to 0x108 (global memory space)
+GPGPU-Sim PTX: allocating global region for "count" from 0x108 to 0x10c (global memory space)
+GPGPU-Sim PTX: allocating global region for "no_of_nodes_vol" from 0x10c to 0x110 (global memory space)
+GPGPU-Sim PTX: allocating global region for "stay_vol" from 0x110 to 0x114 (global memory space)
+GPGPU-Sim PTX: allocating global region for "shadow_prefix_q" from 0x180 to 0x400180 (global memory space)
+GPGPU-Sim PTX: allocating global region for "shadow_next_wf" from 0x400180 to 0x800180 (global memory space)
+GPGPU-Sim PTX: allocating global region for "shadow_tail" from 0x800180 to 0xc00180 (global memory space)
+GPGPU-Sim PTX: allocating global region for "shadow_elems" from 0xc00180 to 0x1000180 (global memory space)
+GPGPU-Sim PTX: allocating global region for "shadow_sharers" from 0x1000180 to 0x1400180 (global memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmbPiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmbPiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmbPiS_P4int2S1_S_S_iS_iiS_E7next_wf" from 0x3280 to 0x3a80 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmbPiS_P4int2S1_S_S_iS_iiS_E7tot_sum" from 0x3a80 to 0x3a84 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z22BFS_in_GPU_kernel_nvmbPiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmePiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmePiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmePiS_P4int2S1_S_S_iS_iiS_E7next_wf" from 0x3280 to 0x3a80 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmePiS_P4int2S1_S_S_iS_iiS_E7tot_sum" from 0x3a80 to 0x3a84 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z22BFS_in_GPU_kernel_nvmePiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmoPiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmoPiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmoPiS_P4int2S1_S_S_iS_iiS_E7next_wf" from 0x3280 to 0x3a80 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmoPiS_P4int2S1_S_S_iS_iiS_E7tot_sum" from 0x3a80 to 0x3a84 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z22BFS_in_GPU_kernel_nvmoPiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmrPiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmrPiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmrPiS_P4int2S1_S_S_iS_iiS_E7next_wf" from 0x3280 to 0x3a80 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmrPiS_P4int2S1_S_S_iS_iiS_E7tot_sum" from 0x3a80 to 0x3a84 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z22BFS_in_GPU_kernel_nvmrPiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmuPiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmuPiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmuPiS_P4int2S1_S_S_iS_iiS_E7next_wf" from 0x3280 to 0x3a80 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmuPiS_P4int2S1_S_S_iS_iiS_E7tot_sum" from 0x3a80 to 0x3a84 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z22BFS_in_GPU_kernel_nvmuPiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_E7next_wf" from 0x3280 to 0x3a80 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_E7tot_sum" from 0x3a80 to 0x3a84 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ17BFS_in_GPU_kernelPiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ17BFS_in_GPU_kernelPiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ17BFS_in_GPU_kernelPiS_P4int2S1_S_S_iS_iiS_E7next_wf" from 0x3280 to 0x3a80 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ17BFS_in_GPU_kernelPiS_P4int2S1_S_S_iS_iiS_E7tot_sum" from 0x3a80 to 0x3a84 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z17BFS_in_GPU_kernelPiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_E5shift" from 0x3260 to 0x3264 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_E14no_of_nodes_sm" from 0x3264 to 0x3268 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_E8odd_time" from 0x3268 to 0x326c (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_'...   done.
+GPGPU-Sim PTX: allocating shared region for "_ZZ10BFS_kernelPiS_P4int2S1_S_S_iS_iiS_E7local_q" from 0x0 to 0x3240 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ10BFS_kernelPiS_P4int2S1_S_S_iS_iiS_E8prefix_q" from 0x3240 to 0x3260 (shared memory space)
+GPGPU-Sim PTX: allocating shared region for "_ZZ10BFS_kernelPiS_P4int2S1_S_S_iS_iiS_E5shift" from 0x3260 to 0x3264 (shared memory space)
+GPGPU-Sim PTX: instruction assembly for function '_Z10BFS_kernelPiS_P4int2S1_S_S_iS_iiS_'...   done.
+GPGPU-Sim PTX: finished parsing EMBEDDED .ptx file bfs.1.sm_70.ptx
+GPGPU-Sim PTX: loading globals with explicit initializers... 
+GPGPU-Sim PTX: finished loading globals (0 bytes total).
+GPGPU-Sim PTX: loading constants with explicit initializers...  done.
+GPGPU-Sim PTX: Loading PTXInfo from bfs.1.sm_70.ptx
+GPGPU-Sim PTX: Kernel '_Z10BFS_kernelPiS_P4int2S1_S_S_iS_iiS_' : regs=24, lmem=0, smem=12900, cmem=440
+GPGPU-Sim PTX: Kernel '_Z26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_' : regs=32, lmem=0, smem=12908, cmem=464
+GPGPU-Sim PTX: Kernel '_Z17BFS_in_GPU_kernelPiS_P4int2S1_S_S_iS_iiS_' : regs=32, lmem=0, smem=14948, cmem=440
+GPGPU-Sim PTX: Kernel '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_' : regs=32, lmem=0, smem=14948, cmem=440
+GPGPU-Sim PTX: Kernel '_Z22BFS_in_GPU_kernel_nvmuPiS_P4int2S1_S_S_iS_iiS_' : regs=32, lmem=0, smem=14948, cmem=440
+GPGPU-Sim PTX: Kernel '_Z22BFS_in_GPU_kernel_nvmrPiS_P4int2S1_S_S_iS_iiS_' : regs=32, lmem=0, smem=14948, cmem=440
+GPGPU-Sim PTX: Kernel '_Z22BFS_in_GPU_kernel_nvmoPiS_P4int2S1_S_S_iS_iiS_' : regs=32, lmem=0, smem=14948, cmem=440
+GPGPU-Sim PTX: Kernel '_Z22BFS_in_GPU_kernel_nvmePiS_P4int2S1_S_S_iS_iiS_' : regs=32, lmem=0, smem=14948, cmem=440
+GPGPU-Sim PTX: Kernel '_Z22BFS_in_GPU_kernel_nvmbPiS_P4int2S1_S_S_iS_iiS_' : regs=32, lmem=0, smem=14948, cmem=440
+GPGPU-Sim PTX: __cudaRegisterFunction _Z26BFS_kernel_multi_blk_inGPUPiS_P4int2S1_S_S_S_S_iiS_S_S_S_ : hostFun 0x0x4038f5, fat_cubin_handle = 1
+GPGPU-Sim PTX: __cudaRegisterFunction _Z17BFS_in_GPU_kernelPiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x403626, fat_cubin_handle = 1
+GPGPU-Sim PTX: __cudaRegisterFunction _Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x403396, fat_cubin_handle = 1
+GPGPU-Sim PTX: __cudaRegisterFunction _Z22BFS_in_GPU_kernel_nvmuPiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x403106, fat_cubin_handle = 1
+GPGPU-Sim PTX: __cudaRegisterFunction _Z22BFS_in_GPU_kernel_nvmrPiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x402e76, fat_cubin_handle = 1
+GPGPU-Sim PTX: __cudaRegisterFunction _Z22BFS_in_GPU_kernel_nvmoPiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x402be6, fat_cubin_handle = 1
+GPGPU-Sim PTX: __cudaRegisterFunction _Z22BFS_in_GPU_kernel_nvmePiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x402956, fat_cubin_handle = 1
+GPGPU-Sim PTX: __cudaRegisterFunction _Z22BFS_in_GPU_kernel_nvmbPiS_P4int2S1_S_S_iS_iiS_ : hostFun 0x0x4026c6, fat_cubin_handle = 1
+GPGPU-Sim PTX: in __cudaRegisterTexture:
+GPGPU-Sim PTX:   int dim = 1
+GPGPU-Sim PTX:   int norm = 0
+GPGPU-Sim PTX:   int ext = 0
+GPGPU-Sim PTX:   Execution warning: Not finished implementing "void __cudaRegisterTextureInternal(void**, const textureReference*, const void**, const char*, int, int, int, gpgpu_context*)"
+GPGPU-Sim PTX: in __cudaRegisterTexture:
+GPGPU-Sim PTX:   int dim = 1
+GPGPU-Sim PTX:   int norm = 0
+GPGPU-Sim PTX:   int ext = 0
+GPGPU-Sim PTX:   Execution warning: Not finished implementing "void __cudaRegisterTextureInternal(void**, const textureReference*, const void**, const char*, int, int, int, gpgpu_context*)"
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0x60d2dc; deviceAddress = count; deviceName = count
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4 bytes
+GPGPU-Sim PTX registering global count hostVar to name mapping
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0x60d2e0; deviceAddress = no_of_nodes_vol; deviceName = no_of_nodes_vol
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4 bytes
+GPGPU-Sim PTX registering global no_of_nodes_vol hostVar to name mapping
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0x60d2e4; deviceAddress = stay_vol; deviceName = stay_vol
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4 bytes
+GPGPU-Sim PTX registering global stay_vol hostVar to name mapping
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0x60d300; deviceAddress = shadow_prefix_q; deviceName = shadow_prefix_q
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4194304 bytes
+GPGPU-Sim PTX registering global shadow_prefix_q hostVar to name mapping
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0xa0d300; deviceAddress = shadow_next_wf; deviceName = shadow_next_wf
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4194304 bytes
+GPGPU-Sim PTX registering global shadow_next_wf hostVar to name mapping
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0xe0d300; deviceAddress = shadow_tail; deviceName = shadow_tail
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4194304 bytes
+GPGPU-Sim PTX registering global shadow_tail hostVar to name mapping
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0x120d300; deviceAddress = shadow_elems; deviceName = shadow_elems
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4194304 bytes
+GPGPU-Sim PTX registering global shadow_elems hostVar to name mapping
+GPGPU-Sim PTX: __cudaRegisterVar: hostVar = 0x160d300; deviceAddress = shadow_sharers; deviceName = shadow_sharers
+GPGPU-Sim PTX: __cudaRegisterVar: Registering const memory space of 4194304 bytes
+GPGPU-Sim PTX registering global shadow_sharers hostVar to name mapping
+/home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/build/nvm_lk_default/bfs -i /home/pli11/Videos/parboil_benchmark/parboil/datasets/bfs/NY/input/graph_input.dat -o /home/pli11/Videos/parboil_benchmark/parboil/benchmarks/bfs/run/NY/bfs.out x 
+GPGPU-Sim PTX: in cudaBindTexture: sizeof(struct textureReference) = 124
+GPGPU-Sim PTX:   size = 4294967295
+GPGPU-Sim PTX:   texref = 0x60d1e0, array = 0x111c6450
+GPGPU-Sim PTX:   devPtr32 = c0000000
+GPGPU-Sim PTX:   Name corresponding to textureReference: g_graph_node_ref
+GPGPU-Sim PTX:   ChannelFormatDesc: x=32, y=32, z=0, w=0
+GPGPU-Sim PTX:   Texture Normalized? = 0
+GPGPU-Sim PTX:   texel size = 8
+GPGPU-Sim PTX:   texture cache linesize = 128
+GPGPU-Sim PTX:   Tx = 8; Ty = 2, Tx_numbits = 3, Ty_numbits = 1
+GPGPU-Sim PTX:   Texel size = 8 bytes; texel_size_numbits = 3
+GPGPU-Sim PTX:   Binding texture to array starting at devPtr32 = 0xc0000000
+GPGPU-Sim PTX:   Texel size = 8 bytes
+GPGPU-Sim PTX: devPtr = 0xffffffffc0000000
+GPGPU-Sim PTX: in cudaBindTexture: sizeof(struct textureReference) = 124
+GPGPU-Sim PTX:   size = 4294967295
+GPGPU-Sim PTX:   texref = 0x60d260, array = 0x111c6550
+GPGPU-Sim PTX:   devPtr32 = c0211300
+GPGPU-Sim PTX:   Name corresponding to textureReference: g_graph_edge_ref
+GPGPU-Sim PTX:   ChannelFormatDesc: x=32, y=32, z=0, w=0
+GPGPU-Sim PTX:   Texture Normalized? = 0
+GPGPU-Sim PTX:   texel size = 8
+GPGPU-Sim PTX:   texture cache linesize = 128
+GPGPU-Sim PTX:   Tx = 8; Ty = 2, Tx_numbits = 3, Ty_numbits = 1
+GPGPU-Sim PTX:   Texel size = 8 bytes; texel_size_numbits = 3
+GPGPU-Sim PTX:   Binding texture to array starting at devPtr32 = 0xc0211300
+GPGPU-Sim PTX:   Texel size = 8 bytes
+GPGPU-Sim PTX: devPtr = 0xffffffffc0211300
+Starting GPU kernel
+GPGPU-Sim: synchronize waiting for inactive GPU simulation
+GPGPU-Sim API: Stream Manager State
+GPGPU-Sim: detected inactive GPU simulation thread
+event update
+grid size 1
+GPGPU-Sim: synchronize waiting for inactive GPU simulation
+GPGPU-Sim API: Stream Manager State
+GPGPU-Sim: detected inactive GPU simulation thread
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a128..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a120..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a118..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a110..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a108..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a100..
+GPGPU-Sim PTX: Setting up arguments for 4 bytes starting at 0x7ffc1a32a1e0..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a1e8..
+GPGPU-Sim PTX: Setting up arguments for 4 bytes starting at 0x7ffc1a32a1f0..
+GPGPU-Sim PTX: Setting up arguments for 4 bytes starting at 0x7ffc1a32a1f8..
+GPGPU-Sim PTX: Setting up arguments for 8 bytes starting at 0x7ffc1a32a200..
+
+GPGPU-Sim PTX: cudaLaunch for 0x0x403396 (mode=performance simulation) on stream 0
+GPGPU-Sim PTX: finding reconvergence points for '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'...
+GPGPU-Sim PTX: Finding dominators for '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'...
+GPGPU-Sim PTX: Finding immediate dominators for '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'...
+GPGPU-Sim PTX: Finding postdominators for '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'...
+GPGPU-Sim PTX: Finding immediate postdominators for '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'...
+GPGPU-Sim PTX: pre-decoding instructions for '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'...
+GPGPU-Sim PTX: reconvergence points for _Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_...
+GPGPU-Sim PTX:  1 (potential) branch divergence @  PC=0x3ba8 (bfs.1.sm_70.ptx:2915) @%p3 bra BB5_2;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3bc0 (bfs.1.sm_70.ptx:2921) cvta.to.global.u64 %rd14, %rd8;
+GPGPU-Sim PTX:  2 (potential) branch divergence @  PC=0x3ce0 (bfs.1.sm_70.ptx:2957) bra.uni BB5_3;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3d28 (bfs.1.sm_70.ptx:2976) setp.gt.u32%p5, %r1, 7;
+GPGPU-Sim PTX:  3 (potential) branch divergence @  PC=0x3d30 (bfs.1.sm_70.ptx:2977) @%p5 bra BB5_5;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3d58 (bfs.1.sm_70.ptx:2987) bar.sync 0;
+GPGPU-Sim PTX:  4 (potential) branch divergence @  PC=0x3d68 (bfs.1.sm_70.ptx:2989) @%p6 bra BB5_53;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4380 (bfs.1.sm_70.ptx:3262) setp.eq.s32%p1, %r1, 0;
+GPGPU-Sim PTX:  5 (potential) branch divergence @  PC=0x3d80 (bfs.1.sm_70.ptx:2993) @%p7 bra BB5_8;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3da8 (bfs.1.sm_70.ptx:3004) mul.wide.s32 %rd20, %r208, 4;
+GPGPU-Sim PTX:  6 (potential) branch divergence @  PC=0x3d88 (bfs.1.sm_70.ptx:2994) bra.uni BB5_7;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3da0 (bfs.1.sm_70.ptx:3001) ld.shared.u32 %r208, [%r8];
+GPGPU-Sim PTX:  7 (potential) branch divergence @  PC=0x3d98 (bfs.1.sm_70.ptx:2998) bra.uni BB5_9;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3da8 (bfs.1.sm_70.ptx:3004) mul.wide.s32 %rd20, %r208, 4;
+GPGPU-Sim PTX:  8 (potential) branch divergence @  PC=0x3df0 (bfs.1.sm_70.ptx:3013) @%p8 bra BB5_53;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4380 (bfs.1.sm_70.ptx:3262) setp.eq.s32%p1, %r1, 0;
+GPGPU-Sim PTX:  9 (potential) branch divergence @  PC=0x3e20 (bfs.1.sm_70.ptx:3020) @%p9 bra BB5_31;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4080 (bfs.1.sm_70.ptx:3130) setp.lt.u32%p21, %r22, 4;
+GPGPU-Sim PTX: 10 (potential) branch divergence @  PC=0x3e30 (bfs.1.sm_70.ptx:3023) @%p10 bra BB5_25;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3fc8 (bfs.1.sm_70.ptx:3097) tex.1d.v4.s32.s32{%r31, %r106, %r107, %r108}, [g_graph_edge_ref, {%r212}];
+GPGPU-Sim PTX: 11 (potential) branch divergence @  PC=0x3e40 (bfs.1.sm_70.ptx:3026) @%p11 bra BB5_13;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3f10 (bfs.1.sm_70.ptx:3064) tex.1d.v4.s32.s32{%r27, %r95, %r96, %r97}, [g_graph_edge_ref, {%r21}];
+GPGPU-Sim PTX: 12 (potential) branch divergence @  PC=0x3e48 (bfs.1.sm_70.ptx:3027) bra.uni BB5_14;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3e60 (bfs.1.sm_70.ptx:3034) tex.1d.v4.s32.s32{%r24, %r84, %r85, %r86}, [g_graph_edge_ref, {%r212}];
+GPGPU-Sim PTX: 13 (potential) branch divergence @  PC=0x3e58 (bfs.1.sm_70.ptx:3031) bra.uni BB5_19;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3f10 (bfs.1.sm_70.ptx:3064) tex.1d.v4.s32.s32{%r27, %r95, %r96, %r97}, [g_graph_edge_ref, {%r21}];
+GPGPU-Sim PTX: 14 (potential) branch divergence @  PC=0x3e90 (bfs.1.sm_70.ptx:3040) @%p12 bra BB5_19;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3f10 (bfs.1.sm_70.ptx:3064) tex.1d.v4.s32.s32{%r27, %r95, %r96, %r97}, [g_graph_edge_ref, {%r21}];
+GPGPU-Sim PTX: 15 (potential) branch divergence @  PC=0x3eb0 (bfs.1.sm_70.ptx:3045) @%p13 bra BB5_19;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3f10 (bfs.1.sm_70.ptx:3064) tex.1d.v4.s32.s32{%r27, %r95, %r96, %r97}, [g_graph_edge_ref, {%r21}];
+GPGPU-Sim PTX: 16 (potential) branch divergence @  PC=0x3ec8 (bfs.1.sm_70.ptx:3049) @%p14 bra BB5_18;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3f10 (bfs.1.sm_70.ptx:3064) tex.1d.v4.s32.s32{%r27, %r95, %r96, %r97}, [g_graph_edge_ref, {%r21}];
+GPGPU-Sim PTX: 17 (potential) branch divergence @  PC=0x3ed0 (bfs.1.sm_70.ptx:3050) bra.uni BB5_17;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3ef0 (bfs.1.sm_70.ptx:3058) mad.lo.s32 %r91, %r5, 1600, %r61;
+GPGPU-Sim PTX: 18 (potential) branch divergence @  PC=0x3ee8 (bfs.1.sm_70.ptx:3055) bra.uni BB5_19;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3f10 (bfs.1.sm_70.ptx:3064) tex.1d.v4.s32.s32{%r27, %r95, %r96, %r97}, [g_graph_edge_ref, {%r21}];
+GPGPU-Sim PTX: 19 (potential) branch divergence @  PC=0x3f40 (bfs.1.sm_70.ptx:3070) @%p15 bra BB5_24;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3fc0 (bfs.1.sm_70.ptx:3094) add.s32 %r212, %r21, 1;
+GPGPU-Sim PTX: 20 (potential) branch divergence @  PC=0x3f60 (bfs.1.sm_70.ptx:3075) @%p16 bra BB5_24;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3fc0 (bfs.1.sm_70.ptx:3094) add.s32 %r212, %r21, 1;
+GPGPU-Sim PTX: 21 (potential) branch divergence @  PC=0x3f78 (bfs.1.sm_70.ptx:3079) @%p17 bra BB5_23;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3fc0 (bfs.1.sm_70.ptx:3094) add.s32 %r212, %r21, 1;
+GPGPU-Sim PTX: 22 (potential) branch divergence @  PC=0x3f80 (bfs.1.sm_70.ptx:3080) bra.uni BB5_22;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3fa0 (bfs.1.sm_70.ptx:3088) mad.lo.s32 %r102, %r5, 1600, %r61;
+GPGPU-Sim PTX: 23 (potential) branch divergence @  PC=0x3f98 (bfs.1.sm_70.ptx:3085) bra.uni BB5_24;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3fc0 (bfs.1.sm_70.ptx:3094) add.s32 %r212, %r21, 1;
+GPGPU-Sim PTX: 24 (potential) branch divergence @  PC=0x3ff8 (bfs.1.sm_70.ptx:3103) @%p18 bra BB5_30;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4078 (bfs.1.sm_70.ptx:3127) add.s32 %r212, %r212, 1;
+GPGPU-Sim PTX: 25 (potential) branch divergence @  PC=0x4018 (bfs.1.sm_70.ptx:3108) @%p19 bra BB5_30;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4078 (bfs.1.sm_70.ptx:3127) add.s32 %r212, %r212, 1;
+GPGPU-Sim PTX: 26 (potential) branch divergence @  PC=0x4030 (bfs.1.sm_70.ptx:3112) @%p20 bra BB5_29;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4078 (bfs.1.sm_70.ptx:3127) add.s32 %r212, %r212, 1;
+GPGPU-Sim PTX: 27 (potential) branch divergence @  PC=0x4038 (bfs.1.sm_70.ptx:3113) bra.uni BB5_28;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4058 (bfs.1.sm_70.ptx:3121) mad.lo.s32 %r113, %r5, 1600, %r61;
+GPGPU-Sim PTX: 28 (potential) branch divergence @  PC=0x4050 (bfs.1.sm_70.ptx:3118) bra.uni BB5_30;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4078 (bfs.1.sm_70.ptx:3127) add.s32 %r212, %r212, 1;
+GPGPU-Sim PTX: 29 (potential) branch divergence @  PC=0x4088 (bfs.1.sm_70.ptx:3131) @%p21 bra BB5_53;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4380 (bfs.1.sm_70.ptx:3262) setp.eq.s32%p1, %r1, 0;
+GPGPU-Sim PTX: 30 (potential) branch divergence @  PC=0x40c0 (bfs.1.sm_70.ptx:3140) @%p22 bra BB5_37;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4140 (bfs.1.sm_70.ptx:3164) add.s32 %r38, %r212, 1;
+GPGPU-Sim PTX: 31 (potential) branch divergence @  PC=0x40e0 (bfs.1.sm_70.ptx:3145) @%p23 bra BB5_37;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4140 (bfs.1.sm_70.ptx:3164) add.s32 %r38, %r212, 1;
+GPGPU-Sim PTX: 32 (potential) branch divergence @  PC=0x40f8 (bfs.1.sm_70.ptx:3149) @%p24 bra BB5_36;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4140 (bfs.1.sm_70.ptx:3164) add.s32 %r38, %r212, 1;
+GPGPU-Sim PTX: 33 (potential) branch divergence @  PC=0x4100 (bfs.1.sm_70.ptx:3150) bra.uni BB5_35;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4120 (bfs.1.sm_70.ptx:3158) mad.lo.s32 %r124, %r5, 1600, %r61;
+GPGPU-Sim PTX: 34 (potential) branch divergence @  PC=0x4118 (bfs.1.sm_70.ptx:3155) bra.uni BB5_37;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4140 (bfs.1.sm_70.ptx:3164) add.s32 %r38, %r212, 1;
+GPGPU-Sim PTX: 35 (potential) branch divergence @  PC=0x4178 (bfs.1.sm_70.ptx:3171) @%p25 bra BB5_42;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x41f8 (bfs.1.sm_70.ptx:3195) add.s32 %r41, %r38, 1;
+GPGPU-Sim PTX: 36 (potential) branch divergence @  PC=0x4198 (bfs.1.sm_70.ptx:3176) @%p26 bra BB5_42;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x41f8 (bfs.1.sm_70.ptx:3195) add.s32 %r41, %r38, 1;
+GPGPU-Sim PTX: 37 (potential) branch divergence @  PC=0x41b0 (bfs.1.sm_70.ptx:3180) @%p27 bra BB5_41;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x41f8 (bfs.1.sm_70.ptx:3195) add.s32 %r41, %r38, 1;
+GPGPU-Sim PTX: 38 (potential) branch divergence @  PC=0x41b8 (bfs.1.sm_70.ptx:3181) bra.uni BB5_40;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x41d8 (bfs.1.sm_70.ptx:3189) mad.lo.s32 %r135, %r5, 1600, %r61;
+GPGPU-Sim PTX: 39 (potential) branch divergence @  PC=0x41d0 (bfs.1.sm_70.ptx:3186) bra.uni BB5_42;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x41f8 (bfs.1.sm_70.ptx:3195) add.s32 %r41, %r38, 1;
+GPGPU-Sim PTX: 40 (potential) branch divergence @  PC=0x4230 (bfs.1.sm_70.ptx:3202) @%p28 bra BB5_47;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x42b0 (bfs.1.sm_70.ptx:3226) add.s32 %r44, %r41, 1;
+GPGPU-Sim PTX: 41 (potential) branch divergence @  PC=0x4250 (bfs.1.sm_70.ptx:3207) @%p29 bra BB5_47;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x42b0 (bfs.1.sm_70.ptx:3226) add.s32 %r44, %r41, 1;
+GPGPU-Sim PTX: 42 (potential) branch divergence @  PC=0x4268 (bfs.1.sm_70.ptx:3211) @%p30 bra BB5_46;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x42b0 (bfs.1.sm_70.ptx:3226) add.s32 %r44, %r41, 1;
+GPGPU-Sim PTX: 43 (potential) branch divergence @  PC=0x4270 (bfs.1.sm_70.ptx:3212) bra.uni BB5_45;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4290 (bfs.1.sm_70.ptx:3220) mad.lo.s32 %r146, %r5, 1600, %r61;
+GPGPU-Sim PTX: 44 (potential) branch divergence @  PC=0x4288 (bfs.1.sm_70.ptx:3217) bra.uni BB5_47;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x42b0 (bfs.1.sm_70.ptx:3226) add.s32 %r44, %r41, 1;
+GPGPU-Sim PTX: 45 (potential) branch divergence @  PC=0x42e8 (bfs.1.sm_70.ptx:3233) @%p31 bra BB5_52;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4368 (bfs.1.sm_70.ptx:3257) add.s32 %r212, %r44, 1;
+GPGPU-Sim PTX: 46 (potential) branch divergence @  PC=0x4308 (bfs.1.sm_70.ptx:3238) @%p32 bra BB5_52;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4368 (bfs.1.sm_70.ptx:3257) add.s32 %r212, %r44, 1;
+GPGPU-Sim PTX: 47 (potential) branch divergence @  PC=0x4320 (bfs.1.sm_70.ptx:3242) @%p33 bra BB5_51;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4368 (bfs.1.sm_70.ptx:3257) add.s32 %r212, %r44, 1;
+GPGPU-Sim PTX: 48 (potential) branch divergence @  PC=0x4328 (bfs.1.sm_70.ptx:3243) bra.uni BB5_50;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4348 (bfs.1.sm_70.ptx:3251) mad.lo.s32 %r157, %r5, 1600, %r61;
+GPGPU-Sim PTX: 49 (potential) branch divergence @  PC=0x4340 (bfs.1.sm_70.ptx:3248) bra.uni BB5_52;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4368 (bfs.1.sm_70.ptx:3257) add.s32 %r212, %r44, 1;
+GPGPU-Sim PTX: 50 (potential) branch divergence @  PC=0x4378 (bfs.1.sm_70.ptx:3259) @%p34 bra BB5_32;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4380 (bfs.1.sm_70.ptx:3262) setp.eq.s32%p1, %r1, 0;
+GPGPU-Sim PTX: 51 (potential) branch divergence @  PC=0x4390 (bfs.1.sm_70.ptx:3264) @!%p1 bra BB5_55;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4528 (bfs.1.sm_70.ptx:3333) bar.sync 0;
+GPGPU-Sim PTX: 52 (potential) branch divergence @  PC=0x4398 (bfs.1.sm_70.ptx:3265) bra.uni BB5_54;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x43a0 (bfs.1.sm_70.ptx:3268) mov.u32 %r168, 0;
+GPGPU-Sim PTX: 53 (potential) branch divergence @  PC=0x4540 (bfs.1.sm_70.ptx:3336) @%p35 bra BB5_59;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x46f0 (bfs.1.sm_70.ptx:3413) ret;
+GPGPU-Sim PTX: 54 (potential) branch divergence @  PC=0x4558 (bfs.1.sm_70.ptx:3340) @%p36 bra BB5_60;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x46f0 (bfs.1.sm_70.ptx:3413) ret;
+GPGPU-Sim PTX: 55 (potential) branch divergence @  PC=0x4560 (bfs.1.sm_70.ptx:3341) bra.uni BB5_57;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4670 (bfs.1.sm_70.ptx:3391) setp.ge.s32%p37, %r213, %r49;
+GPGPU-Sim PTX: 56 (potential) branch divergence @  PC=0x4578 (bfs.1.sm_70.ptx:3346) @%p39 bra BB5_62;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4618 (bfs.1.sm_70.ptx:3372) setp.eq.s32%p2, %r10, %r11;
+GPGPU-Sim PTX: 57 (potential) branch divergence @  PC=0x4610 (bfs.1.sm_70.ptx:3369) @%p40 bra BB5_61;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4618 (bfs.1.sm_70.ptx:3372) setp.eq.s32%p2, %r10, %r11;
+GPGPU-Sim PTX: 58 (potential) branch divergence @  PC=0x4640 (bfs.1.sm_70.ptx:3379) @!%p2 bra BB5_64;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3ce8 (bfs.1.sm_70.ptx:2961) membar.gl;
+GPGPU-Sim PTX: 59 (potential) branch divergence @  PC=0x4648 (bfs.1.sm_70.ptx:3380) bra.uni BB5_63;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x4650 (bfs.1.sm_70.ptx:3383) mov.u64 %rd67, 0;
+GPGPU-Sim PTX: 60 (potential) branch divergence @  PC=0x4668 (bfs.1.sm_70.ptx:3388) bra.uni BB5_64;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x3ce8 (bfs.1.sm_70.ptx:2961) membar.gl;
+GPGPU-Sim PTX: 61 (potential) branch divergence @  PC=0x4678 (bfs.1.sm_70.ptx:3392) @%p37 bra BB5_59;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x46f0 (bfs.1.sm_70.ptx:3413) ret;
+GPGPU-Sim PTX: 62 (potential) branch divergence @  PC=0x46e8 (bfs.1.sm_70.ptx:3410) @%p38 bra BB5_58;
+GPGPU-Sim PTX:    immediate post dominator      @  PC=0x46f0 (bfs.1.sm_70.ptx:3413) ret;
+GPGPU-Sim PTX: ... end of reconvergence points for _Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_
+GPGPU-Sim PTX: ... done pre-decoding instructions for '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'.
+GPGPU-Sim PTX: pushing kernel '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_' to stream 0, gridDim= (1,1,1) blockDim = (512,1,1) 
+GPGPU-Sim uArch: Shader 0 bind to kernel 1 '_Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_'
+GPGPU-Sim uArch: CTA/core = 4, limited by: threads regs
+GPGPU-Sim: Reconfigure L1 cache to 112KB
+Destroy streams for kernel 1: size 0
+kernel_name = _Z22BFS_in_GPU_kernel_nvmxPiS_P4int2S1_S_S_iS_iiS_ 
+kernel_launch_uid = 1 
+gpu_sim_cycle = 1552181
+gpu_sim_insn = 7299312
+gpu_ipc =       4.7026
+gpu_tot_sim_cycle = 1552181
+gpu_tot_sim_insn = 7299312
+gpu_tot_ipc =       4.7026
+gpu_tot_issued_cta = 1
+gpu_occupancy = 24.9971% 
+gpu_tot_occupancy = 24.9971% 
+max_total_param_size = 0
+gpu_stall_dramfull = 0
+gpu_stall_icnt2sh    = 0
+partiton_level_parallism =       0.1851
+partiton_level_parallism_total  =       0.1851
+partiton_level_parallism_util =       1.0085
+partiton_level_parallism_util_total  =       1.0085
+L2_BW  =       7.7699 GB/Sec
+L2_BW_total  =       7.7699 GB/Sec
+gpu_total_sim_rate=5958
+############## bottleneck_stats #############
+cycles: core 1552181, icnt 1552181, l2 1552181, dram 1165507
+gpu_ipc	4.703
+gpu_tot_issued_cta = 1, average cycles = 1552181
+n_dram_writes	 0, n_dram_reads	 0
+n_GLOBAL_ACC_R	 0 
+n_LOCAL_ACC_R	 0 
+n_CONST_ACC_R	 0 
+n_TEXTURE_ACC_R	 21573 
+n_GLOBAL_ACC_W	 0 
+n_LOCAL_ACC_W	 0 
+n_L1_WRBK_ACC	 0 
+n_L2_WRBK_ACC	 0 
+n_L1_WR_ALLOC_R	 0 
+n_L2_WR_ALLOC_R	 0 
+
+n_sm	 80, n_schedulers	 4
+scheduler util	0.001	1
+L1D data util	0.003	1	0.255	0
+L1D tag util	0.001	1	0.070	0
+L2 data util	0.004	64	0.005	2
+L2 tag util	0.003	64	0.006	4
+n_l2_access	 332937
+icnt s2m util	0.000	0	0.000	4	flits per packet: -nan
+icnt m2s util	0.000	0	0.000	4	flits per packet: -nan
+sum=0
+n_mem	 32
+dram util	0.001	32	0.001	12
+
+latency_l1_hit:	58580, num_l1_reqs:	2929
+L1 hit latency:	20
+latency_l2_hit:	59017981, num_l2_reqs:	293900
+L2 hit latency:	200
+latency_dram:	11999657, num_dram_reqs:	39037
+DRAM latency:	307
+
+n_reg	65536, n_smem	98304, n_thread	2048, n_tb	32
+reg file	1.000
+smem size	0.608
+thread slot	1.000
+TB slot    	0.125
+L1I tag util	0.002	1	0.162	0
+
+n_mem_pipe	1, n_sp_pipe	4, n_sfu_pipe	4
+mem pipe util	0.001	1	0.071	0
+sp pipe util	0.000	0	0.000	0
+sfu pipe util	0.000	0	0.000	0
+ldst mem cycle	0.001	1	0.112	0
+
+smem port	0.001	1
+
+n_reg_bank	16
+reg port	0.063	16	0.093	0
+L1D tag util	0.001	1	0.070	0
+L1D fill util	0.000	1	0.022	0
+n_l1d_mshr	4096
+L1D mshr util	0.000	1
+n_l1d_missq	16
+L1D missq util	0.000	1
+L1D hit rate	0.027
+L1D miss rate	0.973
+L1D rsfail rate	0.000
+L2 tag util	0.003	64	0.006	4
+L2 fill util	0.000	64	0.000	0
+n_l2_mshr	192
+n_l2_missq	32
+L2 mshr util	0.000	64	0.000	0
+L2 missq util	0.000	64	0.000	0
+L2 hit rate	0.883
+L2 miss rate	0.117
+L2 rsfail rate	0.000
+
+dram activity	0.002	32	0.002	12
+
+load trans eff	0.133
+load trans sz	32.000
+load_useful_bytes 926772, load_transaction_bytes 6987936, icnt_m2s_bytes 0
+n_gmem_load_insns 23605, n_gmem_load_accesses 218373
+n_smem_access_insn 52347, n_smem_accesses 65061
+
+tmp_counter/12	0.003
+
+run 0.019, fetch 0.000, sync 0.762, control 0.002, data 0.212, struct 0.004
+############ end_bottleneck_stats #############
+
+========= Core cache stats =========
+L1I_cache:
+	L1I_total_cache_accesses = 0
+	L1I_total_cache_misses = 0
+	L1I_total_cache_pending_hits = 0
+	L1I_total_cache_reservation_fails = 0
+L1D_cache:
+	L1D_cache_core[0]: Access = 108114, Miss = 105185, Miss_rate = 0.973, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[1]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[2]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[3]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[4]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[5]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[6]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[7]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[8]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[9]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[10]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[11]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[12]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[13]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[14]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[15]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[16]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[17]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[18]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[19]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[20]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[21]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[22]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[23]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[24]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[25]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[26]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[27]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[28]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[29]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[30]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[31]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[32]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[33]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[34]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[35]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[36]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[37]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[38]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[39]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[40]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[41]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[42]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[43]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[44]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[45]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[46]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[47]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[48]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[49]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[50]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[51]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[52]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[53]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[54]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[55]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[56]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[57]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[58]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[59]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[60]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[61]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[62]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[63]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[64]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[65]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[66]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[67]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[68]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[69]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[70]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[71]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[72]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[73]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[74]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[75]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[76]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[77]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[78]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_cache_core[79]: Access = 0, Miss = 0, Miss_rate = -nan, Pending_hits = 0, Reservation_fails = 0
+	L1D_total_cache_accesses = 108114
+	L1D_total_cache_misses = 105185
+	L1D_total_cache_miss_rate = 0.9729
+	L1D_total_cache_pending_hits = 0
+	L1D_total_cache_reservation_fails = 0
+	L1D_cache_data_port_util = 0.002
+	L1D_cache_fill_port_util = 0.022
+L1C_cache:
+	L1C_total_cache_accesses = 0
+	L1C_total_cache_misses = 0
+	L1C_total_cache_pending_hits = 0
+	L1C_total_cache_reservation_fails = 0
+L1T_cache:
+	L1T_total_cache_accesses = 164307
+	L1T_total_cache_misses = 15202
+	L1T_total_cache_miss_rate = 0.0925
+	L1T_total_cache_pending_hits = 149105
+	L1T_total_cache_reservation_fails = 0
+
+Total_core_cache_stats:
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 2929
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 23904
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 17515
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 149105
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 15202
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 63766
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	Total_core_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_R][TOTAL_ACCESS] = 44348
+	Total_core_cache_stats_breakdown[TEXTURE_ACC_R][TOTAL_ACCESS] = 164307
+	Total_core_cache_stats_breakdown[GLOBAL_ACC_W][TOTAL_ACCESS] = 63766
+
+Total_core_cache_fail_stats:
+Shader 0 warp_id issue ditsribution:
+warp_id:
+0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+distro:
+64977, 49039, 46835, 43420, 38237, 36243, 34032, 27715, 23269, 17808, 13110, 11815, 10813, 10668, 9750, 8709, 
+gpgpu_n_tot_thrd_icount = 14286080
+gpgpu_n_tot_w_icount = 446440
+gpgpu_n_stall_shd_mem = 416470
+gpgpu_n_mem_read_local = 0
+gpgpu_n_mem_write_local = 0
+gpgpu_n_mem_read_global = 208363
+gpgpu_n_mem_write_global = 63766
+gpgpu_n_mem_texture = 15202
+gpgpu_n_mem_const = 0
+gpgpu_n_load_insn  = 231693
+gpgpu_n_store_insn = 105230
+gpgpu_n_shmem_insn = 959386
+gpgpu_n_sstarr_insn = 0
+gpgpu_n_tex_insn = 180745
+gpgpu_n_const_mem_insn = 0
+gpgpu_n_param_mem_insn = 4096
+gpgpu_n_shmem_bkconflict = 0
+gpgpu_n_cache_bkconflict = 0
+gpgpu_n_intrawarp_mshr_merge = 0
+gpgpu_n_cmem_portconflict = 0
+gpgpu_stall_shd_mem[c_mem][resource_stall] = 0
+gpgpu_stall_shd_mem[s_mem][bk_conf] = 12714
+gpgpu_stall_shd_mem[gl_mem][resource_stall] = 100498
+gpgpu_stall_shd_mem[gl_mem][coal_stall] = 152116
+gpgpu_stall_shd_mem[gl_mem][data_port_stall] = 0
+gpu_reg_bank_conflict_stalls = 0
+Warp Occupancy Distribution:
+Stall:144178	W0_Idle:2677531	W0_Scoreboard:2920571	W1:43312	W2:29394	W3:23471	W4:20364	W5:17738	W6:15287	W7:14233	W8:13943	W9:10446	W10:8820	W11:6575	W12:5309	W13:4429	W14:3476	W15:2906	W16:3168	W17:3074	W18:3190	W19:3232	W20:3237	W21:3298	W22:3033	W23:3151	W24:2810	W25:2961	W26:3006	W27:2584	W28:3663	W29:2665	W30:3880	W31:2074	W32:177711
+single_issue_nums: WS0:137296	WS1:113758	WS2:103727	WS3:91659	
+dual_issue_nums: WS0:0	WS1:0	WS2:0	WS3:0	
+traffic_breakdown_coretomem[GLOBAL_ACC_R] = 274704 {8:34338,}
+traffic_breakdown_coretomem[GLOBAL_ACC_W] = 2550640 {40:63766,}
+traffic_breakdown_coretomem[GLOBAL_ATOMIC] = 6961000 {40:174025,}
+traffic_breakdown_coretomem[TEXTURE_ACC_R] = 121616 {8:15202,}
+traffic_breakdown_memtocore[GLOBAL_ACC_R] = 1373520 {40:34338,}
+traffic_breakdown_memtocore[GLOBAL_ACC_W] = 510128 {8:63766,}
+traffic_breakdown_memtocore[GLOBAL_ATOMIC] = 6961000 {40:174025,}
+traffic_breakdown_memtocore[TEXTURE_ACC_R] = 2432320 {40:60808,}
+maxmflatency = 556 
+max_icnt2mem_latency = 25 
+maxmrqlatency = 84 
+max_icnt2sh_latency = 227 
+averagemflatency = 195 
+avg_icnt2mem_latency = 7 
+avg_mrq_latency = 7 
+avg_icnt2sh_latency = 10 
+mrq_lat_table:9857 	4603 	2564 	64 	1397 	3073 	15 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+dq_lat_table:0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_table:0 	0 	0 	0 	0 	0 	0 	305666 	27227 	44 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+icnt2mem_lat_table:0 	189089 	138 	0 	98104 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+icnt2sh_lat_table:0 	220129 	31590 	25748 	21590 	20103 	11986 	1791 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+mf_lat_pw_table:0 	0 	0 	0 	0 	0 	0 	2927 	166 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	0 	
+maximum concurrent accesses to same row:
+dram[0]:        16        16        52         0         8         0         0         0         0         0         0         0        64        64         0         0 
+dram[1]:        16        16         0         0         4         0         0         0         0         0         0         0         0        48         0         0 
+dram[2]:        20        16         0         0        12         0         0         0         0         0         0         0        52        56         0         0 
+dram[3]:        24        20         0        40        16         0         0         0         0         0         0         0         0        52        64         0 
+dram[4]:        20        24         0        44         4         0         0         8         0         0         0         0        52        64         0        64 
+dram[5]:        16        28        44        44        20         0         0         0         0         0         0         0        52         0        64         0 
+dram[6]:        16        24         0        40        16         0         0         0         0         0         0         0        52        64         0        64 
+dram[7]:        28        24        40        40        16         8         0         0         0         0         0         0        48        64         0        64 
+dram[8]:        20        16         0        40         4         0         0         0         0         0         0         4         0        56         0        64 
+dram[9]:        20        24        44        40         8         8         0         0         0         0         0         0         0        52         0         0 
+dram[10]:        20        24        40        40         0         4         0         4         0         0         0         0        52        64        64         0 
+dram[11]:        16        24        40        36         0         4         4         0         0         0         0         0        52         0        64         0 
+dram[12]:        24        20        32        36        20         8         0         8         0         0         0         0        52         0        64         0 
+dram[13]:        16        24        40        32        16        28         0         8         0         0         0         0         0         0         0         0 
+dram[14]:        28        24        32        36        16         0         0         4         0         0         0         0         0         0        64         0 
+dram[15]:        24        24        36        36        16         4         0         0         0         0         0         0        48        56        64         0 
+dram[16]:        32        24        32         0         8         0         0         4         0         0         0         0         0        48        64         0 
+dram[17]:        24        16        32         0         4        32         0         0         0         0         0         0        56        52        64        64 
+dram[18]:        20        20        32        32        24         8         0         8         0         0         0         0        56        56         0         0 
+dram[19]:        16        20         0         0        12         0         0         0         0         0         0         0        56         0         0         0 
+dram[20]:        16        16        32         0         4        28         0         0         0         0         0         0        60        48        64         0 
+dram[21]:        24        12         0         0         0        12         0         0         0         0         0         1        48        56        64        64 
+dram[22]:        24        12         0         0         0        32         0         0         0         0         0         0        40        56        64        64 
+dram[23]:        20        20         0         0         0         0         0         0         0         0         0         0         0        64         0         0 
+dram[24]:        16        20         0        36         0        24         0         0         0         0         0         0        48        64         0        64 
+dram[25]:        12        20         0         0         0        24         0         0         0         0         0         4        60        56         0        64 
+dram[26]:        24        28        36         0         0         0         0         0         0         0         0         0        56        56         0         0 
+dram[27]:        32        24         0        36         0        16         0         0         0         0         0         0        40        48        64         0 
+dram[28]:        24        20        40         0         0        16         0         0         0         0         0         0        56        64         0        64 
+dram[29]:        24        16        40         0         0         0         0         0         0         0         0         0        52        56        64        64 
+dram[30]:        24        16        32         0         0        16         0         0         0         0         0         0         0        64         0        64 
+dram[31]:        24        16         0         0         0        16         0         0         0         0         0         0        60        56         0        64 
+maximum service time to same row:
+dram[0]:    698319    387156   1502523    120705   1249076   1311502   1390697   1375186   1518083   1460038         0   1526601    798553    795707    468759    463055 
+dram[1]:    670236    729377     70536     85629   1345703   1308632         0   1390865   1535858         0         0         0    592504    923515    511815    366546 
+dram[2]:    546186    942937     81418     86496   1352558   1268027   1398235   1414208   1545283         0         0   1367528    783633    752979    530870    505661 
+dram[3]:    735709    908056    194121   1405695   1316723   1261738         0   1390697   1439810         0   1235199   1222410    604535    892926    931509    450620 
+dram[4]:    660125    830001    175944   1430042   1336823   1330420   1474348   1375155   1431618         0         0   1492202    896937    835646    487068   1041552 
+dram[5]:    704333    803194   1273421   1470231   1329713   1275413         0   1508116   1509344         0         0   1517087    663288    561984    908848    353660 
+dram[6]:    679085    635281    194049   1445387   1362510   1294758   1526051         0   1509280   1548526   1354982   1499790    766426    721961    444200   1092929 
+dram[7]:    710116    744178   1295354   1446203   1362466   1315186   1500300   1456939   1504041   1549393   1392318   1491430    788947    832914    444221   1101778 
+dram[8]:    690926    849285    132338   1360776   1329894   1345425   1433686   1474762   1448633         0         0   1359251    524934    935084    463112   1076829 
+dram[9]:    723862    811777   1366594   1349099   1249152   1330416   1474348   1516770   1449914         0   1261239   1473858    580193    901849    480789    353564 
+dram[10]:    678935    526428   1327341   1350512   1294890   1329895   1473911   1393458   1431538         0         0   1492200    936172    746045    954352    353688 
+dram[11]:    729707    673034   1349056   1326870   1337360   1374528   1466076   1491148   1407347   1503864         0   1482778    756478    335175    927333    474824 
+dram[12]:    912667    681027   1207675   1256753   1288006   1367173         0   1508040   1469550   1323893   1282069   1457396   1024206    518117    896169    499271 
+dram[13]:    789993    691949   1316286   1331893   1262649   1329629   1508042   1354958   1475380   1485227   1171358   1448044    426622    366461    555972    450519 
+dram[14]:   1048713    666948   1128684   1317561   1309911   1370144         0   1368154   1469904   1512230         0   1406814    641048    690153    967981    426526 
+dram[15]:    834553    741946   1266251   1306383   1322925   1367172         0   1439642   1483863   1539820         0   1382914    974863    753623    947448    426499 
+dram[16]:    919791    735820   1367018    144770   1256045   1352996         0   1430591   1466214   1518127         0   1508176    396174    928465   1130688    390707 
+dram[17]:    888172    868621   1151618    132362   1281029   1267445         0   1508870   1440236         0         0   1491229    925788    785985   1087538   1040645 
+dram[18]:    888601    920103   1164096   1302248   1282049   1323138         0   1457193   1431866         0         0   1500248    986944   1057252    378340    390711 
+dram[19]:    894011    915617    224757     98180   1261328   1308607         0   1517898   1414934         0         0   1474080    989640    617063    360448    390812 
+dram[20]:    914258    697288   1156880    120701   1280885   1282181   1351839   1543782   1440859         0         0   1483677    887958    946155   1154821    450631 
+dram[21]:    844208    782533    258196    120701   1375804   1323058         0         0   1423637         0   1543598   1017213    773519    952860   1167606   1025452 
+dram[22]:    879705    841610    226651    127533   1371144   1323375         0         0   1417475         0   1517136   1358956    824541    700527   1141703   1071108 
+dram[23]:    847113    818721    265810    144662   1359723   1323135         0   1414557   1410134         0         0   1171277    537249    859281    378367    335227 
+dram[24]:    865679    638669    270399   1382371   1352542   1295477         0         0   1383780         0         0   1431108    828619    662496    347824   1118661 
+dram[25]:    884076    902207    276067    168032   1337377   1249285   1352112         0   1375880         0         0   1508116    879942    677333    323400    976723 
+dram[26]:    928505    943201   1196465    176908   1315555   1236384   1447445   1422279   1376784         0         0   1534622    918820    653191    305936    457078 
+dram[27]:    753109    912723    270270   1301969   1324153   1301734   1430615   1525823   1400158         0         0   1483087    763694    702250   1221506    468625 
+dram[28]:    710243    874690   1268671    161887   1308619   1230045         0         0         0   1518075         0   1439639    884429    857278    347724   1056421 
+dram[29]:    513128    913465   1422825     86492   1304323   1242815         0         0         0   1458544   1535593   1164980    775625    710638   1185397   1025423 
+dram[30]:    419143    861424   1201502     63343   1318502   1243958         0         0         0   1448545         0   1439092    562040    979304    474905   1019973 
+dram[31]:    405953    866265    138729     59445   1287826   1250857   1451134         0         0   1449713         0   1398990    776750    714297    360313   1077588 
+average row accesses per activate:
+dram[0]:  7.500000  8.000000 28.000000 40.000000 20.000000 36.000000  4.000000  4.000000 12.000000  4.000000      -nan  4.000000 34.000000 34.000000 64.000000 64.000000 
+dram[1]:  6.500000  9.600000 52.000000 40.000000 17.333334 32.000000      -nan  8.000000  8.000000      -nan      -nan      -nan 60.000000 16.000000 64.000000 64.000000 
+dram[2]: 12.000000  8.333333 48.000000 44.000000 17.333334 36.000000  4.000000  8.000000  8.000000      -nan      -nan  4.000000 28.000000 21.333334 64.000000 64.000000 
+dram[3]: 15.428572 10.000000 44.000000 22.000000 13.333333 36.000000      -nan  8.000000 12.000000      -nan  4.000000  8.000000 60.000000 14.400000 34.000000 64.000000 
+dram[4]:  8.615385  8.727273 44.000000 24.000000 16.000000 32.000000  4.000000  6.000000 20.000000      -nan      -nan  4.000000 21.333334 34.000000 64.000000 34.000000 
+dram[5]:  9.666667  8.333333 26.000000 24.000000  9.333333 32.000000      -nan  4.000000  8.000000      -nan      -nan  4.000000 30.000000 64.000000 34.000000 64.000000 
+dram[6]: 10.000000  6.857143 44.000000 24.000000  9.333333 32.000000  4.000000      -nan  8.000000  4.000000  4.000000  8.000000 22.666666 36.000000 64.000000 34.000000 
+dram[7]: 10.800000  8.363636 24.000000 24.000000  8.800000 20.000000  4.000000  4.000000  8.000000  4.000000  8.000000 16.000000 20.000000 34.000000 64.000000 34.000000 
+dram[8]:  8.307693  6.769231 44.000000 24.000000 10.000000 32.000000  4.000000  4.000000  8.000000      -nan      -nan  6.666667 56.000000 24.000000 64.000000 36.000000 
+dram[9]:  7.200000  6.285714 26.000000 24.000000  8.000000 13.333333  8.000000  8.000000  8.000000      -nan  4.000000 16.000000 56.000000 18.000000 64.000000 64.000000 
+dram[10]:  9.000000 10.500000 24.000000 24.000000 36.000000 20.000000  8.000000  6.000000  8.000000      -nan      -nan 16.000000 20.000000 34.000000 34.000000 64.000000 
+dram[11]:  8.000000  7.333333 22.000000 16.000000 36.000000 18.000000  4.000000  8.000000  8.000000  8.000000      -nan 12.000000 22.666666 56.000000 36.000000 64.000000 
+dram[12]:  8.571428  7.692307 14.666667 17.333334 14.666667 20.000000      -nan  6.000000  8.000000 16.000000  4.000000 16.000000 16.000000 64.000000 34.000000 64.000000 
+dram[13]:  7.250000 11.500000 22.000000 16.000000 14.666667 10.000000  4.000000  8.000000  8.000000  8.000000  8.000000  8.000000 60.000000 64.000000 64.000000 64.000000 
+dram[14]:  9.333333 14.285714 16.000000 16.000000 10.000000 32.000000      -nan  6.000000  8.000000  8.000000      -nan 12.000000 60.000000 64.000000 34.000000 64.000000 
+dram[15]:  8.285714 14.285714 16.000000 17.333334 12.000000 18.000000      -nan  8.000000  8.000000  4.000000      -nan 16.000000 20.000000 14.400000 34.000000 64.000000 
+dram[16]:  7.058824  8.727273 13.000000 36.000000 10.400000 32.000000      -nan  4.000000  8.000000  8.000000      -nan  8.000000 56.000000 16.000000 34.000000 64.000000 
+dram[17]: 11.555555  9.000000 13.000000 32.000000 13.333333 13.333333      -nan  4.000000  8.000000      -nan      -nan  4.000000 30.000000 22.666666 34.000000 36.000000 
+dram[18]: 10.400000  9.230769 16.000000 18.000000 12.000000 13.333333      -nan  6.000000  8.000000      -nan      -nan  8.000000 30.000000 30.000000 64.000000 64.000000 
+dram[19]:  8.923077  8.000000 40.000000 36.000000 12.000000 32.000000      -nan  4.000000  8.000000      -nan      -nan  4.000000 30.000000 60.000000 64.000000 64.000000 
+dram[20]:  6.823529  9.818182 14.666667 32.000000 20.000000 14.666667  4.000000  4.000000  8.000000      -nan      -nan  4.000000 34.000000 25.333334 36.000000 64.000000 
+dram[21]: 10.000000  7.250000 40.000000 32.000000 32.000000  8.000000      -nan      -nan  8.000000      -nan  4.000000  2.500000 21.333334 20.000000 36.000000 34.000000 
+dram[22]: 10.400000  7.058824 44.000000 32.000000 32.000000 18.000000      -nan      -nan  8.000000      -nan  4.000000 12.000000 20.000000 18.000000 34.000000 36.000000 
+dram[23]:  9.000000 10.909091 48.000000 40.000000 32.000000 32.000000      -nan  4.000000  8.000000      -nan      -nan  4.000000 60.000000 34.000000 64.000000 64.000000 
+dram[24]:  6.315790  8.615385 40.000000 20.000000 32.000000 14.666667      -nan      -nan  8.000000      -nan      -nan  8.000000 16.000000 38.000000 64.000000 36.000000 
+dram[25]:  6.666667  8.923077 40.000000 36.000000 32.000000  9.600000  8.000000      -nan  8.000000      -nan      -nan  4.000000 34.000000 20.000000 64.000000 38.000000 
+dram[26]:  9.142858 19.333334 14.666667 40.000000 36.000000 32.000000  8.000000  8.000000  8.000000      -nan      -nan  4.000000 17.000000 22.666666 64.000000 64.000000 
+dram[27]:  8.000000 10.400000 40.000000 16.000000 36.000000  8.800000  8.000000  8.000000 12.000000      -nan      -nan  8.000000 14.400000 22.666666 34.000000 64.000000 
+dram[28]:  8.285714  9.090909 22.000000 52.000000 32.000000  8.000000      -nan      -nan      -nan  4.000000      -nan  8.000000 22.666666 36.000000 64.000000 34.000000 
+dram[29]:  9.000000  7.000000 22.000000 52.000000 36.000000 36.000000      -nan      -nan      -nan 12.000000  4.000000 12.000000 22.666666 22.666666 34.000000 36.000000 
+dram[30]:  8.307693  9.454545 14.666667 44.000000 32.000000 14.666667      -nan      -nan      -nan  8.000000      -nan  8.000000 64.000000 36.000000 64.000000 36.000000 
+dram[31]: 10.400000  9.454545 40.000000 56.000000 40.000000 14.666667  4.000000      -nan      -nan  8.000000      -nan  8.000000 34.000000 32.000000 64.000000 38.000000 
+average row locality = 21573/1433 = 15.054431
+number of total memory accesses made:
+dram[0]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[5]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[6]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[7]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[8]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[9]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[10]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[11]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[12]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[13]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[14]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[15]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[16]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[17]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[18]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[19]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[20]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[21]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[22]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[23]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[24]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[25]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[26]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[27]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[28]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[29]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[30]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[31]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+total accesses: 0
+min_bank_accesses = 0!
+min_chip_accesses = 0!
+number of total read accesses:
+dram[0]:       120       104        56        40        60        36         4         4        12         4         0         4        68        68        64        64 
+dram[1]:       104        96        52        40        52        32         0         8         8         0         0         0        60        64        64        64 
+dram[2]:       108       100        48        44        52        36         4         8         8         0         0         4        56        64        64        64 
+dram[3]:       108       100        44        44        40        36         0         8        12         0         4         8        60        72        68        64 
+dram[4]:       112        96        44        48        32        32         4        12        20         0         0         4        64        68        64        68 
+dram[5]:       116       100        52        48        28        32         0         4         8         0         0         4        60        64        68        64 
+dram[6]:       120        96        44        48        28        32         4         0         8         4         4         8        68        72        64        68 
+dram[7]:       108        92        48        48        44        40         4         4         8         4         8        16        60        68        64        68 
+dram[8]:       108        88        44        48        40        32         4         4         8         0         0        20        56        72        64        72 
+dram[9]:       108        88        52        48        40        40         8         8         8         0         4        16        56        72        64        64 
+dram[10]:       108        84        48        48        36        40         8        12         8         0         0        16        60        68        68        64 
+dram[11]:       112        88        44        48        36        36        12         8         8         8         0        12        68        56        72        64 
+dram[12]:       120       100        44        52        44        40         0        12         8        16         4        16        64        64        68        64 
+dram[13]:       116        92        44        48        44        40         4        16         8         8         8         8        60        64        64        64 
+dram[14]:       112       100        48        48        40        32         0        12         8         8         0        12        60        64        68        64 
+dram[15]:       116       100        48        52        36        36         0         8         8         4         0        16        60        72        68        64 
+dram[16]:       120        96        52        36        52        32         0        12         8         8         0         8        56        64        68        64 
+dram[17]:       104       108        52        32        40        40         0         4         8         0         0         4        60        68        68        72 
+dram[18]:       104       120        48        36        36        40         0        12         8         0         0         8        60        60        64        64 
+dram[19]:       116       112        40        36        48        32         0         4         8         0         0         4        60        60        64        64 
+dram[20]:       116       108        44        32        40        44         4         4         8         0         0         4        68        76        72        64 
+dram[21]:       100       116        40        32        32        40         0         0         8         0         4         5        64        80        72        68 
+dram[22]:       104       120        44        32        32        36         0         0         8         0         4        12        60        72        68        72 
+dram[23]:       108       120        48        40        32        32         0         4         8         0         0         4        60        68        64        64 
+dram[24]:       120       112        40        40        32        44         0         0         8         0         0         8        64        76        64        72 
+dram[25]:       120       116        40        36        32        48         8         0         8         0         0         8        68        80        64        76 
+dram[26]:       128       116        44        40        36        32         8         8         8         0         0         4        68        68        64        64 
+dram[27]:       120       104        40        48        36        44         8         8        12         0         0         8        72        68        68        64 
+dram[28]:       116       100        44        52        32        40         0         0         0         4         0         8        68        72        64        68 
+dram[29]:       108       112        44        52        36        36         0         0         0        12         4        12        68        68        68        72 
+dram[30]:       108       104        44        44        32        44         0         0         0         8         0         8        64        72        64        72 
+dram[31]:       104       104        40        56        40        44         4         0         0         8         0         8        68        64        64        76 
+total dram reads = 21573
+min_bank_accesses = 0!
+chip skew: 716/644 = 1.11
+number of total write accesses:
+dram[0]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[1]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[2]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[3]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[4]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[5]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[6]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[7]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[8]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[9]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[10]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[11]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[12]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[13]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[14]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[15]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[16]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[17]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[18]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[19]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[20]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[21]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[22]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[23]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[24]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[25]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[26]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[27]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[28]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[29]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[30]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+dram[31]:         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0         0 
+total dram writes = 0
+min_bank_accesses = 0!
+min_chip_accesses = 0!
+average mf latency per bank:
+dram[0]:        613       619       848      1288       620      3140      3624      6114      3739     14363    none      108132      2808      2908       641       601
+dram[1]:       7824       633       910      1308       680      3502    none        2126      5630    none      none      none        3275      2983       590       650
+dram[2]:       8955       569      1121      1617       969      3049      3332      3818      5291    none      none      113957      3440      2840       552       728
+dram[3]:       7278       581      1190      1706       732      3238    none        5360      4619    none      114720     56338      3177      2391       548       626
+dram[4]:       5982       550      1049      1383      1380      2957      3436      2690      3097    none      none      115848      3203      1961       623       769
+dram[5]:       3458       602       995      1532      1230      3843    none        6325      6018    none      none      115715      3445      2099       578       588
+dram[6]:       1603       633       797      1536      1201      3558      7081    none        6366     14517    114683     57830      3270      1897       632       561
+dram[7]:       1160       716       651      1702      1392      1976      8754      3303      6113     15824     59177     27956      4291      1941       573       632
+dram[8]:        991       677       702      1645      1966      2263      6689      3744      7128    none      none       23332      4457      1653       558       710
+dram[9]:        664       713       670      1415      1943      1941      1832      2128      7302    none      115791     28529      4333      1843       555       625
+dram[10]:        600       625       623      1230      1308      1925      1894      2735      7784    none      none       28307      3956      2050       602       679
+dram[11]:        565       600       678      1183      1430      1889      1657      3889      7057      8881    none       38915      3491      2347       556       613
+dram[12]:        534       609       674      1304      1813      2856    none        4446      9358      4475    116532     29393      4259      1991       591       617
+dram[13]:        559       622       821      1598      1885      2924      3599      5104      8470      7613     60444     57350      4064      1864       548       617
+dram[14]:        522       631      1255      1642      1497      2732    none        1773      6075      8746    none       38132      3826      1452       548       674
+dram[15]:        536       595      1353      1426      1856      2936    none        2994      5347     16247    none       28637      3455      1222       547       656
+dram[16]:        525       702      1202      1768       778      3050    none        1588      6654      8141    none       57037      4324      1167       547       694
+dram[17]:        519       648      1462      2121       832      2965    none        3151      6597    none      none      113026      4088      1266       502       560
+dram[18]:        559       632      1559      1578       833      3017    none        1469      7644    none      none       57329      4212      1316       555       613
+dram[19]:        500       606      1777      1267       700      2795    none        4847      8387    none      none      112015      4322      1855       683       637
+dram[20]:        561       595      1669      1012       759      1864      3401      8023      9635    none      none      112474      3221      1583       607       597
+dram[21]:        591       617      1814       785       930      1988    none      none        7689    none      117524     92628      3718      1584       564       607
+dram[22]:        563       610      1693       945       872      2404    none      none       11128    none      118321     39156      3950      1698       652       576
+dram[23]:        562       610      1595       716      1127      3146    none       15898      9639    none      none      118833      3947      1213       541       598
+dram[24]:        568       617      1819       930      2436      2719    none      none        7291    none      none       60841      3211      1045       569       570
+dram[25]:        549       596      1908       763      2664      2286      2418    none        7537    none      none       62216      2963      1179       589       570
+dram[26]:        540       573      1506       973      2305      2936      3116      2148      7534    none      none      119376      3139      1308       639       688
+dram[27]:        545       618      1854       848      3106      2529      2662      2009      5471    none      none       60917      3343      1379       517       610
+dram[28]:        554       610      1785       858      3473      2193    none      none      none       17412    none       61947      3659      1423       564       619
+dram[29]:        568       568      1260       959      3013      1783    none      none      none        7239    109919     42608      3446      1582       661       611
+dram[30]:        564       586      1276      1216      3415      1054    none      none      none       13348    none       63133      4213      1586       615       645
+dram[31]:        511       626      1196      1077      2837       723      3260    none      none       12476    none       61216      3325      1581       719       615
+maximum mf latency per bank:
+dram[0]:        505       471       483       418       475       490       439       413       475       411       365       413       510       503       463       429
+dram[1]:        475       484       439       422       481       484       234       443       442       360       318       308       416       462       430       437
+dram[2]:        465       481       411       410       496       411       448       491       499       281       372       410       455       450       431       430
+dram[3]:        459       500       409       472       428       494       211       443       484       255       427       411       457       447       437       449
+dram[4]:        443       486       435       432       433       468       425       425       422       239       372       411       449       475       425       445
+dram[5]:        484       460       433       481       426       410       215       453       415       274       323       439       461       490       426       434
+dram[6]:        498       448       441       430       477       496       420       285       414       410       410       417       455       454       464       453
+dram[7]:        487       491       425       450       501       443       420       415       411       410       409       447       455       516       438       438
+dram[8]:        471       474       410       436       471       411       411       410       409       241       363       446       412       461       462       448
+dram[9]:        455       489       486       435       451       479       428       431       428       339       412       455       486       462       432       442
+dram[10]:        483       450       426       455       488       468       429       428       494       258       372       457       471       457       450       424
+dram[11]:        477       481       461       464       508       467       432       439       410       515       339       429       445       475       444       435
+dram[12]:        451       485       427       456       480       446       204       535       410       410       411       463       456       454       437       445
+dram[13]:        461       469       445       442       473       493       412       426       458       473       409       410       440       435       447       419
+dram[14]:        500       447       481       436       523       409       274       446       410       422       320       410       450       445       443       431
+dram[15]:        480       501       444       430       504       443       228       412       413       412       321       420       467       520       432       441
+dram[16]:        498       484       529       409       463       409       323       444       431       411       321       461       453       466       437       447
+dram[17]:        441       530       539       409       440       467       369       452       518       330       372       426       443       533       462       523
+dram[18]:        471       486       476       428       436       504       279       427       440       352       291       440       436       517       426       431
+dram[19]:        447       466       458       410       447       434       234       415       411       354       337       463       447       468       448       450
+dram[20]:        470       466       457       417       466       493       442       428       410       372       294       410       464       461       428       443
+dram[21]:        435       474       471       419       504       467       193       360       442       338       410       470       433       498       448       448
+dram[22]:        480       483       463       410       485       451       299       360       445       326       467       445       449       478       443       451
+dram[23]:        459       469       410       410       513       419       199       419       420       316       350       410       447       456       468       422
+dram[24]:        510       467       410       488       427       466       265       350       412       361       372       423       452       456       473       493
+dram[25]:        505       464       440       506       485       445       420       350       412       359       323       460       462       534       446       435
+dram[26]:        499       464       449       526       411       469       456       418       459       366       316       412       475       449       448       436
+dram[27]:        533       483       411       434       438       469       470       427       409       364       320       440       513       455       437       466
+dram[28]:        456       473       442       487       446       457       265       203       241       412       361       411       446       439       450       439
+dram[29]:        460       502       428       504       409       475       247       331       234       493       409       425       449       467       440       442
+dram[30]:        445       450       453       410       417       437       196       231       259       410       288       434       439       439       456       459
+dram[31]:        454       450       409       475       450       482       414       204       306       412       297       411       516       451       434       556
+Memory Partition 0: 
+Cache L2_bank_000:
+
+Cache L2_bank_001:
+
+In Dram Latency Queue (total = 0): 
+DRAM[0]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164720 n_act=47 n_pre=32 n_ref_event=0 n_req=708 n_rd=708 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0006075
+n_activity=4587 dram_eff=0.1543
+bk0: 120a 1165045i bk1: 104a 1165127i bk2: 56a 1165429i bk3: 40a 1165466i bk4: 60a 1165405i bk5: 36a 1165468i bk6: 4a 1165492i bk7: 4a 1165492i bk8: 12a 1165486i bk9: 4a 1165492i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 68a 1165424i bk13: 68a 1165425i bk14: 64a 1165449i bk15: 64a 1165448i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.933616
+Row_Buffer_Locality_read = 0.933616
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.027909
+Bank_Level_Parallism_Col = 1.019310
+Bank_Level_Parallism_Ready = 1.007062
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.019310 
+
+BW Util details:
+bwutil = 0.000607 
+total_CMD = 1165507 
+util_bw = 708 
+Wasted_Col = 1046 
+Wasted_Row = 360 
+Idle = 1163393 
+
+BW Util Bottlenecks: 
+RCDc_limit = 559 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 506 
+rwq = 0 
+CCDLc_limit_alone = 506 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164720 
+Read = 708 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 47 
+n_pre = 32 
+n_ref = 0 
+n_req = 708 
+total_req = 708 
+
+Dual Bus Interface Util: 
+issued_total_row = 79 
+issued_total_col = 708 
+Row_Bus_Util =  0.000068 
+CoL_Bus_Util = 0.000607 
+Either_Row_CoL_Bus_Util = 0.000675 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002801 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=6 avg=0.00280136
+Memory Partition 1: 
+Cache L2_bank_002:
+
+Cache L2_bank_003:
+
+In Dram Latency Queue (total = 0): 
+DRAM[1]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164793 n_act=41 n_pre=29 n_ref_event=0 n_req=644 n_rd=644 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005525
+n_activity=4068 dram_eff=0.1583
+bk0: 104a 1165048i bk1: 96a 1165206i bk2: 52a 1165459i bk3: 40a 1165467i bk4: 52a 1165410i bk5: 32a 1165472i bk6: 0a 1165507i bk7: 8a 1165490i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 0a 1165507i bk12: 60a 1165453i bk13: 64a 1165375i bk14: 64a 1165450i bk15: 64a 1165448i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.936335
+Row_Buffer_Locality_read = 0.936335
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.015536
+Bank_Level_Parallism_Col = 1.012962
+Bank_Level_Parallism_Ready = 1.001553
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.012962 
+
+BW Util details:
+bwutil = 0.000553 
+total_CMD = 1165507 
+util_bw = 644 
+Wasted_Col = 939 
+Wasted_Row = 348 
+Idle = 1163576 
+
+BW Util Bottlenecks: 
+RCDc_limit = 489 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 459 
+rwq = 0 
+CCDLc_limit_alone = 459 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164793 
+Read = 644 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 41 
+n_pre = 29 
+n_ref = 0 
+n_req = 644 
+total_req = 644 
+
+Dual Bus Interface Util: 
+issued_total_row = 70 
+issued_total_col = 644 
+Row_Bus_Util =  0.000060 
+CoL_Bus_Util = 0.000553 
+Either_Row_CoL_Bus_Util = 0.000613 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002863 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=10 avg=0.00286313
+Memory Partition 2: 
+Cache L2_bank_004:
+
+Cache L2_bank_005:
+
+In Dram Latency Queue (total = 0): 
+DRAM[2]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164785 n_act=38 n_pre=24 n_ref_event=0 n_req=660 n_rd=660 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005663
+n_activity=4167 dram_eff=0.1584
+bk0: 108a 1165223i bk1: 100a 1165161i bk2: 48a 1165460i bk3: 44a 1165465i bk4: 52a 1165410i bk5: 36a 1165470i bk6: 4a 1165492i bk7: 8a 1165489i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 56a 1165432i bk13: 64a 1165400i bk14: 64a 1165451i bk15: 64a 1165448i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.942424
+Row_Buffer_Locality_read = 0.942424
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.000000
+Bank_Level_Parallism_Col = 1.000000
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000566 
+total_CMD = 1165507 
+util_bw = 660 
+Wasted_Col = 928 
+Wasted_Row = 288 
+Idle = 1163631 
+
+BW Util Bottlenecks: 
+RCDc_limit = 456 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 472 
+rwq = 0 
+CCDLc_limit_alone = 472 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164785 
+Read = 660 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 38 
+n_pre = 24 
+n_ref = 0 
+n_req = 660 
+total_req = 660 
+
+Dual Bus Interface Util: 
+issued_total_row = 62 
+issued_total_col = 660 
+Row_Bus_Util =  0.000053 
+CoL_Bus_Util = 0.000566 
+Either_Row_CoL_Bus_Util = 0.000619 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002247 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=3 avg=0.00224709
+Memory Partition 3: 
+Cache L2_bank_006:
+
+Cache L2_bank_007:
+
+In Dram Latency Queue (total = 0): 
+DRAM[3]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164783 n_act=37 n_pre=23 n_ref_event=0 n_req=668 n_rd=668 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005731
+n_activity=4121 dram_eff=0.1621
+bk0: 108a 1165276i bk1: 100a 1165205i bk2: 44a 1165463i bk3: 44a 1165439i bk4: 40a 1165418i bk5: 36a 1165470i bk6: 0a 1165507i bk7: 8a 1165489i bk8: 12a 1165487i bk9: 0a 1165507i bk10: 4a 1165492i bk11: 8a 1165489i bk12: 60a 1165454i bk13: 72a 1165346i bk14: 68a 1165421i bk15: 64a 1165452i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.944611
+Row_Buffer_Locality_read = 0.944611
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.012486
+Bank_Level_Parallism_Col = 1.000000
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000573 
+total_CMD = 1165507 
+util_bw = 668 
+Wasted_Col = 919 
+Wasted_Row = 255 
+Idle = 1163665 
+
+BW Util Bottlenecks: 
+RCDc_limit = 442 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 477 
+rwq = 0 
+CCDLc_limit_alone = 477 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164783 
+Read = 668 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 37 
+n_pre = 23 
+n_ref = 0 
+n_req = 668 
+total_req = 668 
+
+Dual Bus Interface Util: 
+issued_total_row = 60 
+issued_total_col = 668 
+Row_Bus_Util =  0.000051 
+CoL_Bus_Util = 0.000573 
+Either_Row_CoL_Bus_Util = 0.000621 
+Issued_on_Two_Bus_Simul_Util = 0.000003 
+issued_two_Eff = 0.005525 
+queue_avg = 0.002165 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=6 avg=0.00216472
+Memory Partition 4: 
+Cache L2_bank_008:
+
+Cache L2_bank_009:
+
+In Dram Latency Queue (total = 0): 
+DRAM[4]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164767 n_act=43 n_pre=29 n_ref_event=0 n_req=668 n_rd=668 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005731
+n_activity=4261 dram_eff=0.1568
+bk0: 112a 1165122i bk1: 96a 1165175i bk2: 44a 1165466i bk3: 48a 1165437i bk4: 32a 1165449i bk5: 32a 1165471i bk6: 4a 1165492i bk7: 12a 1165462i bk8: 20a 1165480i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 64a 1165401i bk13: 68a 1165421i bk14: 64a 1165452i bk15: 68a 1165423i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.935629
+Row_Buffer_Locality_read = 0.935629
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.000990
+Bank_Level_Parallism_Col = 1.001234
+Bank_Level_Parallism_Ready = 1.001497
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.001234 
+
+BW Util details:
+bwutil = 0.000573 
+total_CMD = 1165507 
+util_bw = 668 
+Wasted_Col = 996 
+Wasted_Row = 357 
+Idle = 1163486 
+
+BW Util Bottlenecks: 
+RCDc_limit = 516 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 480 
+rwq = 0 
+CCDLc_limit_alone = 480 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164767 
+Read = 668 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 43 
+n_pre = 29 
+n_ref = 0 
+n_req = 668 
+total_req = 668 
+
+Dual Bus Interface Util: 
+issued_total_row = 72 
+issued_total_col = 668 
+Row_Bus_Util =  0.000062 
+CoL_Bus_Util = 0.000573 
+Either_Row_CoL_Bus_Util = 0.000635 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002836 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00283568
+Memory Partition 5: 
+Cache L2_bank_010:
+
+Cache L2_bank_011:
+
+In Dram Latency Queue (total = 0): 
+DRAM[5]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164792 n_act=41 n_pre=28 n_ref_event=0 n_req=648 n_rd=648 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.000556
+n_activity=4072 dram_eff=0.1591
+bk0: 116a 1165147i bk1: 100a 1165155i bk2: 52a 1165432i bk3: 48a 1165436i bk4: 28a 1165427i bk5: 32a 1165472i bk6: 0a 1165507i bk7: 4a 1165492i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 60a 1165429i bk13: 64a 1165451i bk14: 68a 1165420i bk15: 64a 1165449i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.936728
+Row_Buffer_Locality_read = 0.936728
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.018296
+Bank_Level_Parallism_Col = 1.012242
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.012242 
+
+BW Util details:
+bwutil = 0.000556 
+total_CMD = 1165507 
+util_bw = 648 
+Wasted_Col = 943 
+Wasted_Row = 322 
+Idle = 1163594 
+
+BW Util Bottlenecks: 
+RCDc_limit = 487 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 468 
+rwq = 0 
+CCDLc_limit_alone = 468 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164792 
+Read = 648 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 41 
+n_pre = 28 
+n_ref = 0 
+n_req = 648 
+total_req = 648 
+
+Dual Bus Interface Util: 
+issued_total_row = 69 
+issued_total_col = 648 
+Row_Bus_Util =  0.000059 
+CoL_Bus_Util = 0.000556 
+Either_Row_CoL_Bus_Util = 0.000613 
+Issued_on_Two_Bus_Simul_Util = 0.000002 
+issued_two_Eff = 0.002797 
+queue_avg = 0.002668 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=8 avg=0.00266751
+Memory Partition 6: 
+Cache L2_bank_012:
+
+Cache L2_bank_013:
+
+In Dram Latency Queue (total = 0): 
+DRAM[6]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164762 n_act=46 n_pre=31 n_ref_event=0 n_req=668 n_rd=668 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005731
+n_activity=4343 dram_eff=0.1538
+bk0: 120a 1165149i bk1: 96a 1165109i bk2: 44a 1165464i bk3: 48a 1165438i bk4: 28a 1165427i bk5: 32a 1165474i bk6: 4a 1165492i bk7: 0a 1165507i bk8: 8a 1165489i bk9: 4a 1165492i bk10: 4a 1165492i bk11: 8a 1165489i bk12: 68a 1165397i bk13: 72a 1165426i bk14: 64a 1165452i bk15: 68a 1165426i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.931138
+Row_Buffer_Locality_read = 0.931138
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.007346
+Bank_Level_Parallism_Col = 1.009236
+Bank_Level_Parallism_Ready = 1.001497
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.005542 
+
+BW Util details:
+bwutil = 0.000573 
+total_CMD = 1165507 
+util_bw = 668 
+Wasted_Col = 1002 
+Wasted_Row = 372 
+Idle = 1163465 
+
+BW Util Bottlenecks: 
+RCDc_limit = 544 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 467 
+rwq = 0 
+CCDLc_limit_alone = 467 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164762 
+Read = 668 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 46 
+n_pre = 31 
+n_ref = 0 
+n_req = 668 
+total_req = 668 
+
+Dual Bus Interface Util: 
+issued_total_row = 77 
+issued_total_col = 668 
+Row_Bus_Util =  0.000066 
+CoL_Bus_Util = 0.000573 
+Either_Row_CoL_Bus_Util = 0.000639 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002827 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.0028271
+Memory Partition 7: 
+Cache L2_bank_014:
+
+Cache L2_bank_015:
+
+In Dram Latency Queue (total = 0): 
+DRAM[7]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164748 n_act=46 n_pre=30 n_ref_event=0 n_req=684 n_rd=684 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005869
+n_activity=4469 dram_eff=0.1531
+bk0: 108a 1165198i bk1: 92a 1165179i bk2: 48a 1165438i bk3: 48a 1165436i bk4: 44a 1165368i bk5: 40a 1165442i bk6: 4a 1165492i bk7: 4a 1165492i bk8: 8a 1165489i bk9: 4a 1165492i bk10: 8a 1165489i bk11: 16a 1165484i bk12: 60a 1165403i bk13: 68a 1165422i bk14: 64a 1165448i bk15: 68a 1165421i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.932749
+Row_Buffer_Locality_read = 0.932749
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.000476
+Bank_Level_Parallism_Col = 1.000000
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000587 
+total_CMD = 1165507 
+util_bw = 684 
+Wasted_Col = 1050 
+Wasted_Row = 368 
+Idle = 1163405 
+
+BW Util Bottlenecks: 
+RCDc_limit = 552 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 498 
+rwq = 0 
+CCDLc_limit_alone = 498 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164748 
+Read = 684 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 46 
+n_pre = 30 
+n_ref = 0 
+n_req = 684 
+total_req = 684 
+
+Dual Bus Interface Util: 
+issued_total_row = 76 
+issued_total_col = 684 
+Row_Bus_Util =  0.000065 
+CoL_Bus_Util = 0.000587 
+Either_Row_CoL_Bus_Util = 0.000651 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001318 
+queue_avg = 0.002873 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00287257
+Memory Partition 8: 
+Cache L2_bank_016:
+
+Cache L2_bank_017:
+
+In Dram Latency Queue (total = 0): 
+DRAM[8]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164768 n_act=47 n_pre=33 n_ref_event=0 n_req=660 n_rd=660 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005663
+n_activity=4422 dram_eff=0.1493
+bk0: 108a 1165128i bk1: 88a 1165141i bk2: 44a 1165464i bk3: 48a 1165436i bk4: 40a 1165393i bk5: 32a 1165472i bk6: 4a 1165492i bk7: 4a 1165492i bk8: 8a 1165490i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 20a 1165433i bk12: 56a 1165455i bk13: 72a 1165397i bk14: 64a 1165449i bk15: 72a 1165420i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.928788
+Row_Buffer_Locality_read = 0.928788
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.006241
+Bank_Level_Parallism_Col = 1.007313
+Bank_Level_Parallism_Ready = 1.003030
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.007313 
+
+BW Util details:
+bwutil = 0.000566 
+total_CMD = 1165507 
+util_bw = 660 
+Wasted_Col = 1028 
+Wasted_Row = 395 
+Idle = 1163424 
+
+BW Util Bottlenecks: 
+RCDc_limit = 561 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 470 
+rwq = 0 
+CCDLc_limit_alone = 470 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164768 
+Read = 660 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 47 
+n_pre = 33 
+n_ref = 0 
+n_req = 660 
+total_req = 660 
+
+Dual Bus Interface Util: 
+issued_total_row = 80 
+issued_total_col = 660 
+Row_Bus_Util =  0.000069 
+CoL_Bus_Util = 0.000566 
+Either_Row_CoL_Bus_Util = 0.000634 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001353 
+queue_avg = 0.002879 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00287943
+Memory Partition 9: 
+Cache L2_bank_018:
+
+Cache L2_bank_019:
+
+In Dram Latency Queue (total = 0): 
+DRAM[9]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164740 n_act=53 n_pre=38 n_ref_event=0 n_req=676 n_rd=676 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.00058
+n_activity=4649 dram_eff=0.1454
+bk0: 108a 1165079i bk1: 88a 1165118i bk2: 52a 1165436i bk3: 48a 1165435i bk4: 40a 1165371i bk5: 40a 1165417i bk6: 8a 1165489i bk7: 8a 1165489i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 4a 1165492i bk11: 16a 1165483i bk12: 56a 1165453i bk13: 72a 1165372i bk14: 64a 1165448i bk15: 64a 1165447i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.921598
+Row_Buffer_Locality_read = 0.921598
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.001771
+Bank_Level_Parallism_Col = 1.001713
+Bank_Level_Parallism_Ready = 1.001479
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.001713 
+
+BW Util details:
+bwutil = 0.000580 
+total_CMD = 1165507 
+util_bw = 676 
+Wasted_Col = 1128 
+Wasted_Row = 455 
+Idle = 1163248 
+
+BW Util Bottlenecks: 
+RCDc_limit = 636 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 492 
+rwq = 0 
+CCDLc_limit_alone = 492 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164740 
+Read = 676 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 53 
+n_pre = 38 
+n_ref = 0 
+n_req = 676 
+total_req = 676 
+
+Dual Bus Interface Util: 
+issued_total_row = 91 
+issued_total_col = 676 
+Row_Bus_Util =  0.000078 
+CoL_Bus_Util = 0.000580 
+Either_Row_CoL_Bus_Util = 0.000658 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.003289 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.0032887
+Memory Partition 10: 
+Cache L2_bank_020:
+
+Cache L2_bank_021:
+
+In Dram Latency Queue (total = 0): 
+DRAM[10]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164774 n_act=40 n_pre=26 n_ref_event=0 n_req=668 n_rd=668 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005731
+n_activity=4267 dram_eff=0.1566
+bk0: 108a 1165150i bk1: 84a 1165264i bk2: 48a 1165436i bk3: 48a 1165435i bk4: 36a 1165469i bk5: 40a 1165442i bk6: 8a 1165489i bk7: 12a 1165462i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 16a 1165484i bk12: 60a 1165403i bk13: 68a 1165421i bk14: 68a 1165420i bk15: 64a 1165448i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.940120
+Row_Buffer_Locality_read = 0.940120
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.007736
+Bank_Level_Parallism_Col = 1.001250
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000573 
+total_CMD = 1165507 
+util_bw = 668 
+Wasted_Col = 971 
+Wasted_Row = 300 
+Idle = 1163568 
+
+BW Util Bottlenecks: 
+RCDc_limit = 478 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 496 
+rwq = 0 
+CCDLc_limit_alone = 496 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164774 
+Read = 668 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 40 
+n_pre = 26 
+n_ref = 0 
+n_req = 668 
+total_req = 668 
+
+Dual Bus Interface Util: 
+issued_total_row = 66 
+issued_total_col = 668 
+Row_Bus_Util =  0.000057 
+CoL_Bus_Util = 0.000573 
+Either_Row_CoL_Bus_Util = 0.000629 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001364 
+queue_avg = 0.002405 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=6 avg=0.00240496
+Memory Partition 11: 
+Cache L2_bank_022:
+
+Cache L2_bank_023:
+
+In Dram Latency Queue (total = 0): 
+DRAM[11]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164754 n_act=48 n_pre=33 n_ref_event=0 n_req=672 n_rd=672 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005766
+n_activity=4458 dram_eff=0.1507
+bk0: 112a 1165102i bk1: 88a 1165162i bk2: 44a 1165439i bk3: 48a 1165415i bk4: 36a 1165469i bk5: 36a 1165448i bk6: 12a 1165438i bk7: 8a 1165490i bk8: 8a 1165489i bk9: 8a 1165489i bk10: 0a 1165507i bk11: 12a 1165486i bk12: 68a 1165398i bk13: 56a 1165454i bk14: 72a 1165421i bk15: 64a 1165453i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.928571
+Row_Buffer_Locality_read = 0.928571
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.002360
+Bank_Level_Parallism_Col = 1.002391
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.002391 
+
+BW Util details:
+bwutil = 0.000577 
+total_CMD = 1165507 
+util_bw = 672 
+Wasted_Col = 1049 
+Wasted_Row = 398 
+Idle = 1163388 
+
+BW Util Bottlenecks: 
+RCDc_limit = 572 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 477 
+rwq = 0 
+CCDLc_limit_alone = 477 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164754 
+Read = 672 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 48 
+n_pre = 33 
+n_ref = 0 
+n_req = 672 
+total_req = 672 
+
+Dual Bus Interface Util: 
+issued_total_row = 81 
+issued_total_col = 672 
+Row_Bus_Util =  0.000069 
+CoL_Bus_Util = 0.000577 
+Either_Row_CoL_Bus_Util = 0.000646 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002993 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00299269
+Memory Partition 12: 
+Cache L2_bank_024:
+
+Cache L2_bank_025:
+
+In Dram Latency Queue (total = 0): 
+DRAM[12]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164703 n_act=52 n_pre=37 n_ref_event=0 n_req=716 n_rd=716 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0006143
+n_activity=4832 dram_eff=0.1482
+bk0: 120a 1165100i bk1: 100a 1165131i bk2: 44a 1165415i bk3: 52a 1165408i bk4: 44a 1165414i bk5: 40a 1165442i bk6: 0a 1165507i bk7: 12a 1165463i bk8: 8a 1165490i bk9: 16a 1165483i bk10: 4a 1165492i bk11: 16a 1165483i bk12: 64a 1165377i bk13: 64a 1165448i bk14: 68a 1165422i bk15: 64a 1165449i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.927374
+Row_Buffer_Locality_read = 0.927374
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.001304
+Bank_Level_Parallism_Col = 1.000000
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000614 
+total_CMD = 1165507 
+util_bw = 716 
+Wasted_Col = 1144 
+Wasted_Row = 441 
+Idle = 1163206 
+
+BW Util Bottlenecks: 
+RCDc_limit = 624 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 520 
+rwq = 0 
+CCDLc_limit_alone = 520 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164703 
+Read = 716 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 52 
+n_pre = 37 
+n_ref = 0 
+n_req = 716 
+total_req = 716 
+
+Dual Bus Interface Util: 
+issued_total_row = 89 
+issued_total_col = 716 
+Row_Bus_Util =  0.000076 
+CoL_Bus_Util = 0.000614 
+Either_Row_CoL_Bus_Util = 0.000690 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001244 
+queue_avg = 0.003278 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.0032784
+Memory Partition 13: 
+Cache L2_bank_026:
+
+Cache L2_bank_027:
+
+In Dram Latency Queue (total = 0): 
+DRAM[13]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164741 n_act=47 n_pre=31 n_ref_event=0 n_req=688 n_rd=688 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005903
+n_activity=4545 dram_eff=0.1514
+bk0: 116a 1165050i bk1: 92a 1165258i bk2: 44a 1165439i bk3: 48a 1165412i bk4: 44a 1165415i bk5: 40a 1165394i bk6: 4a 1165492i bk7: 16a 1165460i bk8: 8a 1165489i bk9: 8a 1165489i bk10: 8a 1165489i bk11: 8a 1165489i bk12: 60a 1165455i bk13: 64a 1165448i bk14: 64a 1165448i bk15: 64a 1165451i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.931686
+Row_Buffer_Locality_read = 0.931686
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.000000
+Bank_Level_Parallism_Col = 1.000000
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000590 
+total_CMD = 1165507 
+util_bw = 688 
+Wasted_Col = 1062 
+Wasted_Row = 372 
+Idle = 1163385 
+
+BW Util Bottlenecks: 
+RCDc_limit = 564 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 498 
+rwq = 0 
+CCDLc_limit_alone = 498 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164741 
+Read = 688 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 47 
+n_pre = 31 
+n_ref = 0 
+n_req = 688 
+total_req = 688 
+
+Dual Bus Interface Util: 
+issued_total_row = 78 
+issued_total_col = 688 
+Row_Bus_Util =  0.000067 
+CoL_Bus_Util = 0.000590 
+Either_Row_CoL_Bus_Util = 0.000657 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002873 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00287257
+Memory Partition 14: 
+Cache L2_bank_028:
+
+Cache L2_bank_029:
+
+In Dram Latency Queue (total = 0): 
+DRAM[14]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164766 n_act=40 n_pre=26 n_ref_event=0 n_req=676 n_rd=676 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.00058
+n_activity=4215 dram_eff=0.1604
+bk0: 112a 1165147i bk1: 100a 1165279i bk2: 48a 1165411i bk3: 48a 1165413i bk4: 40a 1165391i bk5: 32a 1165471i bk6: 0a 1165507i bk7: 12a 1165462i bk8: 8a 1165490i bk9: 8a 1165489i bk10: 0a 1165507i bk11: 12a 1165486i bk12: 60a 1165451i bk13: 64a 1165447i bk14: 68a 1165420i bk15: 64a 1165448i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.940828
+Row_Buffer_Locality_read = 0.940828
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.019151
+Bank_Level_Parallism_Col = 1.013158
+Bank_Level_Parallism_Ready = 1.002959
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.004386 
+
+BW Util details:
+bwutil = 0.000580 
+total_CMD = 1165507 
+util_bw = 676 
+Wasted_Col = 959 
+Wasted_Row = 297 
+Idle = 1163575 
+
+BW Util Bottlenecks: 
+RCDc_limit = 474 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 501 
+rwq = 0 
+CCDLc_limit_alone = 501 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164766 
+Read = 676 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 40 
+n_pre = 26 
+n_ref = 0 
+n_req = 676 
+total_req = 676 
+
+Dual Bus Interface Util: 
+issued_total_row = 66 
+issued_total_col = 676 
+Row_Bus_Util =  0.000057 
+CoL_Bus_Util = 0.000580 
+Either_Row_CoL_Bus_Util = 0.000636 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001350 
+queue_avg = 0.002437 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00243671
+Memory Partition 15: 
+Cache L2_bank_030:
+
+Cache L2_bank_031:
+
+In Dram Latency Queue (total = 0): 
+DRAM[15]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164739 n_act=47 n_pre=33 n_ref_event=0 n_req=688 n_rd=688 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005903
+n_activity=4500 dram_eff=0.1529
+bk0: 116a 1165095i bk1: 100a 1165276i bk2: 48a 1165412i bk3: 52a 1165408i bk4: 36a 1165420i bk5: 36a 1165446i bk6: 0a 1165507i bk7: 8a 1165489i bk8: 8a 1165489i bk9: 4a 1165492i bk10: 0a 1165507i bk11: 16a 1165483i bk12: 60a 1165406i bk13: 72a 1165348i bk14: 68a 1165421i bk15: 64a 1165451i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.931686
+Row_Buffer_Locality_read = 0.931686
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.010338
+Bank_Level_Parallism_Col = 1.005300
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.005300 
+
+BW Util details:
+bwutil = 0.000590 
+total_CMD = 1165507 
+util_bw = 688 
+Wasted_Col = 1056 
+Wasted_Row = 384 
+Idle = 1163379 
+
+BW Util Bottlenecks: 
+RCDc_limit = 560 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 502 
+rwq = 0 
+CCDLc_limit_alone = 502 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164739 
+Read = 688 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 47 
+n_pre = 33 
+n_ref = 0 
+n_req = 688 
+total_req = 688 
+
+Dual Bus Interface Util: 
+issued_total_row = 80 
+issued_total_col = 688 
+Row_Bus_Util =  0.000069 
+CoL_Bus_Util = 0.000590 
+Either_Row_CoL_Bus_Util = 0.000659 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.003125 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=11 avg=0.00312482
+Memory Partition 16: 
+Cache L2_bank_032:
+
+Cache L2_bank_033:
+
+In Dram Latency Queue (total = 0): 
+DRAM[16]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164740 n_act=53 n_pre=39 n_ref_event=0 n_req=676 n_rd=676 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.00058
+n_activity=4671 dram_eff=0.1447
+bk0: 120a 1165021i bk1: 96a 1165183i bk2: 52a 1165386i bk3: 36a 1165468i bk4: 52a 1165362i bk5: 32a 1165471i bk6: 0a 1165507i bk7: 12a 1165438i bk8: 8a 1165489i bk9: 8a 1165489i bk10: 0a 1165507i bk11: 8a 1165489i bk12: 56a 1165460i bk13: 64a 1165376i bk14: 68a 1165425i bk15: 64a 1165448i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.921598
+Row_Buffer_Locality_read = 0.921598
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.005317
+Bank_Level_Parallism_Col = 1.006340
+Bank_Level_Parallism_Ready = 1.002959
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.006340 
+
+BW Util details:
+bwutil = 0.000580 
+total_CMD = 1165507 
+util_bw = 676 
+Wasted_Col = 1111 
+Wasted_Row = 470 
+Idle = 1163250 
+
+BW Util Bottlenecks: 
+RCDc_limit = 632 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 481 
+rwq = 0 
+CCDLc_limit_alone = 481 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164740 
+Read = 676 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 53 
+n_pre = 39 
+n_ref = 0 
+n_req = 676 
+total_req = 676 
+
+Dual Bus Interface Util: 
+issued_total_row = 92 
+issued_total_col = 676 
+Row_Bus_Util =  0.000079 
+CoL_Bus_Util = 0.000580 
+Either_Row_CoL_Bus_Util = 0.000658 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001304 
+queue_avg = 0.003387 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00338737
+Memory Partition 17: 
+Cache L2_bank_034:
+
+Cache L2_bank_035:
+
+In Dram Latency Queue (total = 0): 
+DRAM[17]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164773 n_act=44 n_pre=31 n_ref_event=0 n_req=660 n_rd=660 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005663
+n_activity=4237 dram_eff=0.1558
+bk0: 104a 1165226i bk1: 108a 1165150i bk2: 52a 1165385i bk3: 32a 1165473i bk4: 40a 1165416i bk5: 40a 1165417i bk6: 0a 1165507i bk7: 4a 1165492i bk8: 8a 1165490i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 60a 1165428i bk13: 68a 1165398i bk14: 68a 1165422i bk15: 72a 1165417i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.933333
+Row_Buffer_Locality_read = 0.933333
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.003927
+Bank_Level_Parallism_Col = 1.000614
+Bank_Level_Parallism_Ready = 1.001515
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000614 
+
+BW Util details:
+bwutil = 0.000566 
+total_CMD = 1165507 
+util_bw = 660 
+Wasted_Col = 1011 
+Wasted_Row = 366 
+Idle = 1163470 
+
+BW Util Bottlenecks: 
+RCDc_limit = 527 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 484 
+rwq = 0 
+CCDLc_limit_alone = 484 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164773 
+Read = 660 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 44 
+n_pre = 31 
+n_ref = 0 
+n_req = 660 
+total_req = 660 
+
+Dual Bus Interface Util: 
+issued_total_row = 75 
+issued_total_col = 660 
+Row_Bus_Util =  0.000064 
+CoL_Bus_Util = 0.000566 
+Either_Row_CoL_Bus_Util = 0.000630 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001362 
+queue_avg = 0.003104 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00310423
+Memory Partition 18: 
+Cache L2_bank_036:
+
+Cache L2_bank_037:
+
+In Dram Latency Queue (total = 0): 
+DRAM[18]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164772 n_act=44 n_pre=31 n_ref_event=0 n_req=660 n_rd=660 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005663
+n_activity=4348 dram_eff=0.1518
+bk0: 104a 1165201i bk1: 120a 1165119i bk2: 48a 1165411i bk3: 36a 1165444i bk4: 36a 1165422i bk5: 40a 1165417i bk6: 0a 1165507i bk7: 12a 1165462i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 8a 1165490i bk12: 60a 1165427i bk13: 60a 1165427i bk14: 64a 1165447i bk15: 64a 1165453i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.933333
+Row_Buffer_Locality_read = 0.933333
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.003440
+Bank_Level_Parallism_Col = 1.000000
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000566 
+total_CMD = 1165507 
+util_bw = 660 
+Wasted_Col = 1010 
+Wasted_Row = 365 
+Idle = 1163472 
+
+BW Util Bottlenecks: 
+RCDc_limit = 528 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 482 
+rwq = 0 
+CCDLc_limit_alone = 482 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164772 
+Read = 660 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 44 
+n_pre = 31 
+n_ref = 0 
+n_req = 660 
+total_req = 660 
+
+Dual Bus Interface Util: 
+issued_total_row = 75 
+issued_total_col = 660 
+Row_Bus_Util =  0.000064 
+CoL_Bus_Util = 0.000566 
+Either_Row_CoL_Bus_Util = 0.000631 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002775 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00277476
+Memory Partition 19: 
+Cache L2_bank_038:
+
+Cache L2_bank_039:
+
+In Dram Latency Queue (total = 0): 
+DRAM[19]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164788 n_act=42 n_pre=29 n_ref_event=0 n_req=648 n_rd=648 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.000556
+n_activity=4245 dram_eff=0.1527
+bk0: 116a 1165112i bk1: 112a 1165100i bk2: 40a 1165465i bk3: 36a 1165472i bk4: 48a 1165391i bk5: 32a 1165471i bk6: 0a 1165507i bk7: 4a 1165492i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 60a 1165426i bk13: 60a 1165451i bk14: 64a 1165448i bk15: 64a 1165449i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.935185
+Row_Buffer_Locality_read = 0.935185
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.000000
+Bank_Level_Parallism_Col = 1.000000
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000000 
+
+BW Util details:
+bwutil = 0.000556 
+total_CMD = 1165507 
+util_bw = 648 
+Wasted_Col = 976 
+Wasted_Row = 357 
+Idle = 1163526 
+
+BW Util Bottlenecks: 
+RCDc_limit = 504 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 472 
+rwq = 0 
+CCDLc_limit_alone = 472 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164788 
+Read = 648 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 42 
+n_pre = 29 
+n_ref = 0 
+n_req = 648 
+total_req = 648 
+
+Dual Bus Interface Util: 
+issued_total_row = 71 
+issued_total_col = 648 
+Row_Bus_Util =  0.000061 
+CoL_Bus_Util = 0.000556 
+Either_Row_CoL_Bus_Util = 0.000617 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002574 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=3 avg=0.00257399
+Memory Partition 20: 
+Cache L2_bank_040:
+
+Cache L2_bank_041:
+
+In Dram Latency Queue (total = 0): 
+DRAM[20]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164740 n_act=49 n_pre=35 n_ref_event=0 n_req=684 n_rd=684 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005869
+n_activity=4543 dram_eff=0.1506
+bk0: 116a 1165026i bk1: 108a 1165175i bk2: 44a 1165415i bk3: 32a 1165471i bk4: 40a 1165442i bk5: 44a 1165415i bk6: 4a 1165492i bk7: 4a 1165492i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 68a 1165424i bk13: 76a 1165393i bk14: 72a 1165419i bk15: 64a 1165449i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.928363
+Row_Buffer_Locality_read = 0.928363
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.024345
+Bank_Level_Parallism_Col = 1.014758
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.014758 
+
+BW Util details:
+bwutil = 0.000587 
+total_CMD = 1165507 
+util_bw = 684 
+Wasted_Col = 1056 
+Wasted_Row = 396 
+Idle = 1163371 
+
+BW Util Bottlenecks: 
+RCDc_limit = 576 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 492 
+rwq = 0 
+CCDLc_limit_alone = 492 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164740 
+Read = 684 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 49 
+n_pre = 35 
+n_ref = 0 
+n_req = 684 
+total_req = 684 
+
+Dual Bus Interface Util: 
+issued_total_row = 84 
+issued_total_col = 684 
+Row_Bus_Util =  0.000072 
+CoL_Bus_Util = 0.000587 
+Either_Row_CoL_Bus_Util = 0.000658 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001304 
+queue_avg = 0.002951 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=6 avg=0.00295065
+Memory Partition 21: 
+Cache L2_bank_042:
+
+Cache L2_bank_043:
+
+In Dram Latency Queue (total = 0): 
+DRAM[21]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164762 n_act=49 n_pre=36 n_ref_event=0 n_req=661 n_rd=661 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005671
+n_activity=4538 dram_eff=0.1457
+bk0: 100a 1165205i bk1: 116a 1165049i bk2: 40a 1165469i bk3: 32a 1165473i bk4: 32a 1165474i bk5: 40a 1165369i bk6: 0a 1165507i bk7: 0a 1165507i bk8: 8a 1165490i bk9: 0a 1165507i bk10: 4a 1165492i bk11: 5a 1165468i bk12: 64a 1165400i bk13: 80a 1165365i bk14: 72a 1165418i bk15: 68a 1165424i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.925870
+Row_Buffer_Locality_read = 0.925870
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.004192
+Bank_Level_Parallism_Col = 1.003595
+Bank_Level_Parallism_Ready = 1.004539
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.003595 
+
+BW Util details:
+bwutil = 0.000567 
+total_CMD = 1165507 
+util_bw = 661 
+Wasted_Col = 1057 
+Wasted_Row = 429 
+Idle = 1163360 
+
+BW Util Bottlenecks: 
+RCDc_limit = 588 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 469 
+rwq = 0 
+CCDLc_limit_alone = 469 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164762 
+Read = 661 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 49 
+n_pre = 36 
+n_ref = 0 
+n_req = 661 
+total_req = 661 
+
+Dual Bus Interface Util: 
+issued_total_row = 85 
+issued_total_col = 661 
+Row_Bus_Util =  0.000073 
+CoL_Bus_Util = 0.000567 
+Either_Row_CoL_Bus_Util = 0.000639 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001342 
+queue_avg = 0.003006 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00300556
+Memory Partition 22: 
+Cache L2_bank_044:
+
+Cache L2_bank_045:
+
+In Dram Latency Queue (total = 0): 
+DRAM[22]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164765 n_act=46 n_pre=33 n_ref_event=0 n_req=664 n_rd=664 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005697
+n_activity=4345 dram_eff=0.1528
+bk0: 104a 1165203i bk1: 120a 1165025i bk2: 44a 1165463i bk3: 32a 1165471i bk4: 32a 1165474i bk5: 36a 1165442i bk6: 0a 1165507i bk7: 0a 1165507i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 4a 1165492i bk11: 12a 1165487i bk12: 60a 1165405i bk13: 72a 1165369i bk14: 68a 1165425i bk15: 72a 1165419i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.930723
+Row_Buffer_Locality_read = 0.930723
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.022494
+Bank_Level_Parallism_Col = 1.010436
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.010436 
+
+BW Util details:
+bwutil = 0.000570 
+total_CMD = 1165507 
+util_bw = 664 
+Wasted_Col = 1010 
+Wasted_Row = 371 
+Idle = 1163462 
+
+BW Util Bottlenecks: 
+RCDc_limit = 547 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 470 
+rwq = 0 
+CCDLc_limit_alone = 470 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164765 
+Read = 664 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 46 
+n_pre = 33 
+n_ref = 0 
+n_req = 664 
+total_req = 664 
+
+Dual Bus Interface Util: 
+issued_total_row = 79 
+issued_total_col = 664 
+Row_Bus_Util =  0.000068 
+CoL_Bus_Util = 0.000570 
+Either_Row_CoL_Bus_Util = 0.000637 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001348 
+queue_avg = 0.002818 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00281766
+Memory Partition 23: 
+Cache L2_bank_046:
+
+Cache L2_bank_047:
+
+In Dram Latency Queue (total = 0): 
+DRAM[23]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164798 n_act=35 n_pre=22 n_ref_event=0 n_req=652 n_rd=652 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005594
+n_activity=3895 dram_eff=0.1674
+bk0: 108a 1165149i bk1: 120a 1165169i bk2: 48a 1165462i bk3: 40a 1165469i bk4: 32a 1165472i bk5: 32a 1165471i bk6: 0a 1165507i bk7: 4a 1165492i bk8: 8a 1165490i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 60a 1165451i bk13: 68a 1165422i bk14: 64a 1165448i bk15: 64a 1165450i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.946319
+Row_Buffer_Locality_read = 0.946319
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.021493
+Bank_Level_Parallism_Col = 1.008701
+Bank_Level_Parallism_Ready = 1.004601
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.008701 
+
+BW Util details:
+bwutil = 0.000559 
+total_CMD = 1165507 
+util_bw = 652 
+Wasted_Col = 876 
+Wasted_Row = 240 
+Idle = 1163739 
+
+BW Util Bottlenecks: 
+RCDc_limit = 416 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 466 
+rwq = 0 
+CCDLc_limit_alone = 466 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164798 
+Read = 652 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 35 
+n_pre = 22 
+n_ref = 0 
+n_req = 652 
+total_req = 652 
+
+Dual Bus Interface Util: 
+issued_total_row = 57 
+issued_total_col = 652 
+Row_Bus_Util =  0.000049 
+CoL_Bus_Util = 0.000559 
+Either_Row_CoL_Bus_Util = 0.000608 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002281 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00228141
+Memory Partition 24: 
+Cache L2_bank_048:
+
+Cache L2_bank_049:
+
+In Dram Latency Queue (total = 0): 
+DRAM[24]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164741 n_act=50 n_pre=38 n_ref_event=0 n_req=680 n_rd=680 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005834
+n_activity=4599 dram_eff=0.1479
+bk0: 120a 1164964i bk1: 112a 1165128i bk2: 40a 1165466i bk3: 40a 1165442i bk4: 32a 1165472i bk5: 44a 1165416i bk6: 0a 1165507i bk7: 0a 1165507i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 8a 1165489i bk12: 64a 1165378i bk13: 76a 1165415i bk14: 64a 1165449i bk15: 72a 1165421i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.926471
+Row_Buffer_Locality_read = 0.926471
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.006303
+Bank_Level_Parallism_Col = 1.001747
+Bank_Level_Parallism_Ready = 1.001471
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.001747 
+
+BW Util details:
+bwutil = 0.000583 
+total_CMD = 1165507 
+util_bw = 680 
+Wasted_Col = 1085 
+Wasted_Row = 456 
+Idle = 1163286 
+
+BW Util Bottlenecks: 
+RCDc_limit = 597 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 489 
+rwq = 0 
+CCDLc_limit_alone = 489 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164741 
+Read = 680 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 50 
+n_pre = 38 
+n_ref = 0 
+n_req = 680 
+total_req = 680 
+
+Dual Bus Interface Util: 
+issued_total_row = 88 
+issued_total_col = 680 
+Row_Bus_Util =  0.000076 
+CoL_Bus_Util = 0.000583 
+Either_Row_CoL_Bus_Util = 0.000657 
+Issued_on_Two_Bus_Simul_Util = 0.000002 
+issued_two_Eff = 0.002611 
+queue_avg = 0.003180 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00317973
+Memory Partition 25: 
+Cache L2_bank_050:
+
+Cache L2_bank_051:
+
+In Dram Latency Queue (total = 0): 
+DRAM[25]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164712 n_act=52 n_pre=39 n_ref_event=0 n_req=704 n_rd=704 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.000604
+n_activity=4788 dram_eff=0.147
+bk0: 120a 1164999i bk1: 116a 1165121i bk2: 40a 1165467i bk3: 36a 1165471i bk4: 32a 1165471i bk5: 48a 1165364i bk6: 8a 1165489i bk7: 0a 1165507i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 8a 1165465i bk12: 68a 1165420i bk13: 80a 1165366i bk14: 64a 1165449i bk15: 76a 1165415i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.926136
+Row_Buffer_Locality_read = 0.926136
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.014499
+Bank_Level_Parallism_Col = 1.009594
+Bank_Level_Parallism_Ready = 1.000000
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.009594 
+
+BW Util details:
+bwutil = 0.000604 
+total_CMD = 1165507 
+util_bw = 704 
+Wasted_Col = 1119 
+Wasted_Row = 453 
+Idle = 1163231 
+
+BW Util Bottlenecks: 
+RCDc_limit = 616 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 513 
+rwq = 0 
+CCDLc_limit_alone = 513 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164712 
+Read = 704 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 52 
+n_pre = 39 
+n_ref = 0 
+n_req = 704 
+total_req = 704 
+
+Dual Bus Interface Util: 
+issued_total_row = 91 
+issued_total_col = 704 
+Row_Bus_Util =  0.000078 
+CoL_Bus_Util = 0.000604 
+Either_Row_CoL_Bus_Util = 0.000682 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.003207 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=6 avg=0.00320719
+Memory Partition 26: 
+Cache L2_bank_052:
+
+Cache L2_bank_053:
+
+In Dram Latency Queue (total = 0): 
+DRAM[26]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164756 n_act=39 n_pre=25 n_ref_event=0 n_req=688 n_rd=688 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005903
+n_activity=4292 dram_eff=0.1603
+bk0: 128a 1165089i bk1: 116a 1165291i bk2: 44a 1165415i bk3: 40a 1165465i bk4: 36a 1165468i bk5: 32a 1165472i bk6: 8a 1165489i bk7: 8a 1165490i bk8: 8a 1165489i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 4a 1165492i bk12: 68a 1165375i bk13: 68a 1165401i bk14: 64a 1165450i bk15: 64a 1165450i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.943314
+Row_Buffer_Locality_read = 0.943314
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.006711
+Bank_Level_Parallism_Col = 1.006879
+Bank_Level_Parallism_Ready = 1.001454
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.006879 
+
+BW Util details:
+bwutil = 0.000590 
+total_CMD = 1165507 
+util_bw = 688 
+Wasted_Col = 949 
+Wasted_Row = 300 
+Idle = 1163570 
+
+BW Util Bottlenecks: 
+RCDc_limit = 465 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 486 
+rwq = 0 
+CCDLc_limit_alone = 486 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164756 
+Read = 688 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 39 
+n_pre = 25 
+n_ref = 0 
+n_req = 688 
+total_req = 688 
+
+Dual Bus Interface Util: 
+issued_total_row = 64 
+issued_total_col = 688 
+Row_Bus_Util =  0.000055 
+CoL_Bus_Util = 0.000590 
+Either_Row_CoL_Bus_Util = 0.000644 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001332 
+queue_avg = 0.002411 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00241097
+Memory Partition 27: 
+Cache L2_bank_054:
+
+Cache L2_bank_055:
+
+In Dram Latency Queue (total = 0): 
+DRAM[27]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164721 n_act=50 n_pre=36 n_ref_event=0 n_req=700 n_rd=700 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0006006
+n_activity=4722 dram_eff=0.1482
+bk0: 120a 1165062i bk1: 104a 1165202i bk2: 40a 1165465i bk3: 48a 1165412i bk4: 36a 1165469i bk5: 44a 1165365i bk6: 8a 1165489i bk7: 8a 1165490i bk8: 12a 1165486i bk9: 0a 1165507i bk10: 0a 1165507i bk11: 8a 1165489i bk12: 72a 1165348i bk13: 68a 1165398i bk14: 68a 1165422i bk15: 64a 1165447i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.928571
+Row_Buffer_Locality_read = 0.928571
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.000444
+Bank_Level_Parallism_Col = 1.000568
+Bank_Level_Parallism_Ready = 1.001429
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.000568 
+
+BW Util details:
+bwutil = 0.000601 
+total_CMD = 1165507 
+util_bw = 700 
+Wasted_Col = 1112 
+Wasted_Row = 441 
+Idle = 1163254 
+
+BW Util Bottlenecks: 
+RCDc_limit = 600 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 512 
+rwq = 0 
+CCDLc_limit_alone = 512 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164721 
+Read = 700 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 50 
+n_pre = 36 
+n_ref = 0 
+n_req = 700 
+total_req = 700 
+
+Dual Bus Interface Util: 
+issued_total_row = 86 
+issued_total_col = 700 
+Row_Bus_Util =  0.000074 
+CoL_Bus_Util = 0.000601 
+Either_Row_CoL_Bus_Util = 0.000674 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.003286 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00328612
+Memory Partition 28: 
+Cache L2_bank_056:
+
+Cache L2_bank_057:
+
+In Dram Latency Queue (total = 0): 
+DRAM[28]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164765 n_act=44 n_pre=32 n_ref_event=0 n_req=668 n_rd=668 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005731
+n_activity=4383 dram_eff=0.1524
+bk0: 116a 1165100i bk1: 100a 1165182i bk2: 44a 1165440i bk3: 52a 1165458i bk4: 32a 1165471i bk5: 40a 1165370i bk6: 0a 1165507i bk7: 0a 1165507i bk8: 0a 1165507i bk9: 4a 1165492i bk10: 0a 1165507i bk11: 8a 1165489i bk12: 68a 1165398i bk13: 72a 1165419i bk14: 64a 1165449i bk15: 68a 1165422i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.934132
+Row_Buffer_Locality_read = 0.934132
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.007328
+Bank_Level_Parallism_Col = 1.008020
+Bank_Level_Parallism_Ready = 1.002994
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.008020 
+
+BW Util details:
+bwutil = 0.000573 
+total_CMD = 1165507 
+util_bw = 668 
+Wasted_Col = 995 
+Wasted_Row = 384 
+Idle = 1163460 
+
+BW Util Bottlenecks: 
+RCDc_limit = 520 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 480 
+rwq = 0 
+CCDLc_limit_alone = 480 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164765 
+Read = 668 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 44 
+n_pre = 32 
+n_ref = 0 
+n_req = 668 
+total_req = 668 
+
+Dual Bus Interface Util: 
+issued_total_row = 76 
+issued_total_col = 668 
+Row_Bus_Util =  0.000065 
+CoL_Bus_Util = 0.000573 
+Either_Row_CoL_Bus_Util = 0.000637 
+Issued_on_Two_Bus_Simul_Util = 0.000002 
+issued_two_Eff = 0.002695 
+queue_avg = 0.002686 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=4 avg=0.00268638
+Memory Partition 29: 
+Cache L2_bank_058:
+
+Cache L2_bank_059:
+
+In Dram Latency Queue (total = 0): 
+DRAM[29]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164736 n_act=46 n_pre=33 n_ref_event=0 n_req=692 n_rd=692 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005937
+n_activity=4526 dram_eff=0.1529
+bk0: 108a 1165150i bk1: 112a 1165055i bk2: 44a 1165440i bk3: 52a 1165457i bk4: 36a 1165471i bk5: 36a 1165468i bk6: 0a 1165507i bk7: 0a 1165507i bk8: 0a 1165507i bk9: 12a 1165486i bk10: 4a 1165492i bk11: 12a 1165487i bk12: 68a 1165402i bk13: 68a 1165398i bk14: 68a 1165418i bk15: 72a 1165418i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.933526
+Row_Buffer_Locality_read = 0.933526
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.001403
+Bank_Level_Parallism_Col = 1.001769
+Bank_Level_Parallism_Ready = 1.002890
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.001769 
+
+BW Util details:
+bwutil = 0.000594 
+total_CMD = 1165507 
+util_bw = 692 
+Wasted_Col = 1050 
+Wasted_Row = 396 
+Idle = 1163369 
+
+BW Util Bottlenecks: 
+RCDc_limit = 552 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 498 
+rwq = 0 
+CCDLc_limit_alone = 498 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164736 
+Read = 692 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 46 
+n_pre = 33 
+n_ref = 0 
+n_req = 692 
+total_req = 692 
+
+Dual Bus Interface Util: 
+issued_total_row = 79 
+issued_total_col = 692 
+Row_Bus_Util =  0.000068 
+CoL_Bus_Util = 0.000594 
+Either_Row_CoL_Bus_Util = 0.000662 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002955 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00295494
+Memory Partition 30: 
+Cache L2_bank_060:
+
+Cache L2_bank_061:
+
+In Dram Latency Queue (total = 0): 
+DRAM[30]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164776 n_act=40 n_pre=28 n_ref_event=0 n_req=664 n_rd=664 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005697
+n_activity=4208 dram_eff=0.1578
+bk0: 108a 1165133i bk1: 104a 1165180i bk2: 44a 1165416i bk3: 44a 1165463i bk4: 32a 1165471i bk5: 44a 1165415i bk6: 0a 1165507i bk7: 0a 1165507i bk8: 0a 1165507i bk9: 8a 1165489i bk10: 0a 1165507i bk11: 8a 1165489i bk12: 64a 1165448i bk13: 72a 1165420i bk14: 64a 1165449i bk15: 72a 1165421i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.939759
+Row_Buffer_Locality_read = 0.939759
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.004627
+Bank_Level_Parallism_Col = 1.004464
+Bank_Level_Parallism_Ready = 1.003012
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.004464 
+
+BW Util details:
+bwutil = 0.000570 
+total_CMD = 1165507 
+util_bw = 664 
+Wasted_Col = 944 
+Wasted_Row = 337 
+Idle = 1163562 
+
+BW Util Bottlenecks: 
+RCDc_limit = 480 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 464 
+rwq = 0 
+CCDLc_limit_alone = 464 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164776 
+Read = 664 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 40 
+n_pre = 28 
+n_ref = 0 
+n_req = 664 
+total_req = 664 
+
+Dual Bus Interface Util: 
+issued_total_row = 68 
+issued_total_col = 664 
+Row_Bus_Util =  0.000058 
+CoL_Bus_Util = 0.000570 
+Either_Row_CoL_Bus_Util = 0.000627 
+Issued_on_Two_Bus_Simul_Util = 0.000001 
+issued_two_Eff = 0.001368 
+queue_avg = 0.002462 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=3 avg=0.00246159
+Memory Partition 31: 
+Cache L2_bank_062:
+
+Cache L2_bank_063:
+
+In Dram Latency Queue (total = 0): 
+DRAM[31]: 16 bks, busW=16 BL=2 CL=12, tRRD=3 tCCD=1, tRCD=12 tRAS=28 tRP=12 tRC=40
+n_cmd=1165507 n_nop=1164766 n_act=37 n_pre=24 n_ref_event=0 n_req=680 n_rd=680 n_rd_L2_A=0 n_write=0 n_wr_bk=0 bw_util=0.0005834
+n_activity=4174 dram_eff=0.1629
+bk0: 104a 1165201i bk1: 104a 1165178i bk2: 40a 1165466i bk3: 56a 1165456i bk4: 40a 1165468i bk5: 44a 1165414i bk6: 4a 1165492i bk7: 0a 1165507i bk8: 0a 1165507i bk9: 8a 1165490i bk10: 0a 1165507i bk11: 8a 1165489i bk12: 68a 1165422i bk13: 64a 1165424i bk14: 64a 1165449i bk15: 76a 1165416i 
+
+------------------------------------------------------------------------
+
+Row_Buffer_Locality = 0.945588
+Row_Buffer_Locality_read = 0.945588
+Row_Buffer_Locality_write = -nan
+Bank_Level_Parallism = 1.013830
+Bank_Level_Parallism_Col = 1.008291
+Bank_Level_Parallism_Ready = 1.002941
+write_to_read_ratio_blp_rw_average = 0.000000
+GrpLevelPara = 1.008291 
+
+BW Util details:
+bwutil = 0.000583 
+total_CMD = 1165507 
+util_bw = 680 
+Wasted_Col = 924 
+Wasted_Row = 276 
+Idle = 1163627 
+
+BW Util Bottlenecks: 
+RCDc_limit = 441 
+RCDWRc_limit = 0 
+WTRc_limit = 0 
+RTWc_limit = 0 
+CCDLc_limit = 492 
+rwq = 0 
+CCDLc_limit_alone = 492 
+WTRc_limit_alone = 0 
+RTWc_limit_alone = 0 
+
+Commands details: 
+total_CMD = 1165507 
+n_nop = 1164766 
+Read = 680 
+Write = 0 
+L2_Alloc = 0 
+L2_WB = 0 
+n_act = 37 
+n_pre = 24 
+n_ref = 0 
+n_req = 680 
+total_req = 680 
+
+Dual Bus Interface Util: 
+issued_total_row = 61 
+issued_total_col = 680 
+Row_Bus_Util =  0.000052 
+CoL_Bus_Util = 0.000583 
+Either_Row_CoL_Bus_Util = 0.000636 
+Issued_on_Two_Bus_Simul_Util = 0.000000 
+issued_two_Eff = 0.000000 
+queue_avg = 0.002332 
+
+
+dram_util_bins: 0 0 0 0 0 0 0 0 0 0
+dram_eff_bins: 0 0 0 0 0 0 0 0 0 0
+mrqq: max=7 avg=0.00233203
+
+========= L2 cache stats =========
+L2_cache_bank[0]: Access = 4682, Miss = 384, Miss_rate = 0.082, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[1]: Access = 5039, Miss = 324, Miss_rate = 0.064, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[2]: Access = 8587, Miss = 2609, Miss_rate = 0.304, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[3]: Access = 5017, Miss = 304, Miss_rate = 0.061, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[4]: Access = 9442, Miss = 5150, Miss_rate = 0.545, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[5]: Access = 5237, Miss = 320, Miss_rate = 0.061, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[6]: Access = 8424, Miss = 4222, Miss_rate = 0.501, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[7]: Access = 5204, Miss = 332, Miss_rate = 0.064, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[8]: Access = 7984, Miss = 3530, Miss_rate = 0.442, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[9]: Access = 4908, Miss = 328, Miss_rate = 0.067, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[10]: Access = 6466, Miss = 2140, Miss_rate = 0.331, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[11]: Access = 5017, Miss = 316, Miss_rate = 0.063, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[12]: Access = 5385, Miss = 1026, Miss_rate = 0.191, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[13]: Access = 4915, Miss = 328, Miss_rate = 0.067, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[14]: Access = 5426, Miss = 698, Miss_rate = 0.129, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[15]: Access = 4740, Miss = 340, Miss_rate = 0.072, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[16]: Access = 5383, Miss = 562, Miss_rate = 0.104, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[17]: Access = 4747, Miss = 336, Miss_rate = 0.071, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[18]: Access = 5075, Miss = 375, Miss_rate = 0.074, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[19]: Access = 4678, Miss = 336, Miss_rate = 0.072, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[20]: Access = 4913, Miss = 336, Miss_rate = 0.068, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[21]: Access = 4741, Miss = 332, Miss_rate = 0.070, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[22]: Access = 4819, Miss = 352, Miss_rate = 0.073, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[23]: Access = 4688, Miss = 320, Miss_rate = 0.068, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[24]: Access = 5251, Miss = 352, Miss_rate = 0.067, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[25]: Access = 5130, Miss = 364, Miss_rate = 0.071, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[26]: Access = 5236, Miss = 348, Miss_rate = 0.066, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[27]: Access = 5148, Miss = 340, Miss_rate = 0.066, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[28]: Access = 4970, Miss = 336, Miss_rate = 0.068, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[29]: Access = 4630, Miss = 340, Miss_rate = 0.073, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[30]: Access = 4883, Miss = 336, Miss_rate = 0.069, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[31]: Access = 4640, Miss = 352, Miss_rate = 0.076, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[32]: Access = 5076, Miss = 356, Miss_rate = 0.070, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[33]: Access = 4519, Miss = 320, Miss_rate = 0.071, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[34]: Access = 5261, Miss = 332, Miss_rate = 0.063, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[35]: Access = 4630, Miss = 328, Miss_rate = 0.071, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[36]: Access = 5241, Miss = 320, Miss_rate = 0.061, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[37]: Access = 4611, Miss = 340, Miss_rate = 0.074, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[38]: Access = 5163, Miss = 336, Miss_rate = 0.065, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[39]: Access = 4586, Miss = 312, Miss_rate = 0.068, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[40]: Access = 5071, Miss = 368, Miss_rate = 0.073, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[41]: Access = 4640, Miss = 332, Miss_rate = 0.072, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[42]: Access = 5035, Miss = 343, Miss_rate = 0.068, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[43]: Access = 4828, Miss = 341, Miss_rate = 0.071, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[44]: Access = 5219, Miss = 344, Miss_rate = 0.066, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[45]: Access = 4819, Miss = 344, Miss_rate = 0.071, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[46]: Access = 5146, Miss = 344, Miss_rate = 0.067, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[47]: Access = 4750, Miss = 332, Miss_rate = 0.070, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[48]: Access = 5043, Miss = 352, Miss_rate = 0.070, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[49]: Access = 4628, Miss = 352, Miss_rate = 0.076, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[50]: Access = 5051, Miss = 364, Miss_rate = 0.072, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[51]: Access = 4706, Miss = 364, Miss_rate = 0.077, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[52]: Access = 5184, Miss = 381, Miss_rate = 0.073, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[53]: Access = 4538, Miss = 332, Miss_rate = 0.073, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[54]: Access = 5423, Miss = 380, Miss_rate = 0.070, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[55]: Access = 4663, Miss = 344, Miss_rate = 0.074, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[56]: Access = 5463, Miss = 328, Miss_rate = 0.060, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[57]: Access = 4639, Miss = 344, Miss_rate = 0.074, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[58]: Access = 5192, Miss = 328, Miss_rate = 0.063, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[59]: Access = 4716, Miss = 364, Miss_rate = 0.077, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[60]: Access = 5417, Miss = 312, Miss_rate = 0.058, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[61]: Access = 4752, Miss = 352, Miss_rate = 0.074, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[62]: Access = 4997, Miss = 320, Miss_rate = 0.064, Pending_hits = 0, Reservation_fails = 0
+L2_cache_bank[63]: Access = 4525, Miss = 360, Miss_rate = 0.080, Pending_hits = 0, Reservation_fails = 0
+L2_total_cache_accesses = 332937
+L2_total_cache_misses = 39037
+L2_total_cache_miss_rate = 0.1173
+L2_total_cache_pending_hits = 0
+L2_total_cache_reservation_fails = 0
+L2_total_cache_breakdown:
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT] = 208363
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[CONST_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT] = 39235
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][MISS] = 5393
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][SECTOR_MISS] = 16180
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT] = 46302
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][MISS] = 35
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][SECTOR_MISS] = 17429
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][MISS] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[LOCAL_ACC_W][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][MISS] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WRBK_ACC][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][HIT] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][MISS] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[INST_ACC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L1_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][HIT_RESERVED] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][MISS] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][RESERVATION_FAIL] = 0
+	L2_cache_stats_breakdown[L2_WR_ALLOC_R][SECTOR_MISS] = 0
+	L2_cache_stats_breakdown[GLOBAL_ACC_R][TOTAL_ACCESS] = 208363
+	L2_cache_stats_breakdown[TEXTURE_ACC_R][TOTAL_ACCESS] = 60808
+	L2_cache_stats_breakdown[GLOBAL_ACC_W][TOTAL_ACCESS] = 63766
+L2_total_cache_reservation_fail_breakdown:
+L2_cache_data_port_util = 0.003
+L2_cache_fill_port_util = 0.000
+
+icnt_total_pkts_mem_to_simt=332937
+icnt_total_pkts_simt_to_mem=287331
+LD_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ST_mem_lat_dist  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+----------------------------Interconnect-DETAILS--------------------------------
+Req_Network_injected_packets_num = 287331
+Req_Network_cycles = 1552181
+Req_Network_injected_packets_per_cycle =       0.1851 
+Req_Network_conflicts_per_cycle =       0.0000
+Req_Network_conflicts_per_cycle_util =       0.0000
+Req_Bank_Level_Parallism =       1.0085
+Req_Network_in_buffer_full_per_cycle =       0.0000
+Req_Network_in_buffer_avg_util =       0.0000
+Req_Network_out_buffer_full_per_cycle =       0.0000
+Req_Network_out_buffer_avg_util =       0.0029
+
+Reply_Network_injected_packets_num = 332937
+Reply_Network_cycles = 1552181
+Reply_Network_injected_packets_per_cycle =        0.2145
+Reply_Network_conflicts_per_cycle =        0.1763
+Reply_Network_conflicts_per_cycle_util =       0.8220
+Reply_Bank_Level_Parallism =       1.0000
+Reply_Network_in_buffer_full_per_cycle =       0.0000
+Reply_Network_in_buffer_avg_util =       0.0046
+Reply_Network_out_buffer_full_per_cycle =       0.0000
+Reply_Network_out_buffer_avg_util =       0.0057
+----------------------------END-of-Interconnect-DETAILS-------------------------
+
+
+gpgpu_simulation_time = 0 days, 0 hrs, 20 min, 25 sec (1225 sec)
+gpgpu_simulation_rate = 5958 (inst/sec)
+gpgpu_simulation_rate = 1267 (cycle/sec)
+gpgpu_silicon_slowdown = 893449x
+GPGPU-Sim: synchronize waiting for inactive GPU simulation
+GPGPU-Sim API: Stream Manager State
+GPGPU-Sim: detected inactive GPU simulation thread
+GPGPU-Sim: *** exit detected ***

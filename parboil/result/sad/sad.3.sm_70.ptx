@@ -1,0 +1,96 @@
+
+
+
+
+
+
+
+
+.version 6.4
+.target sm_70
+.address_size 64
+
+
+
+.visible .entry _Z11kernel_l2wbv(
+
+)
+{
+.reg .pred %p<2>;
+.reg .f32 %f<2>;
+.reg .b32 %r<10>;
+.reg .b64 %rd<2>;
+
+
+bar.sync 0;
+mov.u32 %r1, %ntid.x;
+mov.u32 %r2, %tid.y;
+mov.u32 %r3, %tid.x;
+mad.lo.s32 %r4, %r1, %r2, %r3;
+neg.s32 %r5, %r1;
+mov.u32 %r6, %tid.z;
+mul.lo.s32 %r7, %r6, %r5;
+mov.u32 %r8, %ntid.y;
+mul.lo.s32 %r9, %r7, %r8;
+setp.ne.s32	%p1, %r4, %r9;
+@%p1 bra BB0_2;
+
+mov.u64 %rd1, 0;
+mov.f32 %f1, 0f00000000;
+
+	st.global.f32.cg [%rd1], %f1;
+
+
+BB0_2:
+
+	membar.gl;
+
+	ret;
+}
+
+
+.visible .entry _Z15kernel_l2wb_pctv(
+
+)
+{
+.reg .pred %p<2>;
+.reg .f32 %f<3>;
+.reg .b32 %r<10>;
+.reg .b64 %rd<3>;
+
+
+bar.sync 0;
+mov.u32 %r1, %ntid.x;
+mov.u32 %r2, %tid.y;
+mov.u32 %r3, %tid.x;
+mad.lo.s32 %r4, %r1, %r2, %r3;
+neg.s32 %r5, %r1;
+mov.u32 %r6, %tid.z;
+mul.lo.s32 %r7, %r6, %r5;
+mov.u32 %r8, %ntid.y;
+mul.lo.s32 %r9, %r7, %r8;
+setp.ne.s32	%p1, %r4, %r9;
+@%p1 bra BB1_2;
+
+mov.u64 %rd1, 0;
+mov.f32 %f1, 0f00000000;
+
+	st.global.f32.cg [%rd1], %f1;
+
+
+BB1_2:
+
+	membar.gl;
+
+	mov.u64 %rd2, 0;
+mov.f32 %f2, 0f00000000;
+
+	st.global.f32.wb [%rd2], %f2;
+
+	
+	membar.gl;
+
+	ret;
+}
+
+
