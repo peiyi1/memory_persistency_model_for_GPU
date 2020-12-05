@@ -8,7 +8,7 @@ The goal of this project is to implements the paper Exploring Memory Persistency
 
 The paper [1] proposes strict persistency and relaxed (epoch) persistency models for GPUs. And for the epoch persistency model, three epoch granularities: kernel level, CTA level and loop level are proposed based on the characteristics of a kernel. Finally, the paper [1] evaluates results using GPGPU-Sim simulator version 3.2.2 [3]. 
 
-Compared to the paper [1], this work evaluates results using the new version of GPGPU-Sim 4.0 instead of using the old version 3.2.2. And in order to evaluate results on GPGPU-Sim 4.0, GPGPU-Sim 4.0 are modified to support CLWB, L2WB, PCOMMIT instructions which would be used in memory persistency models.
+Compared to the paper [1], this work evaluates results using the new version of GPGPU-Sim 4.0 instead of using the old version 3.2.2. And in order to evaluate results on GPGPU-Sim 4.0, GPGPU-Sim 4.0 is modified to support CLWB, L2WB, PCOMMIT instructions which would be used in memory persistency models.
 
 # Benchmark
 
