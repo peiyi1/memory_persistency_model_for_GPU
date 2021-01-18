@@ -12,7 +12,7 @@ Compared to the paper [1], this work evaluates results using the new version of 
 
 # Benchmark
 
-Parboil benchmark [4] was used in the experiments. And the benchmark has been modified to implement the strict persistency and relaxed (epoch) persistency models. The implementation is in the location of parboil/benchmark/src. And the results of running the benchmark are in the location of parboil/result. And the detailed statistical data can be seen in the file named Memory_Persistency_Models_for_GPUs.pdf.
+Parboil benchmark [4] was used in the experiments. And the benchmark has been modified to implement the strict persistency and relaxed (epoch) persistency models. The implementation is in the location of parboil/benchmark/src. And the results of running the benchmark are in the location of parboil/result. And in-memory databases Mega-KV [5] and ProgPow algorithm [6] were also used in the experiments. And the detailed statistical data can be seen in the file named Memory_Persistency_Models_for_GPUs.pdf.
 
 # References
 [1]. Z. Lin, M. Alshboul, Y. Solihin and H. Zhou, "Exploring memory persistency models for gpus", 2019 28th International Conference on Parallel Architectures and Compilation Techniques (PACT), pp. 311-323, 2019.
@@ -22,3 +22,7 @@ Parboil benchmark [4] was used in the experiments. And the benchmark has been mo
 [3]. A. Bakhoda et al. Analyzing cuda workloads using a detailed gpu simulator. ISPASS-2009.
 
 [4]. J. A. Stratton et al. Parboil: A Revised Benchmark Suite for Scientific and Commercial Throughput Computing. UIUC, Tech. Rep. IMPACT-12-01, March 2012
+
+[5]. K. Zhang, K. Wang, Y. Yuan, L. Guo, R. Lee, and X. Zhang, “Mega-kv: A case for gpus to maximize the throughput of in-memory key-value stores,” Proc. VLDB Endow., vol. 8, no. 11, pp. 1226–1237, Jul. 2015. [Online]. Available: https://doi.org/10.14778/2809974.2809984
+
+[6]. ProgPow. [Online]. Available: https://github.com/ifdefelse/ProgPOW
