@@ -1,0 +1,586 @@
+
+
+
+
+
+
+
+
+.version 6.4
+.target sm_70
+.address_size 64
+
+
+
+.visible .entry _Z16hash_delete_nvmbP7ielem_sP8bucket_sii(
+.param .u64 _Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_0,
+.param .u64 _Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_1,
+.param .u32 _Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_2,
+.param .u32 _Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_3
+)
+{
+.reg .pred %p<14>;
+.reg .b32 %r<40>;
+.reg .b64 %rd<42>;
+
+
+ld.param.u64 %rd6, [_Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_0];
+ld.param.u64 %rd7, [_Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_1];
+ld.param.u32 %r8, [_Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_2];
+ld.param.u32 %r9, [_Z16hash_delete_nvmbP7ielem_sP8bucket_sii_param_3];
+mov.u32 %r10, %ntid.x;
+mov.u32 %r11, %ctaid.x;
+mov.u32 %r12, %tid.x;
+mad.lo.s32 %r1, %r10, %r11, %r12;
+shr.s32 %r39, %r1, 3;
+setp.ge.s32	%p4, %r39, %r8;
+@%p4 bra BB0_12;
+
+and.b32 %r13, %r1, 7;
+cvt.u64.u32	%rd1, %r13;
+and.b32 %r3, %r1, 24;
+shr.s32 %r38, %r9, 3;
+
+BB0_2:
+cvta.to.global.u64 %rd8, %rd6;
+cvt.s64.s32	%rd2, %r39;
+mul.wide.s32 %rd9, %r39, 12;
+add.s64 %rd10, %rd8, %rd9;
+ld.global.u32 %r14, [%rd10+4];
+and.b32 %r5, %r14, 16777215;
+cvta.to.global.u64 %rd11, %rd7;
+mul.wide.u32 %rd12, %r5, 64;
+add.s64 %rd13, %rd11, %rd12;
+shl.b64 %rd14, %rd1, 2;
+add.s64 %rd3, %rd13, %rd14;
+ld.global.u32 %r15, [%rd10];
+ld.global.u32 %r16, [%rd3];
+mov.pred %p13, 0;
+setp.ne.s32	%p6, %r16, %r15;
+@%p6 bra BB0_4;
+
+ld.global.u32 %r17, [%rd10+8];
+ld.global.u32 %r18, [%rd3+32];
+setp.eq.s32	%p13, %r18, %r17;
+
+BB0_4:
+mov.u32 %r19, -1;
+vote.sync.ballot.b32 %r6, %p13, %r19;
+ld.global.u32 %r20, [%rd10];
+ld.global.u32 %r21, [%rd3];
+setp.ne.s32	%p7, %r21, %r20;
+@%p7 bra BB0_7;
+
+ld.global.u32 %r22, [%rd10+8];
+ld.global.u32 %r23, [%rd3+32];
+setp.ne.s32	%p8, %r23, %r22;
+@%p8 bra BB0_7;
+
+add.s64 %rd26, %rd7, %rd12;
+add.s64 %rd24, %rd26, %rd14;
+mov.u32 %r24, 0;
+
+	st.global.wt.u32 [%rd24], %r24;
+
+	
+	membar.gl;
+
+
+BB0_7:
+shr.s32 %r25, %r6, %r3;
+and.b32 %r26, %r25, 255;
+setp.ne.s32	%p9, %r26, 0;
+@%p9 bra BB0_11;
+
+ld.global.u32 %r27, [%rd10];
+ld.global.u32 %r28, [%rd10+4];
+xor.b32 %r29, %r27, %r28;
+and.b32 %r30, %r29, 2097151;
+and.b32 %r31, %r28, 14680064;
+or.b32 %r32, %r30, %r31;
+cvt.u64.u32	%rd4, %r32;
+mul.wide.u32 %rd32, %r32, 64;
+add.s64 %rd33, %rd11, %rd32;
+add.s64 %rd5, %rd33, %rd14;
+ld.global.u32 %r33, [%rd5];
+setp.ne.s32	%p10, %r33, %r27;
+@%p10 bra BB0_11;
+
+ld.global.u32 %r34, [%rd10+8];
+ld.global.u32 %r35, [%rd5+32];
+setp.ne.s32	%p11, %r35, %r34;
+@%p11 bra BB0_11;
+
+shl.b64 %rd39, %rd4, 6;
+add.s64 %rd40, %rd7, %rd39;
+add.s64 %rd38, %rd40, %rd14;
+mov.u32 %r36, 0;
+
+	st.global.wt.u32 [%rd38], %r36;
+
+	
+	membar.gl;
+
+
+BB0_11:
+cvt.u32.u64	%r37, %rd2;
+add.s32 %r39, %r37, %r38;
+setp.lt.s32	%p12, %r39, %r8;
+@%p12 bra BB0_2;
+
+BB0_12:
+ret;
+}
+
+
+.visible .entry _Z16hash_delete_nvmoP7ielem_sP8bucket_sii(
+.param .u64 _Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_0,
+.param .u64 _Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_1,
+.param .u32 _Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_2,
+.param .u32 _Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_3
+)
+{
+.reg .pred %p<14>;
+.reg .b32 %r<40>;
+.reg .b64 %rd<42>;
+
+
+ld.param.u64 %rd6, [_Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_0];
+ld.param.u64 %rd7, [_Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_1];
+ld.param.u32 %r8, [_Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_2];
+ld.param.u32 %r9, [_Z16hash_delete_nvmoP7ielem_sP8bucket_sii_param_3];
+mov.u32 %r10, %ntid.x;
+mov.u32 %r11, %ctaid.x;
+mov.u32 %r12, %tid.x;
+mad.lo.s32 %r1, %r10, %r11, %r12;
+shr.s32 %r39, %r1, 3;
+setp.ge.s32	%p4, %r39, %r8;
+@%p4 bra BB1_12;
+
+and.b32 %r13, %r1, 7;
+cvt.u64.u32	%rd1, %r13;
+and.b32 %r3, %r1, 24;
+shr.s32 %r38, %r9, 3;
+
+BB1_2:
+cvta.to.global.u64 %rd8, %rd6;
+cvt.s64.s32	%rd2, %r39;
+mul.wide.s32 %rd9, %r39, 12;
+add.s64 %rd10, %rd8, %rd9;
+ld.global.u32 %r14, [%rd10+4];
+and.b32 %r5, %r14, 16777215;
+cvta.to.global.u64 %rd11, %rd7;
+mul.wide.u32 %rd12, %r5, 64;
+add.s64 %rd13, %rd11, %rd12;
+shl.b64 %rd14, %rd1, 2;
+add.s64 %rd3, %rd13, %rd14;
+ld.global.u32 %r15, [%rd10];
+ld.global.u32 %r16, [%rd3];
+mov.pred %p13, 0;
+setp.ne.s32	%p6, %r16, %r15;
+@%p6 bra BB1_4;
+
+ld.global.u32 %r17, [%rd10+8];
+ld.global.u32 %r18, [%rd3+32];
+setp.eq.s32	%p13, %r18, %r17;
+
+BB1_4:
+mov.u32 %r19, -1;
+vote.sync.ballot.b32 %r6, %p13, %r19;
+ld.global.u32 %r20, [%rd10];
+ld.global.u32 %r21, [%rd3];
+setp.ne.s32	%p7, %r21, %r20;
+@%p7 bra BB1_7;
+
+ld.global.u32 %r22, [%rd10+8];
+ld.global.u32 %r23, [%rd3+32];
+setp.ne.s32	%p8, %r23, %r22;
+@%p8 bra BB1_7;
+
+mov.u32 %r24, 0;
+st.global.u32 [%rd3], %r24;
+add.s64 %rd26, %rd7, %rd12;
+add.s64 %rd24, %rd26, %rd14;
+
+	st.global.u32.cs [%rd24], %r24;
+
+	
+	membar.gl;
+
+
+BB1_7:
+shr.s32 %r25, %r6, %r3;
+and.b32 %r26, %r25, 255;
+setp.ne.s32	%p9, %r26, 0;
+@%p9 bra BB1_11;
+
+ld.global.u32 %r27, [%rd10];
+ld.global.u32 %r28, [%rd10+4];
+xor.b32 %r29, %r27, %r28;
+and.b32 %r30, %r29, 2097151;
+and.b32 %r31, %r28, 14680064;
+or.b32 %r32, %r30, %r31;
+cvt.u64.u32	%rd4, %r32;
+mul.wide.u32 %rd32, %r32, 64;
+add.s64 %rd33, %rd11, %rd32;
+add.s64 %rd5, %rd33, %rd14;
+ld.global.u32 %r33, [%rd5];
+setp.ne.s32	%p10, %r33, %r27;
+@%p10 bra BB1_11;
+
+ld.global.u32 %r34, [%rd10+8];
+ld.global.u32 %r35, [%rd5+32];
+setp.ne.s32	%p11, %r35, %r34;
+@%p11 bra BB1_11;
+
+mov.u32 %r36, 0;
+st.global.u32 [%rd5], %r36;
+shl.b64 %rd39, %rd4, 6;
+add.s64 %rd40, %rd7, %rd39;
+add.s64 %rd38, %rd40, %rd14;
+
+	st.global.u32.cs [%rd38], %r36;
+
+	
+	membar.gl;
+
+
+BB1_11:
+cvt.u32.u64	%r37, %rd2;
+add.s32 %r39, %r37, %r38;
+setp.lt.s32	%p12, %r39, %r8;
+@%p12 bra BB1_2;
+
+BB1_12:
+ret;
+}
+
+
+.visible .entry _Z16hash_delete_nvmuP7ielem_sP8bucket_sii(
+.param .u64 _Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_0,
+.param .u64 _Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_1,
+.param .u32 _Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_2,
+.param .u32 _Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_3
+)
+{
+.reg .pred %p<14>;
+.reg .f32 %f<3>;
+.reg .b32 %r<40>;
+.reg .b64 %rd<44>;
+
+
+ld.param.u64 %rd6, [_Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_0];
+ld.param.u64 %rd7, [_Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_1];
+ld.param.u32 %r8, [_Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_2];
+ld.param.u32 %r9, [_Z16hash_delete_nvmuP7ielem_sP8bucket_sii_param_3];
+mov.u32 %r10, %ntid.x;
+mov.u32 %r11, %ctaid.x;
+mov.u32 %r12, %tid.x;
+mad.lo.s32 %r1, %r10, %r11, %r12;
+shr.s32 %r39, %r1, 3;
+setp.ge.s32	%p4, %r39, %r8;
+@%p4 bra BB2_12;
+
+and.b32 %r13, %r1, 7;
+cvt.u64.u32	%rd1, %r13;
+and.b32 %r3, %r1, 24;
+shr.s32 %r38, %r9, 3;
+
+BB2_2:
+cvta.to.global.u64 %rd8, %rd6;
+cvt.s64.s32	%rd2, %r39;
+mul.wide.s32 %rd9, %r39, 12;
+add.s64 %rd10, %rd8, %rd9;
+ld.global.u32 %r14, [%rd10+4];
+and.b32 %r5, %r14, 16777215;
+cvta.to.global.u64 %rd11, %rd7;
+mul.wide.u32 %rd12, %r5, 64;
+add.s64 %rd13, %rd11, %rd12;
+shl.b64 %rd14, %rd1, 2;
+add.s64 %rd3, %rd13, %rd14;
+ld.global.u32 %r15, [%rd10];
+ld.global.u32 %r16, [%rd3];
+mov.pred %p13, 0;
+setp.ne.s32	%p6, %r16, %r15;
+@%p6 bra BB2_4;
+
+ld.global.u32 %r17, [%rd10+8];
+ld.global.u32 %r18, [%rd3+32];
+setp.eq.s32	%p13, %r18, %r17;
+
+BB2_4:
+mov.u32 %r19, -1;
+vote.sync.ballot.b32 %r6, %p13, %r19;
+ld.global.u32 %r20, [%rd10];
+ld.global.u32 %r21, [%rd3];
+setp.ne.s32	%p7, %r21, %r20;
+@%p7 bra BB2_7;
+
+ld.global.u32 %r22, [%rd10+8];
+ld.global.u32 %r23, [%rd3+32];
+setp.ne.s32	%p8, %r23, %r22;
+@%p8 bra BB2_7;
+
+mov.u32 %r24, 0;
+st.global.u32 [%rd3], %r24;
+add.s64 %rd27, %rd7, %rd12;
+add.s64 %rd24, %rd27, %rd14;
+
+	st.global.u32.cs [%rd24], %r24;
+
+	
+	membar.gl;
+
+	mov.u64 %rd25, 0;
+mov.f32 %f1, 0f00000000;
+
+	st.global.f32.wb [%rd25], %f1;
+
+	
+	membar.gl;
+
+
+BB2_7:
+shr.s32 %r25, %r6, %r3;
+and.b32 %r26, %r25, 255;
+setp.ne.s32	%p9, %r26, 0;
+@%p9 bra BB2_11;
+
+ld.global.u32 %r27, [%rd10];
+ld.global.u32 %r28, [%rd10+4];
+xor.b32 %r29, %r27, %r28;
+and.b32 %r30, %r29, 2097151;
+and.b32 %r31, %r28, 14680064;
+or.b32 %r32, %r30, %r31;
+cvt.u64.u32	%rd4, %r32;
+mul.wide.u32 %rd33, %r32, 64;
+add.s64 %rd34, %rd11, %rd33;
+add.s64 %rd5, %rd34, %rd14;
+ld.global.u32 %r33, [%rd5];
+setp.ne.s32	%p10, %r33, %r27;
+@%p10 bra BB2_11;
+
+ld.global.u32 %r34, [%rd10+8];
+ld.global.u32 %r35, [%rd5+32];
+setp.ne.s32	%p11, %r35, %r34;
+@%p11 bra BB2_11;
+
+mov.u32 %r36, 0;
+st.global.u32 [%rd5], %r36;
+shl.b64 %rd41, %rd4, 6;
+add.s64 %rd42, %rd7, %rd41;
+add.s64 %rd39, %rd42, %rd14;
+
+	st.global.u32.cs [%rd39], %r36;
+
+	
+	membar.gl;
+
+	mov.u64 %rd40, 0;
+mov.f32 %f2, 0f00000000;
+
+	st.global.f32.wb [%rd40], %f2;
+
+	
+	membar.gl;
+
+
+BB2_11:
+cvt.u32.u64	%r37, %rd2;
+add.s32 %r39, %r37, %r38;
+setp.lt.s32	%p12, %r39, %r8;
+@%p12 bra BB2_2;
+
+BB2_12:
+ret;
+}
+
+
+.visible .entry _Z11kernel_l2wbv(
+
+)
+{
+.reg .pred %p<2>;
+.reg .f32 %f<2>;
+.reg .b32 %r<10>;
+.reg .b64 %rd<2>;
+
+
+bar.sync 0;
+mov.u32 %r1, %ntid.x;
+mov.u32 %r2, %tid.y;
+mov.u32 %r3, %tid.x;
+mad.lo.s32 %r4, %r1, %r2, %r3;
+neg.s32 %r5, %r1;
+mov.u32 %r6, %tid.z;
+mul.lo.s32 %r7, %r6, %r5;
+mov.u32 %r8, %ntid.y;
+mul.lo.s32 %r9, %r7, %r8;
+setp.ne.s32	%p1, %r4, %r9;
+@%p1 bra BB3_2;
+
+mov.u64 %rd1, 0;
+mov.f32 %f1, 0f00000000;
+
+	st.global.f32.cg [%rd1], %f1;
+
+
+BB3_2:
+
+	membar.gl;
+
+	ret;
+}
+
+
+.visible .entry _Z15kernel_l2wb_pctv(
+
+)
+{
+.reg .pred %p<2>;
+.reg .f32 %f<3>;
+.reg .b32 %r<10>;
+.reg .b64 %rd<3>;
+
+
+bar.sync 0;
+mov.u32 %r1, %ntid.x;
+mov.u32 %r2, %tid.y;
+mov.u32 %r3, %tid.x;
+mad.lo.s32 %r4, %r1, %r2, %r3;
+neg.s32 %r5, %r1;
+mov.u32 %r6, %tid.z;
+mul.lo.s32 %r7, %r6, %r5;
+mov.u32 %r8, %ntid.y;
+mul.lo.s32 %r9, %r7, %r8;
+setp.ne.s32	%p1, %r4, %r9;
+@%p1 bra BB4_2;
+
+mov.u64 %rd1, 0;
+mov.f32 %f1, 0f00000000;
+
+	st.global.f32.cg [%rd1], %f1;
+
+
+BB4_2:
+
+	membar.gl;
+
+	mov.u64 %rd2, 0;
+mov.f32 %f2, 0f00000000;
+
+	st.global.f32.wb [%rd2], %f2;
+
+	
+	membar.gl;
+
+	ret;
+}
+
+
+.visible .entry _Z11hash_deleteP7ielem_sP8bucket_sii(
+.param .u64 _Z11hash_deleteP7ielem_sP8bucket_sii_param_0,
+.param .u64 _Z11hash_deleteP7ielem_sP8bucket_sii_param_1,
+.param .u32 _Z11hash_deleteP7ielem_sP8bucket_sii_param_2,
+.param .u32 _Z11hash_deleteP7ielem_sP8bucket_sii_param_3
+)
+{
+.reg .pred %p<14>;
+.reg .b32 %r<40>;
+.reg .b64 %rd<18>;
+
+
+ld.param.u64 %rd8, [_Z11hash_deleteP7ielem_sP8bucket_sii_param_0];
+ld.param.u64 %rd9, [_Z11hash_deleteP7ielem_sP8bucket_sii_param_1];
+ld.param.u32 %r8, [_Z11hash_deleteP7ielem_sP8bucket_sii_param_2];
+ld.param.u32 %r9, [_Z11hash_deleteP7ielem_sP8bucket_sii_param_3];
+cvta.to.global.u64 %rd1, %rd9;
+mov.u32 %r10, %ntid.x;
+mov.u32 %r11, %ctaid.x;
+mov.u32 %r12, %tid.x;
+mad.lo.s32 %r1, %r10, %r11, %r12;
+shr.s32 %r39, %r1, 3;
+setp.ge.s32	%p4, %r39, %r8;
+@%p4 bra BB5_12;
+
+and.b32 %r13, %r1, 7;
+cvt.u64.u32	%rd2, %r13;
+and.b32 %r3, %r1, 24;
+shr.s32 %r4, %r9, 3;
+cvta.to.global.u64 %rd3, %rd8;
+
+BB5_2:
+cvt.s64.s32	%rd4, %r39;
+mul.wide.s32 %rd10, %r39, 12;
+add.s64 %rd11, %rd3, %rd10;
+add.s64 %rd5, %rd11, 4;
+ld.global.u32 %r14, [%rd11+4];
+and.b32 %r15, %r14, 16777215;
+mul.wide.u32 %rd12, %r15, 64;
+add.s64 %rd13, %rd1, %rd12;
+shl.b64 %rd14, %rd2, 2;
+add.s64 %rd6, %rd13, %rd14;
+ld.global.u32 %r16, [%rd11];
+ld.global.u32 %r17, [%rd6];
+mov.pred %p13, 0;
+setp.ne.s32	%p6, %r17, %r16;
+@%p6 bra BB5_4;
+
+ld.global.u32 %r18, [%rd5+4];
+ld.global.u32 %r19, [%rd6+32];
+setp.eq.s32	%p13, %r19, %r18;
+
+BB5_4:
+mov.u32 %r20, -1;
+vote.sync.ballot.b32 %r6, %p13, %r20;
+ld.global.u32 %r21, [%rd5+-4];
+ld.global.u32 %r22, [%rd6];
+setp.ne.s32	%p7, %r22, %r21;
+@%p7 bra BB5_7;
+
+ld.global.u32 %r23, [%rd5+4];
+ld.global.u32 %r24, [%rd6+32];
+setp.ne.s32	%p8, %r24, %r23;
+@%p8 bra BB5_7;
+
+mov.u32 %r25, 0;
+st.global.u32 [%rd6], %r25;
+
+BB5_7:
+shr.s32 %r26, %r6, %r3;
+and.b32 %r27, %r26, 255;
+setp.ne.s32	%p9, %r27, 0;
+@%p9 bra BB5_11;
+
+ld.global.u32 %r28, [%rd5];
+ld.global.u32 %r29, [%rd5+-4];
+xor.b32 %r30, %r29, %r28;
+and.b32 %r31, %r30, 2097151;
+and.b32 %r32, %r28, 14680064;
+or.b32 %r33, %r31, %r32;
+mul.wide.u32 %rd15, %r33, 64;
+add.s64 %rd16, %rd1, %rd15;
+add.s64 %rd7, %rd16, %rd14;
+ld.global.u32 %r34, [%rd7];
+setp.ne.s32	%p10, %r34, %r29;
+@%p10 bra BB5_11;
+
+ld.global.u32 %r35, [%rd5+4];
+ld.global.u32 %r36, [%rd7+32];
+setp.ne.s32	%p11, %r36, %r35;
+@%p11 bra BB5_11;
+
+mov.u32 %r37, 0;
+st.global.u32 [%rd7], %r37;
+
+BB5_11:
+cvt.u32.u64	%r38, %rd4;
+add.s32 %r39, %r38, %r4;
+setp.lt.s32	%p12, %r39, %r8;
+@%p12 bra BB5_2;
+
+BB5_12:
+ret;
+}
+
+
